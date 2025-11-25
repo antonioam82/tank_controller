@@ -32,5 +32,5 @@ def draw_grid():
     return grid_list
 
 
-
+# TODO BIEN
 print("OK")
