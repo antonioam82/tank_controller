@@ -12,7 +12,7 @@ grid_spacing = 1
 
 # FUNCION DE DIBUJADO DE GRID
 def draw_grid():
-    grid_list = glGenList(1)
+    grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
     glLineWidth(1.2)
     glBegin(GL_LINES)
@@ -23,7 +23,7 @@ def draw_grid():
         glVertex3f(x, 0, -grid_size)
         glVertex3f(x, 0, grid_size)
 
-    for y in range(-grid_size, grid_size + 1, grid_spacing):
+    for z in range(-grid_size, grid_size + 1, grid_spacing):
         glVertex3f(-grid_size, 0, z)
         glVertex3f(grid_size, 0, z)
 
@@ -31,6 +31,53 @@ def draw_grid():
     glEndList()
     return grid_list
 
+def main():
+    pygame.init()
+    display = (800, 600)
+    
+    #-------------------------------------ANTIALIASING------------------------------------#
+    pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+    pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+    
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-# TODO BIEN
-print("OK")
+    glEnable(GL_MULTISAMPLE)
+    glEnable(GL_LINE_SMOOTH)
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    #-------------------------------------------------------------------------------------#
+
+    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+    glTranslatef(0.0, 0.0, -10.0)
+    glEnable(GL_DEPTH_TEST)
+    glRotatef(15.0, 1.0, 0.0, 0.0)
+
+    grid_list = draw_grid()
+
+    x = 0.0
+    z = 0.0
+    
+    running = True
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # LIMPIAR PANTALLA
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+
+        # GRID
+        glPushMatrix()
+        glTranslatef(x, 0.0, z)
+        glCallList(grid_list)
+        glPopMatrix()
+
+        # REFRESCO PANTALLA
+        pygame.display.flip()
+        pygame.time.wait(10)
+
+    glDeleteLists(grid_list, 1)
+    pygame.quit()
+
+main()
