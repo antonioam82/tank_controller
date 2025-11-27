@@ -31,6 +31,26 @@ def draw_grid():
     glEndList()
     return grid_list
 
+def load_object(filename):
+    vertices = []
+    face_indices = []
+    edges = set()
+    faces = []
+    
+    with open(filename, 'r') as file:
+        for line in file:
+            parts = line.strip().split()
+            if line.startswith('v '):
+                vertex = [float(parts[1]), float(parts[2]), float(parts[3])]
+                vertices.append(vertex)
+            elif line.startswith('f '):
+                face_indices = [int(part) - 1 for part in parts[1:]]
+                
+                for i in range(len(face_indices)):
+                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)])))
+         
+        return vertices, edges, faces
+
 def main():
     pygame.init()
     display = (800, 600)
