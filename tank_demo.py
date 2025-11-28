@@ -82,7 +82,17 @@ def main():
     glNewList(model_list, GL_COMPILE)
 
     ordered_edges = sorted(list(edges))
+
+    glBegin(GL_LINES)
+    for e1, e2 in ordered_edges:
+        x1, y1, z1 = vertices[e1]
+        x2, y2, z2 = vertices[e2]
+        glVertex3f(x1, y1, z1)
+        glVertex3f(x2, y2, z2)
+    glEnd()
+
     glEndList()
+
     #################################################
 
     grid_list = draw_grid()
@@ -97,15 +107,29 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        key = pygame.key.get_pressed()
+
+        if key[pygame.K_t]:
+            glRotatef(1.0, 0.0, -0.1, 0.0)
+        
+        elif key[pygame.K_r]:
+            glRotatef(1.0, 0.0, 0.1, 0.0) 
+
         # LIMPIAR PANTALLA
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 
         # GRID
-        glPushMatrix()
+        #glPushMatrix()
         glTranslatef(x, 0.0, z)
         glCallList(grid_list)
+        glPushMatrix()
+        glLineWidth(1.5)
+        glTranslatef(0.0,0.2,0.0)
+        glColor3f(0.0,1.0,0.0)
+        glCallList(model_list)
         glPopMatrix()
+        #glPopMatrix()
 
         # REFRESCO PANTALLA
         pygame.display.flip()
