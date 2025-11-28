@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import os
 
 # ESTABLECER DIMENSIONES DEL GRID
 grid_size = 110
@@ -47,7 +48,7 @@ def load_object(filename):
                 face_indices = [int(part) - 1 for part in parts[1:]]
                 
                 for i in range(len(face_indices)):
-                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)])))
+                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
          
         return vertices, edges, faces
 
@@ -70,6 +71,19 @@ def main():
     glTranslatef(0.0, 0.0, -10.0)
     glEnable(GL_DEPTH_TEST)
     glRotatef(15.0, 1.0, 0.0, 0.0)
+    
+    ##################################################
+    base_path = os.path.dirname(__file__)
+    obj_path = os.path.join(base_path, "tanque", "resto_tanque.obj")
+    vertices, edges, faces = load_object(obj_path)
+    print("CARGA CORRECTA")    
+
+    model_list = glGenLists(1)
+    glNewList(model_list, GL_COMPILE)
+
+    ordered_edges = sorted(list(edges))
+    glEndList()
+    #################################################
 
     grid_list = draw_grid()
 
