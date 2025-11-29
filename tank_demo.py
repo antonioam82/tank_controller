@@ -94,12 +94,7 @@ def main():
     glNewList(model_list, GL_COMPILE)
 
     ordered_edges = sorted(list(edges))
-
-    #glBegin(GL_LINES)
     draw_model_lines(vertices, ordered_edges)
-    #glEnd()
-
-    #glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     vertices, edges, faces = load_object(obj_path2)
     print("CARGA COMPLETA")
@@ -108,12 +103,7 @@ def main():
     glNewList(model_list2, GL_COMPILE)
 
     ordered_edges = sorted(list(edges))
-
-    #glBegin(GL_LINES)
     draw_model_lines(vertices, ordered_edges)
-    #glEnd()
-
-    #glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -140,6 +130,11 @@ def main():
         
         elif key[pygame.K_r]:
             glRotatef(1.0, 0.0, 0.1, 0.0)
+
+        if key[pygame.K_f]:
+            glRotatef(0.5, 1.0, 0.0, 0.0)
+        elif key[pygame.K_g]:
+            glRotatef(-0.5, 1.0, 0.0, 0.0)
 
         if key[pygame.K_n]:
             y_tower -= 1.1
