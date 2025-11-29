@@ -123,6 +123,8 @@ def main():
 
     x = 0.0
     z = 0.0
+
+    y_tower = 0.0
     
     running = True
 
@@ -137,13 +139,20 @@ def main():
             glRotatef(1.0, 0.0, -0.1, 0.0)
         
         elif key[pygame.K_r]:
-            glRotatef(1.0, 0.0, 0.1, 0.0) 
+            glRotatef(1.0, 0.0, 0.1, 0.0)
+
+        if key[pygame.K_n]:
+            y_tower -= 1.1
+        elif key[pygame.K_m]:
+            y_tower += 1.1
+ 
+        #print(y_tower) 
 
         # LIMPIAR PANTALLA
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 
-        # GRID
+        # DIBUJOS
         #glPushMatrix()
         glTranslatef(x, 0.0, z)
         glCallList(grid_list)
@@ -151,7 +160,10 @@ def main():
         glLineWidth(1.5)
         glTranslatef(0.0,0.2,0.0)
         glColor3f(0.0,1.0,0.0)
+        glPushMatrix()
+        glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
+        glPopMatrix()
         glCallList(model_list)
         glPopMatrix()
         #glPopMatrix()
