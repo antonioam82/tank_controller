@@ -123,13 +123,17 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
         key = pygame.key.get_pressed()
 
         if key[pygame.K_t]:
-            glRotatef(1.0, 0.0, -0.1, 0.0)
+            glRotatef(1.0, 0.0, 1.0, 0.0)
         
         elif key[pygame.K_r]:
-            glRotatef(1.0, 0.0, 0.1, 0.0)
+            glRotatef(-1.0, 0.0, 1.0, 0.0)
 
         if key[pygame.K_f]:
             glRotatef(0.5, 1.0, 0.0, 0.0)
@@ -168,6 +172,8 @@ def main():
         pygame.time.wait(10)
 
     glDeleteLists(grid_list, 1)
+    glDeleteLists(model_list, 1)
+    glDeleteLists(model_list2, 1)
     pygame.quit()
 
 main()
