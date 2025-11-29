@@ -15,7 +15,7 @@ grid_spacing = 1
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
-    glLineWidth(1.2)
+    glLineWidth(1.0)
     glBegin(GL_LINES)
     glColor3f(1.0,1.0,1.0) # COLOR BLANCO
 
@@ -51,8 +51,16 @@ def load_object(filename):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
          
         return vertices, edges, faces
-    
 
+def draw_model_lines(v, oe):
+    glBegin(GL_LINES)
+    for e1, e2 in oe:
+        x1, y1, z1 = v[e1]
+        x2, y2, z2 = v[e2]
+        glVertex3f(x1, y1, z1)
+        glVertex3f(x2, y2, z2)
+    glEnd()
+    glEndList()
 
 def main():
     pygame.init()
@@ -87,15 +95,11 @@ def main():
 
     ordered_edges = sorted(list(edges))
 
-    glBegin(GL_LINES)
-    for e1, e2 in ordered_edges:
-        x1, y1, z1 = vertices[e1]
-        x2, y2, z2 = vertices[e2]
-        glVertex3f(x1, y1, z1)
-        glVertex3f(x2, y2, z2)
-    glEnd()
+    #glBegin(GL_LINES)
+    draw_model_lines(vertices, ordered_edges)
+    #glEnd()
 
-    glEndList()
+    #glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     vertices, edges, faces = load_object(obj_path2)
     print("CARGA COMPLETA")
@@ -105,17 +109,12 @@ def main():
 
     ordered_edges = sorted(list(edges))
 
-    glBegin(GL_LINES)
-    for e1, e2 in ordered_edges:
-        x1, y1, z1 = vertices[e1]
-        x2, y2, z2 = vertices[e2]
-        glVertex3f(x1, y1, z1)
-        glVertex3f(x2, y2, z2)
-    glEnd()
+    #glBegin(GL_LINES)
+    draw_model_lines(vertices, ordered_edges)
+    #glEnd()
 
-    glEndList()
+    #glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 
     #################################################
