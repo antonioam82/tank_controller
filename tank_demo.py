@@ -51,6 +51,8 @@ def load_object(filename):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
          
         return vertices, edges, faces
+    
+
 
 def main():
     pygame.init()
@@ -75,6 +77,8 @@ def main():
     ##################################################
     base_path = os.path.dirname(__file__)
     obj_path = os.path.join(base_path, "tanque", "resto_tanque.obj")
+    obj_path2 = os.path.join(base_path, "tanque", "torre.obj")
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     vertices, edges, faces = load_object(obj_path)
     print("CARGA CORRECTA")    
 
@@ -92,6 +96,27 @@ def main():
     glEnd()
 
     glEndList()
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    vertices, edges, faces = load_object(obj_path2)
+    print("CARGA COMPLETA")
+    
+    model_list2 = glGenLists(1)
+    glNewList(model_list2, GL_COMPILE)
+
+    ordered_edges = sorted(list(edges))
+
+    glBegin(GL_LINES)
+    for e1, e2 in ordered_edges:
+        x1, y1, z1 = vertices[e1]
+        x2, y2, z2 = vertices[e2]
+        glVertex3f(x1, y1, z1)
+        glVertex3f(x2, y2, z2)
+    glEnd()
+
+    glEndList()
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
     #################################################
 
@@ -127,6 +152,7 @@ def main():
         glLineWidth(1.5)
         glTranslatef(0.0,0.2,0.0)
         glColor3f(0.0,1.0,0.0)
+        glCallList(model_list2)
         glCallList(model_list)
         glPopMatrix()
         #glPopMatrix()
