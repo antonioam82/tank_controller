@@ -52,9 +52,13 @@ def load_object(filename):
          
         return vertices, edges, faces
 
-def draw_model_lines(v, oe):
+def draw_model(obj_path):
+    v, e, f = load_object(obj_path)
+    print("CARGA CORRECTA")
+    ordered_edges = sorted(list(e))
+
     glBegin(GL_LINES)
-    for e1, e2 in oe:
+    for e1, e2 in ordered_edges:
         x1, y1, z1 = v[e1]
         x2, y2, z2 = v[e2]
         glVertex3f(x1, y1, z1)
@@ -87,23 +91,23 @@ def main():
     obj_path = os.path.join(base_path, "tanque", "resto_tanque.obj")
     obj_path2 = os.path.join(base_path, "tanque", "torre.obj")
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    vertices, edges, faces = load_object(obj_path)
-    print("CARGA CORRECTA")    
+    #vertices, edges, faces = load_object(obj_path)
+    #print("CARGA CORRECTA")    
 
     model_list = glGenLists(1)
     glNewList(model_list, GL_COMPILE)
 
-    ordered_edges = sorted(list(edges))
-    draw_model_lines(vertices, ordered_edges)
+    #ordered_edges = sorted(list(edges))
+    draw_model(obj_path)
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    vertices, edges, faces = load_object(obj_path2)
-    print("CARGA COMPLETA")
+    #vertices, edges, faces = load_object(obj_path2)
+    #print("CARGA COMPLETA")
     
     model_list2 = glGenLists(1)
     glNewList(model_list2, GL_COMPILE)
 
-    ordered_edges = sorted(list(edges))
-    draw_model_lines(vertices, ordered_edges)
+    #ordered_edges = sorted(list(edges))
+    draw_model(obj_path2)
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
