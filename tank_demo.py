@@ -115,6 +115,7 @@ def main():
     z = 0.0
 
     y_tower = 0.0
+    sc_y = 0.0
     
     running = True
 
@@ -130,10 +131,12 @@ def main():
         key = pygame.key.get_pressed()
 
         if key[pygame.K_t]:
-            glRotatef(1.0, 0.0, 1.0, 0.0)
+            #glRotatef(1.0, 0.0, 1.0, 0.0)
+            sc_y += 1.0
         
         elif key[pygame.K_r]:
-            glRotatef(-1.0, 0.0, 1.0, 0.0)
+            #glRotatef(-1.0, 0.0, 1.0, 0.0)
+            sc_y -= 1.0
 
         if key[pygame.K_f]:
             glRotatef(0.5, 1.0, 0.0, 0.0)
@@ -152,8 +155,9 @@ def main():
 
 
         # DIBUJOS
-        #glPushMatrix()
-        glTranslatef(x, 0.0, z)
+        glPushMatrix()
+        glRotatef(sc_y, 0.0, 1.0, 0.0)
+        glTranslatef(x, 0.0, z)##########
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
@@ -165,7 +169,8 @@ def main():
         glPopMatrix()
         glCallList(model_list)
         glPopMatrix()
-        #glPopMatrix()
+        glPopMatrix()
+
 
         # REFRESCO PANTALLA
         pygame.display.flip()
