@@ -115,6 +115,8 @@ def main():
 
     grid_list = draw_grid()
 
+    grid_mov = 0.0
+
     x = 0.0
     z = 0.0
 
@@ -131,6 +133,12 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                elif event.key == pygame.K_b:
+                    grid_mov = -0.05
+                elif event.key == pygame.K_v:
+                    grid_mov = 0.05
+                elif event.key == pygame.K_c:
+                    grid_mov = 0.0
 
         key = pygame.key.get_pressed()
 
@@ -165,7 +173,7 @@ def main():
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
-        glTranslatef(0.0,0.2,0.0)
+        glTranslatef(0.0,0.2,-z)
         glColor3f(0.0,1.0,0.0)
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
@@ -175,6 +183,7 @@ def main():
         glPopMatrix()
         glPopMatrix()
 
+        z += grid_mov
 
         # REFRESCO PANTALLA
         pygame.display.flip()
