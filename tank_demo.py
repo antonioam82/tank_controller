@@ -52,6 +52,12 @@ def load_object(filename):
          
         return vertices, edges, faces
 
+def draw_text(f, x, y, text):
+    textSurface = f.render(text, True, (0, 0, 0), (255,0,0))
+    textData = pygame.image.tostring(textSurface, "RGBA", True)
+    glWindowPos2d(x, y)
+    glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
+
 def draw_model(obj_path):
     v, e, f = load_object(obj_path)
     print("CARGA CORRECTA")
@@ -69,6 +75,8 @@ def draw_model(obj_path):
 def main():
     pygame.init()
     display = (800, 600)
+
+    font = pygame.font.SysFont('arial', 15)
     
     #-------------------------------------ANTIALIASING------------------------------------#
     pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
@@ -122,6 +130,9 @@ def main():
 
     y_tower = 0.0
     sc_y = 0.0
+    counter = 0
+
+    hide_text = False
     
     running = True
 
@@ -184,6 +195,17 @@ def main():
         glPopMatrix()
 
         z += grid_mov
+
+        if not hide_text:
+            draw_text(font, 20, 570, 'DEMO')
+
+        counter += 1
+        if counter >= 50:
+            counter = 0
+            if hide_text:
+                hide_text = False
+            else:
+                hide_text = True
 
         # REFRESCO PANTALLA
         pygame.display.flip()
