@@ -53,7 +53,7 @@ def load_object(filename):
         return vertices, edges, faces
 
 def draw_text(f, x, y, text):
-    textSurface = f.render(text, True, (0, 0, 0), (255,0,0))
+    textSurface = f.render(text, True, (0, 0, 0), (0,0,255))
     textData = pygame.image.tostring(textSurface, "RGBA", True)
     glWindowPos2d(x, y)
     glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
@@ -126,6 +126,7 @@ def main():
     grid_mov = 0.0
 
     x = 0.0
+    y = 0.0
     z = 0.0
 
     y_tower = 0.0
@@ -180,7 +181,7 @@ def main():
         # DIBUJOS
         glPushMatrix()
         glRotatef(sc_y, 0.0, 1.0, 0.0)
-        glTranslatef(x, 0.0, z)##########
+        glTranslatef(x, y, z)##########
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
