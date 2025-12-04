@@ -203,10 +203,7 @@ def main():
         counter += 1
         if counter >= 50:
             counter = 0
-            if hide_text:
-                hide_text = False
-            else:
-                hide_text = True
+            hide_text = not hide_text
 
         # REFRESCO PANTALLA
         pygame.display.flip()
