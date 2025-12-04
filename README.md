@@ -1,3 +1,6 @@
 # Tank Controller Demo
-![Animación del proyecto](gifs/animacion.gif)
+<p align="center">
+  <img src="gifs/animacion.gif" width="350">
+</p>
+
 
