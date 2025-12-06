@@ -122,18 +122,23 @@ def main():
     #################################################
 
     grid_list = draw_grid()
+   
+    grid_mov_x = 0.0
+    grid_mov_z = 0.0
 
-    grid_mov = 0.0
+    direction = 'back'
 
     x = 0.0
     y = 0.0
     z = 0.0
+    model_angle = 0
 
     y_tower = 0.0
     sc_y = 0.0
     counter = 0
 
     hide_text = False
+
     
     running = True
 
@@ -145,12 +150,33 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-                elif event.key == pygame.K_b:
-                    grid_mov = -0.05
-                elif event.key == pygame.K_v:
-                    grid_mov = 0.05
+
+                elif event.key == pygame.K_UP:
+                    grid_mov_z = 0.05
+                    grid_mov_x = 0.00
+                    direction = 'front'
+                    model_angle = 180
+                elif event.key == pygame.K_LEFT:
+                    grid_mov_z = 0.00
+                    grid_mov_x = 0.05
+                    direction = 'left'
+                    model_angle = -90
+                elif event.key == pygame.K_RIGHT:
+                    grid_mov_z = 0.00
+                    grid_mov_x = -0.05
+                    direction = 'right'
+                    model_angle = 90
+                elif event.key == pygame.K_DOWN:
+                    grid_mov_z = -0.05
+                    grid_mov_x = 0.00
+                    direction = 'front'
+                    model_angle = 0
                 elif event.key == pygame.K_c:
-                    grid_mov = 0.0
+                    grid_mov_z = 0.00
+                    grid_mov_x = 0.00
+                    direction = direction
+                    model_angle = model_angle
+
 
         key = pygame.key.get_pressed()
 
@@ -185,8 +211,9 @@ def main():
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
-        glTranslatef(0.0,0.2,-z)
+        glTranslatef(-x,0.2,-z)
         glColor3f(0.0,1.0,0.0)
+        glRotatef(model_angle,0.0,1.0,0.0)###########
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
@@ -194,8 +221,9 @@ def main():
         glCallList(model_list)
         glPopMatrix()
         glPopMatrix()
-
-        z += grid_mov
+        
+        x += grid_mov_x
+        z += grid_mov_z
 
         if not hide_text:
             draw_text(font, 20, 570, 'DEMO')
