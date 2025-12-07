@@ -1,0 +1,28 @@
+o Cannon
+# Base del cañón, unida a la torreta
+v -0.15 1.05 0.8
+v  0.15 1.05 0.8
+v  0.15 1.25 0.8
+v -0.15 1.25 0.8
+
+# Boca del cañón (extremo frontal) más corta
+v -0.15 1.05 1.3
+v  0.15 1.05 1.3
+v  0.15 1.25 1.3
+v -0.15 1.25 1.3
+
+# Caras del cañón
+f 1 2 3 4     
+# Base
+f 5 6 7 8     
+# Frente
+f 1 2 6 5     
+# Abajo
+f 4 3 7 8     
+# Arriba
+f 1 4 8 5     
+# Izquierda
+f 2 3 7 6    
+# Derecha
+f 1 2 3 4
+
