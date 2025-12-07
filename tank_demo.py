@@ -98,27 +98,25 @@ def main():
     base_path = os.path.dirname(__file__)
     obj_path = os.path.join(base_path, "tanque", "resto_tanque.obj")
     obj_path2 = os.path.join(base_path, "tanque", "torre.obj")
-    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #vertices, edges, faces = load_object(obj_path)
-    #print("CARGA CORRECTA")    
+    obj_path3 = os.path.join(base_path, "tanque", "bullet.obj")
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++   
 
     model_list = glGenLists(1)
     glNewList(model_list, GL_COMPILE)
 
-    #ordered_edges = sorted(list(edges))
     draw_model(obj_path)
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #vertices, edges, faces = load_object(obj_path2)
-    #print("CARGA COMPLETA")
     
     model_list2 = glGenLists(1)
     glNewList(model_list2, GL_COMPILE)
 
-    #ordered_edges = sorted(list(edges))
     draw_model(obj_path2)
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    model_list3 = glGenLists(1)
+    glNewList(model_list3, GL_COMPILE)
 
+    draw_model(obj_path3)
     #################################################
 
     grid_list = draw_grid()
@@ -138,6 +136,7 @@ def main():
     counter = 0
 
     hide_text = False
+    scale = 1.0
 
     
     running = True
@@ -176,6 +175,8 @@ def main():
                     grid_mov_x = 0.00
                     direction = direction
                     model_angle = model_angle
+                elif event.key == pygame.K_a:
+                    scale = 1.0
 
 
         key = pygame.key.get_pressed()
@@ -197,8 +198,11 @@ def main():
             y_tower -= 1.1
         elif key[pygame.K_m]:
             y_tower += 1.1
- 
-        #print(y_tower) 
+
+        if key[pygame.K_z]:
+            scale += 0.02
+        elif key[pygame.K_x]:
+            scale -= 0.02 
 
         # LIMPIAR PANTALLA
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -206,6 +210,7 @@ def main():
 
         # DIBUJOS
         glPushMatrix()
+        glScalef(scale, scale, scale)
         glRotatef(sc_y, 0.0, 1.0, 0.0)
         glTranslatef(x, y, z)##########
         glCallList(grid_list)
@@ -217,7 +222,12 @@ def main():
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
+        glPushMatrix()
+        glColor3f(1.0,0.0,0.0)
+        glCallList(model_list3)
         glPopMatrix()
+        glPopMatrix()
+        glColor3f(0.0,1.0,0.0)
         glCallList(model_list)
         glPopMatrix()
         glPopMatrix()
