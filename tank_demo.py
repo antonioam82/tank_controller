@@ -178,24 +178,25 @@ def main():
                 elif event.key == pygame.K_a:
                     scale = 1.0
                 elif event.key == pygame.K_l:
-                     grid_mov_x = 0.0
-                     grid_mov_z = 0.0
+                    grid_mov_x = 0.0
+                    grid_mov_z = 0.0
 
-                     direction = 'back'
+                    direction = 'back'
 
-                     x = 0.0
-                     y = 0.0
-                     z = 0.0
-                     model_angle = 0
+                    x = 0.0
+                    y = 0.0
+                    z = 0.0
+                    model_angle = 0
 
-                     y_tower = 0.0
-                     sc_y = 0.0
-                     scale = 1.0
-                     glLoadIdentity()
-                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
-                     glTranslatef(0.0, 0.0, -10)
-                     glRotatef(15.0, 1.0, 0.0, 0.0)
-
+                    y_tower = 0.0
+                    sc_y = 0.0
+                    scale = 1.0
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    glTranslatef(0.0, 0.0, -10)
+                    glRotatef(15.0, 1.0, 0.0, 0.0)
+                elif event.key == pygame.K_b:
+                    y_tower = 0.0
 
 
         key = pygame.key.get_pressed()
