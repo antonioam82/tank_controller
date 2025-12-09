@@ -124,12 +124,12 @@ def main():
     grid_mov_x = 0.0
     grid_mov_z = 0.0
 
-    direction = 'back'
+    direction = 'front'
 
     x = 0.0
     y = 0.0
     z = 0.0
-    model_angle = 0
+    model_angle = 180
 
     y_tower = 0.0
     sc_y = 0.0
@@ -168,7 +168,7 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.00
-                    direction = 'front'
+                    direction = 'back'
                     model_angle = 0
                 elif event.key == pygame.K_c:
                     grid_mov_z = 0.00
@@ -215,9 +215,9 @@ def main():
             glRotatef(-0.5, 1.0, 0.0, 0.0)
 
         if key[pygame.K_n]:
-            y_tower -= 1.1
-        elif key[pygame.K_m]:
             y_tower += 1.1
+        elif key[pygame.K_m]:
+            y_tower -= 1.1
 
         if key[pygame.K_z]:
             scale += 0.02
@@ -232,7 +232,7 @@ def main():
         glPushMatrix()
         glScalef(scale, scale, scale)
         glRotatef(sc_y, 0.0, 1.0, 0.0)
-        glTranslatef(x, y, z)##########
+        glTranslatef(x, y, z)##########(0, 0, 0)
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
