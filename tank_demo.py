@@ -262,15 +262,25 @@ def main():
         z += grid_mov_z
 
         # LIMITAR MOVIMIENTO DENTRO DEL GRID
-        if x < -grid_size:
-            x = -grid_size
-        if x > grid_size:
-            x = grid_size
+        if x - 2 < -grid_size or  x + 2 > grid_size:
+            grid_mov_x = 0.0
+        elif  z - 2 < -grid_size or  z + 2 > grid_size:
+            grid_mov_z = 0.0
 
-        if z < -grid_size:
-            z = -grid_size
-        if z > grid_size:
-            z = grid_size
+
+        '''if x - 2 < -grid_size:
+            #x  = -grid_size
+            grid_mov_x = 0.0
+        if x + 2 > grid_size:
+            #x = grid_size
+            grid_mov_x = 0.0
+
+        if z - 2 < -grid_size:
+            #z = -grid_size
+            grid_mov_z = 0.0
+        if z + 2 > grid_size:
+            #z = grid_size
+            grid_mov_z = 0.0'''
 
 
         if not hide_text:
