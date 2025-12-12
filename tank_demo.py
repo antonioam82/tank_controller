@@ -92,7 +92,7 @@ def main():
     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
     glTranslatef(0.0, 0.0, -10.0)
     glEnable(GL_DEPTH_TEST)
-    glRotatef(15.0, 1.0, 0.0, 0.0)
+    glRotatef(35.0, 1.0, 0.0, 0.0)
     
     ##################################################
     base_path = os.path.dirname(__file__)
