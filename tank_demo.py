@@ -15,6 +15,18 @@ grid_spacing = 1
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
+
+    glEnable(GL_POLYGON_OFFSET_FILL)
+    glPolygonOffset(0.9,0.9)
+    glBegin(GL_QUADS)
+    #glColor3f(0.2,0.3,0.4)
+    glColor3f(0.1,0.5,0.4)
+    glVertex3f(-grid_size,0,-grid_size)
+    glVertex3f(grid_size,0,-grid_size)
+    glVertex3f(grid_size, 0, grid_size)
+    glVertex3f(-grid_size, 0, grid_size)
+    glEnd()
+
     glLineWidth(1.0)
     glBegin(GL_LINES)
     glColor3f(1.0,1.0,1.0) # COLOR BLANCO
@@ -83,11 +95,13 @@ def main():
     pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
     
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    glClearColor(0.2, 0.4, 0.8, 1.0)  # color fondo 
 
     glEnable(GL_MULTISAMPLE)
     glEnable(GL_LINE_SMOOTH)
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
     #-------------------------------------------------------------------------------------#
+
 
     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
     glTranslatef(0.0, 0.0, -10.0)
@@ -243,7 +257,7 @@ def main():
         glPushMatrix()
         glLineWidth(1.5)
         glTranslatef(-x,0.2,-z)
-        glColor3f(0.0,1.0,0.0)
+        glColor3f(0.0,0.0,0.0)
         glRotatef(model_angle,0.0,1.0,0.0)###########
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
@@ -253,7 +267,8 @@ def main():
         glCallList(model_list3)
         glPopMatrix()
         glPopMatrix()
-        glColor3f(0.0,1.0,0.0)
+        glColor3f(0.0,0.0,0.0)
+        glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
         glPopMatrix()
