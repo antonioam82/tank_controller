@@ -19,7 +19,6 @@ def draw_grid():
     glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     glBegin(GL_QUADS)
-    #glColor3f(0.2,0.3,0.4)
     glColor3f(0.1,0.5,0.4)
     glVertex3f(-grid_size,0,-grid_size)
     glVertex3f(grid_size,0,-grid_size)
@@ -195,12 +194,12 @@ def main():
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
 
-                    direction = 'back'
+                    direction = 'front'
 
                     x = 0.0
                     y = 0.0
                     z = 0.0
-                    model_angle = 0
+                    model_angle = 180
 
                     y_tower = 0.0
                     sc_y = 0.0
@@ -208,7 +207,7 @@ def main():
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10)
-                    glRotatef(15.0, 1.0, 0.0, 0.0)
+                    glRotatef(35.0, 1.0, 0.0, 0.0)
                 elif event.key == pygame.K_b:
                     y_tower = 0.0
 
