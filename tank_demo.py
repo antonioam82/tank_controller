@@ -188,6 +188,8 @@ def main():
                     grid_mov_x = 0.00
                     direction = direction
                     model_angle = model_angle
+
+
                 elif event.key == pygame.K_a:
                     scale = 1.0
                 elif event.key == pygame.K_l:
@@ -199,6 +201,7 @@ def main():
                     x = 0.0
                     y = 0.0
                     z = 0.0
+          
                     model_angle = 180
 
                     y_tower = 0.0
