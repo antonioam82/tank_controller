@@ -25,6 +25,7 @@ def draw_grid():
     glVertex3f(grid_size, 0, grid_size)
     glVertex3f(-grid_size, 0, grid_size)
     glEnd()
+    glDisable(GL_POLYGON_OFFSET_FILL)
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
