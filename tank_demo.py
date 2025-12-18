@@ -7,7 +7,7 @@ from OpenGL.GLU import *
 import os
 
 # ESTABLECER DIMENSIONES DEL GRID
-grid_size = 110
+grid_size = 20 #110
 grid_spacing = 1
 
 
@@ -140,6 +140,7 @@ def main():
    
     grid_mov_x = 0.0
     grid_mov_z = 0.0
+    stuck = False
 
     direction = 'front'
 
@@ -167,22 +168,22 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP and not stuck:
                     grid_mov_z = 0.05
                     grid_mov_x = 0.00
                     direction = 'front'
                     model_angle = 180
-                elif event.key == pygame.K_LEFT:
+                elif event.key == pygame.K_LEFT and not stuck:
                     grid_mov_z = 0.00
                     grid_mov_x = 0.05
                     direction = 'left'
                     model_angle = -90
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT and not stuck:
                     grid_mov_z = 0.00
                     grid_mov_x = -0.05
                     direction = 'right'
                     model_angle = 90
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN and not stuck:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.00
                     direction = 'back'
@@ -192,6 +193,10 @@ def main():
                     grid_mov_x = 0.00
                     direction = direction
                     model_angle = model_angle
+                elif event.key == pygame.K_u:
+                    if stuck:
+                        stuck = False
+                        
 
 
                 elif event.key == pygame.K_a:
@@ -279,15 +284,22 @@ def main():
         glPopMatrix()
         glPopMatrix()
         
+        #x += grid_mov_x
+        #z += grid_mov_z
+        
+        if not stuck:
+
+            # LIMITAR MOVIMIENTO DENTRO DEL GRID
+
+            if x - 2 < -grid_size or  x + 2 > grid_size:
+                grid_mov_x = 0.0
+                stuck = True
+            if z - 2 < -grid_size or  z + 2 > grid_size:
+                grid_mov_z = 0.0
+                stuck = True
+
         x += grid_mov_x
         z += grid_mov_z
-
-        # LIMITAR MOVIMIENTO DENTRO DEL GRID
-        if x - 2 < -grid_size or  x + 2 > grid_size:
-            grid_mov_x = 0.0
-        elif  z - 2 < -grid_size or  z + 2 > grid_size:
-            grid_mov_z = 0.0
-
 
         '''if x - 2 < -grid_size:
             #x  = -grid_size
