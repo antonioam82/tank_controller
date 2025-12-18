@@ -194,8 +194,7 @@ def main():
                     direction = direction
                     model_angle = model_angle
                 elif event.key == pygame.K_u:
-                    if stuck:
-                        stuck = False
+                    stuck = False
                         
 
 
@@ -206,6 +205,7 @@ def main():
                     grid_mov_z = 0.0
 
                     direction = 'front'
+                    stuck = False
 
                     x = 0.0
                     y = 0.0
