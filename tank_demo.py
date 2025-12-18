@@ -82,7 +82,7 @@ def draw_model(obj_path):
         glVertex3f(x1, y1, z1)
         glVertex3f(x2, y2, z2)
     glEnd()
-    glEndList()
+    #glEndList()
 
 def main():
     pygame.init()
@@ -119,18 +119,21 @@ def main():
     glNewList(model_list, GL_COMPILE)
 
     draw_model(obj_path)
+    glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     model_list2 = glGenLists(1)
     glNewList(model_list2, GL_COMPILE)
 
     draw_model(obj_path2)
+    glEndList()
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     model_list3 = glGenLists(1)
     glNewList(model_list3, GL_COMPILE)
 
     draw_model(obj_path3)
+    glEndList()
     #################################################
 
     grid_list = draw_grid()
