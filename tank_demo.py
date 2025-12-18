@@ -193,10 +193,18 @@ def main():
                     grid_mov_x = 0.00
                     direction = direction
                     model_angle = model_angle
-                elif event.key == pygame.K_u:
-                    stuck = False
-                        
 
+                elif event.key == pygame.K_u:
+                    if direction == 'left':
+                        x -= 0.1
+                    elif direction == 'right':
+                        x += 0.1
+                    elif direction == 'front':
+                        z -= 0.1
+                    elif direction == 'back':
+                        z += 0.1
+                    print("unstuck")
+                    stuck = False
 
                 elif event.key == pygame.K_a:
                     scale = 1.0
