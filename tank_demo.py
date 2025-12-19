@@ -140,7 +140,7 @@ def main():
    
     grid_mov_x = 0.0
     grid_mov_z = 0.0
-    stuck = False
+    #stuck = False
 
     direction = 'front'
 
@@ -168,22 +168,22 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
-                elif event.key == pygame.K_UP and not stuck:
+                elif event.key == pygame.K_UP:
                     grid_mov_z = 0.05
                     grid_mov_x = 0.00
                     direction = 'front'
                     model_angle = 180
-                elif event.key == pygame.K_LEFT and not stuck:
+                elif event.key == pygame.K_LEFT:
                     grid_mov_z = 0.00
                     grid_mov_x = 0.05
                     direction = 'left'
                     model_angle = -90
-                elif event.key == pygame.K_RIGHT and not stuck:
+                elif event.key == pygame.K_RIGHT:
                     grid_mov_z = 0.00
                     grid_mov_x = -0.05
                     direction = 'right'
                     model_angle = 90
-                elif event.key == pygame.K_DOWN and not stuck:
+                elif event.key == pygame.K_DOWN:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.00
                     direction = 'back'
@@ -194,18 +194,6 @@ def main():
                     direction = direction
                     model_angle = model_angle
 
-                elif event.key == pygame.K_u:
-                    if direction == 'left':
-                        x -= 0.1
-                    elif direction == 'right':
-                        x += 0.1
-                    elif direction == 'front':
-                        z -= 0.1
-                    elif direction == 'back':
-                        z += 0.1
-                    print("unstuck")
-                    stuck = False
-
                 elif event.key == pygame.K_a:
                     scale = 1.0
                 elif event.key == pygame.K_l:
@@ -213,7 +201,7 @@ def main():
                     grid_mov_z = 0.0
 
                     direction = 'front'
-                    stuck = False
+                    #stuck = False
 
                     x = 0.0
                     y = 0.0
@@ -295,16 +283,24 @@ def main():
         #x += grid_mov_x
         #z += grid_mov_z
         
-        if not stuck:
+        #if not stuck:
 
-            # LIMITAR MOVIMIENTO DENTRO DEL GRID
+        # LIMITAR MOVIMIENTO DENTRO DEL GRID
 
-            if x - 2 < -grid_size or  x + 2 > grid_size:
-                grid_mov_x = 0.0
-                stuck = True
-            if z - 2 < -grid_size or  z + 2 > grid_size:
-                grid_mov_z = 0.0
-                stuck = True
+        if x - 2 < (-grid_size - 0.1) or  x + 2 > (grid_size + 0.1):
+            grid_mov_x = 0.0
+            if direction == 'left':
+                x -= 0.1
+            elif direction == 'right':
+                x += 0.1
+                #stuck = True
+        if z - 2 < (-grid_size - 0.1) or  z + 2 > (grid_size + 0.1):
+            grid_mov_z = 0.0
+            if direction == 'front':
+                z -= 0.1
+            elif direction == 'back':
+                z += 0.1 
+            #stuck = True
 
         x += grid_mov_x
         z += grid_mov_z
