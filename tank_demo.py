@@ -140,7 +140,7 @@ def main():
    
     grid_mov_x = 0.0
     grid_mov_z = 0.0
-    #stuck = False
+    stop_camera = False
 
     direction = 'front'
 
@@ -188,6 +188,8 @@ def main():
                     grid_mov_x = 0.00
                     direction = 'back'
                     model_angle = 0
+                elif event.key == pygame.K_s:
+                    stop_camera = not stop_camera
                 elif event.key == pygame.K_c:
                     grid_mov_z = 0.00
                     grid_mov_x = 0.00
@@ -259,7 +261,10 @@ def main():
         glPushMatrix()
         glScalef(scale, scale, scale)
         glRotatef(sc_y, 0.0, 1.0, 0.0)
-        glTranslatef(x, y, z)##########(0, 0, 0)
+        if stop_camera:
+            glTranslatef(0, 0, 0)
+        else:
+            glTranslatef(x, y, z)
         glCallList(grid_list)
         glPushMatrix()
         glLineWidth(1.5)
