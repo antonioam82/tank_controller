@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import math
 import os
 
 # ESTABLECER DIMENSIONES DEL GRID
@@ -142,11 +143,16 @@ def main():
     grid_mov_z = 0.0
     stop_camera = False
 
+    show_bullet = False
+    bullet_pos = [0.0,0.0,0.0]
+    bullet_rot = 0.0
+
     direction = 'front'
 
     x = 0.0
     y = 0.0
     z = 0.0
+    bullet_z = 2.05
     model_angle = 180
 
     y_tower = 0.0
@@ -195,6 +201,17 @@ def main():
                     grid_mov_x = 0.00
                     direction = direction
                     model_angle = model_angle
+                elif event.key == pygame.K_y:
+                    show_bullet = True
+
+                    # guardar posición GLOBAL del extremo del cañón
+                    bullet_pos[0] = x
+                    bullet_pos[1] = 0.25
+                    bullet_pos[2] = z #+ bullet_z #+ 0.25
+
+                    # guardar rotación GLOBAL en el momento del disparo
+                    bullet_rot = model_angle + y_tower
+
 
                 elif event.key == pygame.K_a:
                     scale = 1.0
@@ -274,16 +291,28 @@ def main():
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
-        glPushMatrix()
-        glColor3f(1.0,0.0,0.0)
-        glCallList(model_list3)
-        glPopMatrix()
+        if show_bullet:
+            glPushMatrix()
+            glColor3f(1.0, 0.0, 0.0)
+
+            # aplicar SOLO la transformación congelada
+            glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
+            glRotatef(bullet_rot, 0.0, 1.0, 0.0)
+
+            glCallList(model_list3)
+            glPopMatrix()
+
+        #glPushMatrix()
+        #glColor3f(1.0,0.0,0.0)
+        #glCallList(model_list3)
+        #glPopMatrix()
         glPopMatrix()
         glColor3f(0.0,0.0,0.0)
         glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
         glPopMatrix()
+
         
         #x += grid_mov_x
         #z += grid_mov_z
@@ -309,6 +338,11 @@ def main():
 
         x += grid_mov_x
         z += grid_mov_z
+        bullet_pos[2] += 0.1
+
+        #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
+        #bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
+
 
         '''if x - 2 < -grid_size:
             #x  = -grid_size
