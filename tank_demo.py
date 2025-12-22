@@ -206,8 +206,8 @@ def main():
 
                     # guardar posición GLOBAL del extremo del cañón
                     bullet_pos[0] = x
-                    bullet_pos[1] = 0.25
-                    bullet_pos[2] = z #+ bullet_z #+ 0.25
+                    bullet_pos[1] = 0.00
+                    bullet_pos[2] = 3.0 #z #+ bullet_z #+ 0.25
 
                     # guardar rotación GLOBAL en el momento del disparo
                     bullet_rot = model_angle + y_tower
@@ -301,23 +301,16 @@ def main():
 
             glCallList(model_list3)
             glPopMatrix()
-
+        glPopMatrix()
         #glPushMatrix()
         #glColor3f(1.0,0.0,0.0)
         #glCallList(model_list3)
         #glPopMatrix()
-        glPopMatrix()
         glColor3f(0.0,0.0,0.0)
         glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
         glPopMatrix()
-
-        
-        #x += grid_mov_x
-        #z += grid_mov_z
-        
-        #if not stuck:
 
         # LIMITAR MOVIMIENTO DENTRO DEL GRID
 
