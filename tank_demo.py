@@ -297,7 +297,7 @@ def main():
 
             # aplicar SOLO la transformación congelada
             glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
-            glRotatef(bullet_rot, 0.0, 1.0, 0.0)
+            #glRotatef(bullet_rot, 0.0, 1.0, 0.0)
 
             glCallList(model_list3)
             glPopMatrix()
