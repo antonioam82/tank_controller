@@ -152,7 +152,6 @@ def main():
     x = 0.0
     y = 0.0
     z = 0.0
-    bullet_z = 2.05
     model_angle = 180
 
     y_tower = 0.0
@@ -205,7 +204,8 @@ def main():
                     show_bullet = True
 
                     # guardar posición GLOBAL del extremo del cañón
-                    bullet_pos[0] = x
+                    #if direction == 'front' or direction == 'back':
+                    bullet_pos[0] = 0.00
                     bullet_pos[1] = 0.00
                     bullet_pos[2] = 2.2#z #+ bullet_z #+ 0.25
 
@@ -291,16 +291,18 @@ def main():
         glPushMatrix()
         glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
+        #----------------------------------------------------------------------------------#
         if show_bullet:
-            glPushMatrix()
+            #glPushMatrix()
             glColor3f(1.0, 0.0, 0.0)
-
+            glTranslatef(bullet_pos[0],bullet_pos[1],bullet_pos[2])
             # aplicar SOLO la transformación congelada
-            glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
+            #glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
             #glRotatef(bullet_rot, 0.0, 1.0, 0.0)
 
             glCallList(model_list3)
-            glPopMatrix()
+            #glPopMatrix()
+        #-----------------------------------------------------------------------------------#
         glPopMatrix()
         #glPushMatrix()
         #glColor3f(1.0,0.0,0.0)
@@ -331,7 +333,7 @@ def main():
 
         x += grid_mov_x
         z += grid_mov_z
-        bullet_pos[2] += 0.1
+        bullet_pos[2] += 1.5
 
         #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
         #bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
