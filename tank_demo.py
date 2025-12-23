@@ -207,7 +207,7 @@ def main():
                     # guardar posición GLOBAL del extremo del cañón
                     bullet_pos[0] = x
                     bullet_pos[1] = 0.00
-                    bullet_pos[2] = 3.0 #z #+ bullet_z #+ 0.25
+                    bullet_pos[2] = 2.2#z #+ bullet_z #+ 0.25
 
                     # guardar rotación GLOBAL en el momento del disparo
                     bullet_rot = model_angle + y_tower
