@@ -38,7 +38,6 @@ def load_object(filename):
     vertices = []
     face_indices = []
     edges = set()
-    faces = []
 
     with open(filename, 'r') as file:
         for line in file:
@@ -52,7 +51,7 @@ def load_object(filename):
                 for i in range(len(face_indices)):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
 
-        return vertices, edges, faces
+        return vertices, edges
 
 def draw_text(f, x, y, text):
     textSurface = f.render(text, True, (0, 0, 0), (0,0,255))
@@ -61,7 +60,7 @@ def draw_text(f, x, y, text):
     glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
 def draw_model(obj_path):
-    v, e, f = load_object(obj_path)
+    v, e  = load_object(obj_path)
     print("CARGA CORRECTA")
     ordered_edges = sorted(list(e))
 
