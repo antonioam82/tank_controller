@@ -300,6 +300,7 @@ def main():
         glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
+        #glCallList(model_list3)#############################!!!
         glPopMatrix()
 
         # LIMITAR MOVIMIENTO DENTRO DEL GRID
