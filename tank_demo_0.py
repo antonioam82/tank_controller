@@ -183,6 +183,7 @@ def main():
 
         # ===== TANQUE =====
         glPushMatrix()
+        glColor3f(0.0,1.0,0.0)
         glTranslatef(-x, 0.2, -z)
         glRotatef(model_angle, 0, 1, 0)
 
@@ -197,6 +198,7 @@ def main():
         # ===== BALAS (MUNDO REAL) =====
         for b in bullets:
             glPushMatrix()
+            glColor3f(1.0,0.0,0.0)
             glTranslatef(b["pos"][0], b["pos"][1], b["pos"][2])
             ang = math.degrees(math.atan2(b["dir"][0], b["dir"][2]))
             glRotatef(ang, 0, 1, 0)
