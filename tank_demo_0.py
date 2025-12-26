@@ -129,6 +129,10 @@ def main():
                     grid_mov_z = 0.0
                     model_angle = 90
 
+                elif e.key == K_c:
+                    grid_mov_x = 0.0
+                    grid_mov_z = 0.0
+
                 # ===== DISPARO CORRECTO =====
                 elif e.key == K_y:
                     rot = model_angle + y_tower
@@ -146,15 +150,17 @@ def main():
 
         if keys[K_t]:
             sc_y += 1.0
-        if keys[K_r]:
+        elif keys[K_r]:
             sc_y -= 1.0
+
         if keys[K_n]:
             y_tower += 1.1
-        if keys[K_m]:
+        elif keys[K_m]:
             y_tower -= 1.1
+
         if keys[K_z]:
             scale += 0.02
-        if keys[K_x]:
+        elif keys[K_x]:
             scale -= 0.02
 
         # ===== ACTUALIZACIÓN =====
