@@ -291,6 +291,7 @@ def main():
         glCallList(model_list)
         glPopMatrix()
         #---------------------------------------------------------------------------------
+        #TO DO: Crear variables de posicion para el bullet
         if show_bullet:
             glColor3f(1.0,0.0,0.0)
             bullet_pos[0] = x
@@ -362,4 +363,5 @@ def main():
     pygame.quit()
 
 main()
+
 
