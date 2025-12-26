@@ -191,16 +191,6 @@ def main():
                 elif event.key == pygame.K_y:
                     show_bullet = True
 
-                    # guardar posición GLOBAL del extremo del cañón
-                    #if direction == 'front' or direction == 'back':
-                    bullet_pos[0] = 0.00
-                    bullet_pos[1] = 0.00
-                    bullet_pos[2] = 2.2#z #+ bullet_z #+ 0.25
-
-                    # guardar rotación GLOBAL en el momento del disparo
-                    bullet_rot = model_angle + y_tower
-
-
                 elif event.key == pygame.K_a:
                     scale = 1.0
                 elif event.key == pygame.K_l:
@@ -280,7 +270,7 @@ def main():
         glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
         #----------------------------------------------------------------------------------#
-        if show_bullet:
+        '''if show_bullet:
             #glPushMatrix()
             glColor3f(1.0, 0.0, 0.0)
             glTranslatef(bullet_pos[0],bullet_pos[1],bullet_pos[2])
@@ -289,7 +279,7 @@ def main():
             #glRotatef(bullet_rot, 0.0, 1.0, 0.0)
 
             glCallList(model_list3)
-            #glPopMatrix()
+            #glPopMatrix()'''
         #-----------------------------------------------------------------------------------#
         glPopMatrix()
         #glPushMatrix()
@@ -300,7 +290,17 @@ def main():
         glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
-        #glCallList(model_list3)#############################!!!
+        #---------------------------------------------------------------------------------
+        if show_bullet:
+            glColor3f(1.0,0.0,0.0)
+            bullet_pos[0] = x
+            bullet_pos[1] = 0.20
+            bullet_pos[2] = 2.2 + z 
+            bullet_rot = model_angle + y_tower
+            glRotatef(bullet_rot,0.0,1.0,0.0)
+            glTranslatef(bullet_pos[0],bullet_pos[1],bullet_pos[2])
+            glCallList(model_list3)#############################!!!
+        #---------------------------------------------------------------------------------
         glPopMatrix()
 
         # LIMITAR MOVIMIENTO DENTRO DEL GRID
@@ -322,10 +322,10 @@ def main():
 
         x += grid_mov_x
         z += grid_mov_z
-        bullet_pos[2] += 1.5
+        #bullet_pos[2] += 1.5
 
-        #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
-        #bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
+        bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
+        bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
 
 
         '''if x - 2 < -grid_size:
