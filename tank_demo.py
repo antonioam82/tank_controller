@@ -369,6 +369,7 @@ def main():
     glDeleteLists(grid_list, 1)
     glDeleteLists(model_list, 1)
     glDeleteLists(model_list2, 1)
+    glDeleteLists(model_list3, 1)
     pygame.quit()
 
 main()
