@@ -208,7 +208,6 @@ def main():
                     grid_mov_z = 0.0
 
                     direction = 'front'
-                    #stuck = False
 
                     x = 0.0
                     y = 0.0
@@ -281,26 +280,23 @@ def main():
         glCallList(model_list2)
         #----------------------------------------------------------------------------------#
         if show_bullet:
-            #glPushMatrix()
             glColor3f(1.0, 0.0, 0.0)
             glTranslatef(bullet_pos[0],bullet_pos[1],bullet_pos[2])
-            # aplicar SOLO la transformación congelada
-            #glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
-            #glRotatef(bullet_rot, 0.0, 1.0, 0.0)
 
             glCallList(model_list3)
-            #glPopMatrix()
+
         #-----------------------------------------------------------------------------------#
         glPopMatrix()
-        #glPushMatrix()
-        #glColor3f(1.0,0.0,0.0)
-        #glCallList(model_list3)
-        #glPopMatrix()
         glColor3f(0.0,1.0,0.0)
         glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
-        #glCallList(model_list3)#############################!!!
+        #---------------------------------------------------------------->
+        '''glRotatef(y_tower,0.0,1.0,0.0)
+        glTranslatef(bullet_pos[0],bullet_pos[1],-bullet_pos[2])
+        glCallList(model_list3)'''
+
+        #---------------------------------------------------------------->
         glPopMatrix()
 
         # LIMITAR MOVIMIENTO DENTRO DEL GRID
@@ -322,7 +318,7 @@ def main():
 
         x += grid_mov_x
         z += grid_mov_z
-        bullet_pos[2] += 1.5
+        bullet_pos[2] += 0.1#1.0
 
         #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
         #bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
