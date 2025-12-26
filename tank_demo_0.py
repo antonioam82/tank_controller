@@ -1,6 +1,5 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
@@ -8,19 +7,21 @@ from OpenGL.GLU import *
 import math
 import os
 
-# ================= GRID =================
+# ESTABLECER DIMENSIONES DEL GRID
 grid_size = 110
 grid_spacing = 1
 
 
+# FUNCION DE DIBUJADO DE GRID
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
-    glColor3f(1.0, 1.0, 1.0)
+    glColor3f(1.0,1.0,1.0) # COLOR BLANCO
 
+    # DIBUJADO
     for x in range(-grid_size, grid_size + 1, grid_spacing):
         glVertex3f(x, 0, -grid_size)
         glVertex3f(x, 0, grid_size)
@@ -33,215 +34,327 @@ def draw_grid():
     glEndList()
     return grid_list
 
-
-# ================= OBJ =================
 def load_object(filename):
     vertices = []
+    face_indices = []
     edges = set()
 
     with open(filename, 'r') as file:
         for line in file:
             parts = line.strip().split()
             if line.startswith('v '):
-                vertices.append([float(parts[1]), float(parts[2]), float(parts[3])])
+                vertex = [float(parts[1]), float(parts[2]), float(parts[3])]
+                vertices.append(vertex)
             elif line.startswith('f '):
-                idx = [int(p.split('/')[0]) - 1 for p in parts[1:]]
-                for i in range(len(idx)):
-                    edges.add(tuple(sorted((idx[i], idx[(i + 1) % len(idx)]))))
+                face_indices = [int(part) - 1 for part in parts[1:]]
 
-    return vertices, edges
+                for i in range(len(face_indices)):
+                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
 
+        return vertices, edges
 
-def draw_model(path):
-    v, e = load_object(path)
-    glBegin(GL_LINES)
-    for a, b in e:
-        glVertex3f(*v[a])
-        glVertex3f(*v[b])
-    glEnd()
-
-
-# ================= TEXT =================
-def draw_text(font, x, y, text):
-    surf = font.render(text, True, (0, 0, 0), (0, 0, 255))
-    data = pygame.image.tostring(surf, "RGBA", True)
+def draw_text(f, x, y, text):
+    textSurface = f.render(text, True, (0, 0, 0), (0,0,255))
+    textData = pygame.image.tostring(textSurface, "RGBA", True)
     glWindowPos2d(x, y)
-    glDrawPixels(surf.get_width(), surf.get_height(),
-                 GL_RGBA, GL_UNSIGNED_BYTE, data)
+    glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
+def draw_model(obj_path):
+    v, e  = load_object(obj_path)
+    print("CARGA CORRECTA")
+    ordered_edges = sorted(list(e))
 
-# ================= MAIN =================
+    glBegin(GL_LINES)
+    for e1, e2 in ordered_edges:
+        x1, y1, z1 = v[e1]
+        x2, y2, z2 = v[e2]
+        glVertex3f(x1, y1, z1)
+        glVertex3f(x2, y2, z2)
+    glEnd()
+    #glEndList()
+
 def main():
     pygame.init()
     display = (800, 600)
+
     font = pygame.font.SysFont('arial', 15)
 
+    #-------------------------------------ANTIALIASING------------------------------------#
     pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
     pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    glClearColor(0.0, 0.0, 0.0, 1.0)  # color fondo negro
 
-    glClearColor(0, 0, 0, 1)
-    glEnable(GL_DEPTH_TEST)
     glEnable(GL_MULTISAMPLE)
     glEnable(GL_LINE_SMOOTH)
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    #-------------------------------------------------------------------------------------#
 
-    gluPerspective(45, display[0] / display[1], 0.1, 200)
-    glTranslatef(0, 0, -10)
-    glRotatef(35, 1, 0, 0)
 
-    base = os.path.dirname(__file__)
-    tank_body = os.path.join(base, "tanque", "resto_tanque.obj")
-    tank_tower = os.path.join(base, "tanque", "torre.obj")
-    bullet_obj = os.path.join(base, "tanque", "bullet.obj")
+    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+    glTranslatef(0.0, 0.0, -10.0)
+    glEnable(GL_DEPTH_TEST)
+    glRotatef(35.0, 1.0, 0.0, 0.0)
 
-    grid_list = draw_grid()
+    ##################################################
+    base_path = os.path.dirname(__file__)
+    obj_path = os.path.join(base_path, "tanque", "resto_tanque.obj")
+    obj_path2 = os.path.join(base_path, "tanque", "torre.obj")
+    obj_path3 = os.path.join(base_path, "tanque", "bullet.obj")
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     model_list = glGenLists(1)
     glNewList(model_list, GL_COMPILE)
-    draw_model(tank_body)
+
+    draw_model(obj_path)
     glEndList()
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     model_list2 = glGenLists(1)
     glNewList(model_list2, GL_COMPILE)
-    draw_model(tank_tower)
+
+    draw_model(obj_path2)
     glEndList()
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     model_list3 = glGenLists(1)
     glNewList(model_list3, GL_COMPILE)
-    draw_model(bullet_obj)
+
+    draw_model(obj_path3)
     glEndList()
+    #################################################
 
-    # ======= STATE =======
-    x = z = 0.0               # movimiento del mundo
-    grid_mov_x = grid_mov_z = 0.0
+    grid_list = draw_grid()
 
-    model_angle = 180
-    y_tower = 0.0
-    sc_y = 0.0
-    scale = 1.0
+    grid_mov_x = 0.0
+    grid_mov_z = 0.0
+    stop_camera = False
 
     show_bullet = False
-    bullet_pos = [0.0, 0.2, 0.0]
+    bullet_pos = [0.0,0.0,0.0]
     bullet_rot = 0.0
-    bullet_speed = 0.3
 
     direction = 'front'
-    running = True
-    hide_text = False
+
+    x = 0.0
+    y = 0.0
+    z = 0.0
+    model_angle = 180
+
+    y_tower = 0.0
+    sc_y = 0.0
     counter = 0
 
-    # ======= LOOP =======
+    hide_text = False
+    scale = 1.0
+
+
+    running = True
+
     while running:
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     running = False
 
-                elif event.key == K_UP:
+                elif event.key == pygame.K_UP:
                     grid_mov_z = 0.05
-                    grid_mov_x = 0
-                    model_angle = 180
+                    grid_mov_x = 0.00
                     direction = 'front'
-
-                elif event.key == K_DOWN:
-                    grid_mov_z = -0.05
-                    grid_mov_x = 0
-                    model_angle = 0
-                    direction = 'back'
-
-                elif event.key == K_LEFT:
+                    model_angle = 180
+                elif event.key == pygame.K_LEFT:
+                    grid_mov_z = 0.00
                     grid_mov_x = 0.05
-                    grid_mov_z = 0
-                    model_angle = -90
                     direction = 'left'
-
-                elif event.key == K_RIGHT:
+                    model_angle = -90
+                elif event.key == pygame.K_RIGHT:
+                    grid_mov_z = 0.00
                     grid_mov_x = -0.05
-                    grid_mov_z = 0
-                    model_angle = 90
                     direction = 'right'
-
-                elif event.key == K_c:
-                    grid_mov_x = grid_mov_z = 0
-
-                elif event.key == K_y:
-                    bullet_rot = model_angle + y_tower
-                    rad = math.radians(bullet_rot)
-
-                    bullet_pos[0] = math.sin(rad) * 2.2
-                    bullet_pos[1] = 0.2
-                    bullet_pos[2] = math.cos(rad) * 2.2
-
+                    model_angle = 90
+                elif event.key == pygame.K_DOWN:
+                    grid_mov_z = -0.05
+                    grid_mov_x = 0.00
+                    direction = 'back'
+                    model_angle = 0
+                elif event.key == pygame.K_s:
+                    stop_camera = not stop_camera
+                elif event.key == pygame.K_c:
+                    grid_mov_z = 0.00
+                    grid_mov_x = 0.00
+                    direction = direction
+                    model_angle = model_angle
+                elif event.key == pygame.K_y:
                     show_bullet = True
 
+                    # guardar posición GLOBAL del extremo del cañón
+                    #if direction == 'front' or direction == 'back':
+                    bullet_pos[0] = 0.00
+                    bullet_pos[1] = 0.00
+                    bullet_pos[2] = 2.2#z #+ bullet_z #+ 0.25
+
+                    # guardar rotación GLOBAL en el momento del disparo
+                    bullet_rot = model_angle + y_tower
+
+
+                elif event.key == pygame.K_a:
+                    scale = 1.0
+                elif event.key == pygame.K_l:
+                    grid_mov_x = 0.0
+                    grid_mov_z = 0.0
+
+                    direction = 'front'
+                    #stuck = False
+
+                    x = 0.0
+                    y = 0.0
+                    z = 0.0
+
+                    model_angle = 180
+
+                    y_tower = 0.0
+                    sc_y = 0.0
+                    scale = 1.0
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    glTranslatef(0.0, 0.0, -10)
+                    glRotatef(35.0, 1.0, 0.0, 0.0)
+                elif event.key == pygame.K_b:
+                    y_tower = 0.0
+
+
         key = pygame.key.get_pressed()
-        if key[K_n]:
-            y_tower += 1.2
-        elif key[K_m]:
-            y_tower -= 1.2
 
-        # ===== UPDATE =====
-        x += grid_mov_x
-        z += grid_mov_z
+        if key[pygame.K_t]:
+            #glRotatef(1.0, 0.0, 1.0, 0.0)
+            sc_y += 1.0
 
-        if show_bullet:
-            rad = math.radians(bullet_rot)
-            bullet_pos[0] += math.sin(rad) * bullet_speed
-            bullet_pos[2] += math.cos(rad) * bullet_speed
+        elif key[pygame.K_r]:
+            #glRotatef(-1.0, 0.0, 1.0, 0.0)
+            sc_y -= 1.0
 
-            # <<< CAMBIO CRÍTICO
-            bullet_pos[0] -= grid_mov_x
-            bullet_pos[2] -= grid_mov_z
+        if key[pygame.K_f]:
+            glRotatef(0.5, 1.0, 0.0, 0.0)
+        elif key[pygame.K_g]:
+            glRotatef(-0.5, 1.0, 0.0, 0.0)
 
-        # ===== DRAW =====
+        if direction == 'front' or direction == 'right':
+            if key[pygame.K_n]:
+                y_tower += 1.1
+            elif key[pygame.K_m]:
+                y_tower -= 1.1
+        elif direction == 'back' or direction == 'left':
+            if key[pygame.K_n]:
+                y_tower -= 1.1
+            elif key[pygame.K_m]:
+                y_tower += 1.1
+
+        if key[pygame.K_z]:
+            scale += 0.02
+        elif key[pygame.K_x]:
+            scale -= 0.02
+
+        # LIMPIAR PANTALLA
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+
+        # DIBUJOS
         glPushMatrix()
         glScalef(scale, scale, scale)
-        glRotatef(sc_y, 0, 1, 0)
-        glTranslatef(x, 0, z)
-
+        glRotatef(sc_y, 0.0, 1.0, 0.0)
+        if stop_camera:
+            glTranslatef(0, 0, 0)
+        else:
+            glTranslatef(x, y, z)
         glCallList(grid_list)
-
         glPushMatrix()
-        glTranslatef(-x, 0.2, -z)
-        glRotatef(model_angle, 0, 1, 0)
-
+        glLineWidth(1.5)
+        glTranslatef(-x,0.2,-z)
+        glColor3f(0.0,1.0,0.0)
+        glRotatef(model_angle,0.0,1.0,0.0)###########
         glPushMatrix()
-        glRotatef(y_tower, 0, 1, 0)
-        glColor3f(0, 1, 0)
+        glRotatef(y_tower,0.0,1.0,0.0)
         glCallList(model_list2)
-        glPopMatrix()
+        #----------------------------------------------------------------------------------#
+        if show_bullet:
+            #glPushMatrix()
+            glColor3f(1.0, 0.0, 0.0)
+            glTranslatef(bullet_pos[0],bullet_pos[1],bullet_pos[2])
+            # aplicar SOLO la transformación congelada
+            #glTranslatef(bullet_pos[0], bullet_pos[1], bullet_pos[2])
+            #glRotatef(bullet_rot, 0.0, 1.0, 0.0)
 
-        glColor3f(0, 1, 0)
+            glCallList(model_list3)
+            #glPopMatrix()
+        #-----------------------------------------------------------------------------------#
+        glPopMatrix()
+        #glPushMatrix()
+        #glColor3f(1.0,0.0,0.0)
+        #glCallList(model_list3)
+        #glPopMatrix()
+        glColor3f(0.0,1.0,0.0)
+        glTranslatef(0.0,0.01,0.0)###########
         glCallList(model_list)
         glPopMatrix()
-
+        #glCallList(model_list3)#############################!!!
         glPopMatrix()
 
-        if show_bullet:
-            glPushMatrix()
-            glColor3f(1, 0, 0)
-            glTranslatef(*bullet_pos)
-            glRotatef(bullet_rot, 0, 1, 0)
-            glCallList(model_list3)
-            glPopMatrix()
+        # LIMITAR MOVIMIENTO DENTRO DEL GRID
+
+        if x - 2 < (-grid_size - 0.1) or  x + 2 > (grid_size + 0.1):
+            grid_mov_x = 0.0
+            if direction == 'left':
+                x -= 0.1
+            elif direction == 'right':
+                x += 0.1
+                #stuck = True
+        if z - 2 < (-grid_size - 0.1) or  z + 2 > (grid_size + 0.1):
+            grid_mov_z = 0.0
+            if direction == 'front':
+                z -= 0.1
+            elif direction == 'back':
+                z += 0.1
+            #stuck = True
+
+        x += grid_mov_x
+        z += grid_mov_z
+        bullet_pos[2] += 1.5
+
+        #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
+        #bullet_pos[0] += math.sin(math.radians(bullet_rot)) * 0.1
+
+
+        '''if x - 2 < -grid_size:
+            #x  = -grid_size
+            grid_mov_x = 0.0
+        if x + 2 > grid_size:
+            #x = grid_size
+            grid_mov_x = 0.0
+
+        if z - 2 < -grid_size:
+            #z = -grid_size
+            grid_mov_z = 0.0
+        if z + 2 > grid_size:
+            #z = grid_size
+            grid_mov_z = 0.0'''
+
 
         if not hide_text:
-            draw_text(font, 20, 570, "DEMO")
+            draw_text(font, 20, 570, 'DEMO')
 
         counter += 1
-        if counter > 50:
+        if counter >= 50:
             counter = 0
             hide_text = not hide_text
 
+        # REFRESCO PANTALLA
         pygame.display.flip()
         pygame.time.wait(10)
-    
+
     glDeleteLists(grid_list, 1)
     glDeleteLists(model_list, 1)
     glDeleteLists(model_list2, 1)
@@ -249,8 +362,4 @@ def main():
     pygame.quit()
 
 main()
-
-
-
-
 
