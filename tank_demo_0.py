@@ -97,7 +97,7 @@ def main():
     scale = 1.0
 
     bullets = []
-    bullet_speed = 0.2
+    bullet_speed = 0.5 #0.2
 
     running = True
     while running:
