@@ -153,6 +153,11 @@ def main():
         elif keys[K_r]:
             sc_y -= 1.0
 
+        if keys[K_f]:
+            glRotatef(0.5, 1.0, 0.0, 0.0)
+        elif keys[K_g]:
+            glRotatef(-0.5, 1.0, 0.0, 0.0)
+
         if keys[K_n]:
             y_tower += 1.1
         elif keys[K_m]:
