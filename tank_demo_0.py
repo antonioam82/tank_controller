@@ -134,6 +134,9 @@ def main():
                     model_angle = 90
                     direction = 'right'
 
+                elif e.key == K_b:
+                    y_tower = 0.0
+
                 elif e.key == K_c:
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
