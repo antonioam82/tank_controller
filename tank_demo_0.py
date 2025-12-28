@@ -95,6 +95,7 @@ def main():
     y_tower = 0.0
     sc_y = 0.0
     scale = 1.0
+    direction = 'front'
 
     bullets = []
     bullet_speed = 0.5 #0.2
@@ -113,25 +114,43 @@ def main():
                     grid_mov_z = 0.05
                     grid_mov_x = 0.0
                     model_angle = 180
+                    direction = 'front'
 
                 elif e.key == K_DOWN:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.0
                     model_angle = 0
+                    direction = 'back'
 
                 elif e.key == K_LEFT:
                     grid_mov_x = 0.05
                     grid_mov_z = 0.0
                     model_angle = -90
+                    direction = 'left'
 
                 elif e.key == K_RIGHT:
                     grid_mov_x = -0.05
                     grid_mov_z = 0.0
                     model_angle = 90
+                    direction = 'right'
 
                 elif e.key == K_c:
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
+
+                elif e.key == K_l:
+                       x = y = z = 0.0         
+                       grid_mov_x = grid_mov_z = 0.0
+                       model_angle = 180
+                       y_tower = 0.0
+                       sc_y = 0.0
+                       scale = 1.0
+                       direction = 'front'
+                       glLoadIdentity()
+                       gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                       glTranslatef(0.0, 0.0, -10)
+                       glRotatef(35.0, 1.0, 0.0, 0.0)
+                    
 
                 # ===== DISPARO CORRECTO =====
                 elif e.key == K_y:
@@ -171,6 +190,20 @@ def main():
         # ===== ACTUALIZACIÓN =====
         x += grid_mov_x
         z += grid_mov_z
+
+        # ===== LIMITAR MOVIMIEMTO DENTRO DEL GRID =====
+        if x - 2 < (-grid_size - 0.1) or x + 2 > (grid_size + 0.1):
+            grid_mov_x = 0.0
+            if direction == 'left':
+                x -= 0.1
+            elif direction == 'right':
+                x += 0.1
+        elif z - 2 < (-grid_size - 0.1) or z + 2 > (grid_size + 0.1):
+            grid_mov_z = 0.0
+            if direction == 'front':
+                z -= 0.1
+            elif direction == 'back':
+                z += 0.1
 
         for b in bullets:
             b["pos"][0] += b["dir"][0] * bullet_speed
