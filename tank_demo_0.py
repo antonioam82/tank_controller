@@ -104,6 +104,7 @@ def main():
     model_angle = 180
     y_tower = 0.0
     sc_y = 0.0
+    stop_camera = False
     scale = 1.0
     direction = 'front'
 
@@ -150,6 +151,9 @@ def main():
                 elif e.key == K_c:
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
+
+                elif e.key == K_a:
+                    stop_camera = not stop_camera
 
                 elif e.key == K_l:
                        x = y = z = 0.0         
@@ -228,7 +232,10 @@ def main():
         glPushMatrix()
         glScalef(scale, scale, scale)
         glRotatef(sc_y, 0, 1, 0)
-        glTranslatef(x, y, z)
+        if not stop_camera:
+            glTranslatef(x, y, z)
+        else:
+            glTranslatef(0.0, 0.0, 0.0)
 
         glCallList(grid)
 
