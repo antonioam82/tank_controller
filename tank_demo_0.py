@@ -232,10 +232,17 @@ def main():
         elif keys[K_g]:
             glRotatef(-0.5, 1.0, 0.0, 0.0)
 
-        if keys[K_n]:
-            y_tower += 1.1
-        elif keys[K_m]:
-            y_tower -= 1.1
+
+        if direction == 'front' or direction == 'right':
+            if keys[pygame.K_n]:
+                y_tower += 1.1
+            elif keys[pygame.K_m]:
+                y_tower -= 1.1
+        elif direction == 'back' or direction == 'left':
+            if keys[pygame.K_n]:
+                y_tower -= 1.1
+            elif keys[pygame.K_m]:
+                y_tower += 1.1
 
         if keys[K_z]:
             scale += 0.02
