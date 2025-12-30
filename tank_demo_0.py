@@ -54,9 +54,46 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
+def show_controls():
+    print("\n--------------------- Controls ---------------------")
+
+    print("\nKeyboard Controls (Tank Movement):")
+    print("  - Up Arrow: Move tank forward")
+    print("  - Down Arrow: Move tank backward")
+    print("  - Left Arrow: Turn tank left")
+    print("  - Right Arrow: Turn tank right")
+
+    print("\nTurret Controls:")
+    print("  - N Key: Rotate turret clockwise")
+    print("  - M Key: Rotate turret counterclockwise")
+    print("  - B Key: Reset turret rotation")
+
+    print("\nShooting Controls:")
+    print("  - Y Key: Fire bullet")
+
+    print("\nScene / Camera Controls:")
+    print("  - T Key: Rotate scene clockwise around Y-axis")
+    print("  - R Key: Rotate scene counterclockwise around Y-axis")
+    print("  - F Key: Tilt camera downward")
+    print("  - G Key: Tilt camera upward")
+    print("  - A Key: Lock / unlock camera movement")
+
+    print("\nScale Controls:")
+    print("  - Z Key: Increase scale")
+    print("  - X Key: Decrease scale")
+
+    print("\nOther Controls")
+    print("  - C Key: Stop tank movement")
+    print("  - L Key: Reset entire scene")
+    print("  - ESC Key: Exit the program")
+
+    print("\n----------------------------------------------------")
+
+
 
 # ================= MAIN =================
 def main():
+    show_controls()
     pygame.init()
     display = (800, 600)
 
