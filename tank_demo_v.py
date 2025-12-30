@@ -196,7 +196,7 @@ def main():
                     stop_camera = not stop_camera
 
                 elif e.key == K_l:
-                       x = y = z = 0.0         
+                       x = y = z = 0.0
                        grid_mov_x = grid_mov_z = 0.0
                        model_angle = 180
                        y_tower = 0.0
@@ -208,7 +208,7 @@ def main():
                        gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                        glTranslatef(0.0, 0.0, -10)
                        glRotatef(35.0, 1.0, 0.0, 0.0)
-                    
+
 
                 # ===== DISPARO CORRECTO =====
                 elif e.key == K_y:
@@ -243,14 +243,14 @@ def main():
 
         if direction == 'front' or direction == 'right':
             if keys[pygame.K_n]:
-                y_tower += 1.1
+                y_tower += 1.0#1.1
             elif keys[pygame.K_m]:
-                y_tower -= 1.1
+                y_tower -= 1.0#1.1
         elif direction == 'back' or direction == 'left':
             if keys[pygame.K_n]:
-                y_tower -= 1.1
+                y_tower -= 1.0#1.1
             elif keys[pygame.K_m]:
-                y_tower += 1.1
+                y_tower += 1.0#1.1
 
         if keys[K_z]:
             scale += 0.02
@@ -326,10 +326,3 @@ def main():
 
 
 main()
-
-
-
-
-
-
-
