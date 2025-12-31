@@ -289,6 +289,7 @@ def main():
             glTranslatef(x, y, z)
         else:
             #glTranslatef(0.0, 0.0, 0.0)
+            
             glTranslatef(0.0, y, 0.0)
 
         glCallList(grid)
