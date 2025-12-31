@@ -76,7 +76,7 @@ def show_controls():
     print("  - R Key: Rotate scene counterclockwise around Y-axis")
     print("  - F Key: Tilt camera downward")
     print("  - G Key: Tilt camera upward")
-    print("  - A Key: Lock / unlock camera movement")
+    print("  - S Key: Lock / unlock camera movement")
 
     print("\nScale Controls:")
     print("  - Z Key: Increase scale")
@@ -192,7 +192,7 @@ def main():
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
 
-                elif e.key == K_a:
+                elif e.key == K_s:
                     stop_camera = not stop_camera
 
                 elif e.key == K_l:
