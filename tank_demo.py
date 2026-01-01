@@ -179,6 +179,7 @@ def main():
     grid_mov_x = 0.0
     grid_mov_z = 0.0
     stop_camera = False
+    last_cam_pos_x = last_cam_pos_z = 0.0
 
     show_bullet = False
     bullet_pos = [0.0,0.0,0.0]
@@ -316,7 +317,7 @@ def main():
         glScalef(scale, scale, scale)
         glRotatef(sc_y, 0.0, 1.0, 0.0)
         if stop_camera:
-            glTranslatef(0, 0, 0)
+            glTranslatef(last_cam_pos_x, y, last_cam_pos_z)
         else:
             glTranslatef(x, y, z)
         glCallList(grid_list)
@@ -370,6 +371,10 @@ def main():
 
         x += grid_mov_x
         z += grid_mov_z
+        if not stop_camera:
+            last_cam_pos_x = x
+            last_cam_pos_z = z
+
         bullet_pos[2] += 1.5
 
         #bullet_pos[2] += math.cos(math.radians(bullet_rot)) * 0.1
