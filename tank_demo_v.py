@@ -138,6 +138,10 @@ def main():
     # ============== ESTADO ==============
     x = y = z = 0.0                # desplazamiento del mundo
     grid_mov_x = grid_mov_z = 0.0
+    #stop_rate = 0.0
+    last_cam_pos_x = last_cam_pos_z = 0.0
+
+
     model_angle = 180
     y_tower = 0.0
     sc_y = 0.0
@@ -163,24 +167,28 @@ def main():
                     grid_mov_x = 0.0
                     model_angle = 180
                     direction = 'front'
+                    #stop_rate = 0.0
 
                 elif e.key == K_DOWN:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.0
                     model_angle = 0
                     direction = 'back'
+                    #stop_rate = 0.0
 
                 elif e.key == K_LEFT:
                     grid_mov_x = 0.05
                     grid_mov_z = 0.0
                     model_angle = -90
                     direction = 'left'
+                    #stop_rate = 0.0
 
                 elif e.key == K_RIGHT:
                     grid_mov_x = -0.05
                     grid_mov_z = 0.0
                     model_angle = 90
                     direction = 'right'
+                    #stop_rate = 0.0
 
                 elif e.key == K_b:
                     y_tower = 0.0
@@ -189,8 +197,8 @@ def main():
                     y_tower = 180
 
                 elif e.key == K_c:
-                    grid_mov_x = 0.0
-                    grid_mov_z = 0.0
+                    grid_mov_x = grid_mov_z = 0.0
+                    #stop_rate = 0.01
 
                 elif e.key == K_s:
                     stop_camera = not stop_camera
@@ -258,8 +266,22 @@ def main():
             scale -= 0.02
 
         # ===== ACTUALIZACIÓN =====
+        '''if grid_mov_x >= 0.0:
+            grid_mov_x -= stop_rate
+        else:
+            grid_mov_x = 0.0
+        if grid_mov_z >= 0.0:
+            grid_mov_z -= stop_rate
+        else:
+            grid_mov_z = 0.0'''
+
+        #print(f'GRID X: {grid_mov_x} GRID Z: {grid_mov_z}')
         x += grid_mov_x
         z += grid_mov_z
+        
+        if not stop_camera:
+            last_cam_pos_x = x
+            last_cam_pos_z = z
 
         # ===== LIMITAR MOVIMIEMTO DENTRO DEL GRID =====
         if x - 2 < (-grid_size - 0.1) or x + 2 > (grid_size + 0.1):
@@ -289,7 +311,7 @@ def main():
             glTranslatef(x, y, z)
         else:
             #glTranslatef(0.0, 0.0, 0.0)
-            glTranslatef(0.0, y, 0.0)
+            glTranslatef(last_cam_pos_x, y, last_cam_pos_z)
 
         glCallList(grid)
 
