@@ -54,6 +54,12 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
+def draw_text(font, x, y, text):
+    textSurface = font.render(text, True, (0, 255, 0), (0, 0, 0))
+    textData = pygame.image.tostring(textSurface, "RGBA", True)
+    glWindowPos2d(x, y)
+    glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
+
 def show_controls():
     print("\n--------------------- Controls ---------------------")
 
@@ -96,6 +102,8 @@ def main():
     show_controls()
     pygame.init()
     display = (800, 600)
+
+    font = pygame.font.SysFont('arial',15)
 
     # ========================== ANTIALIASING =========================
     #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
@@ -141,6 +149,8 @@ def main():
     model_angle = 180
     y_tower = 0.0
     sc_y = 0.0
+
+    hide_text = False
 
     stop_camera = False
     last_cam_pos_x = last_cam_pos_z = 0.0
@@ -193,6 +203,9 @@ def main():
                 elif e.key == K_c:
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
+
+                elif e.key == K_j:
+                    hide_text = not hide_text
 
                 elif e.key == K_s:
                     stop_camera = not stop_camera
@@ -323,6 +336,10 @@ def main():
             glPopMatrix()
 
         glPopMatrix()
+        
+        if not hide_text:
+            draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
+            draw_text(font, 10, 552, f'DIRECTION: {direction}')       
 
         pygame.display.flip()
         pygame.time.wait(10)
