@@ -61,7 +61,7 @@ def draw_text(font, x, y, text):
     glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
 def show_controls():
-    print("\n--------------------- Controls ---------------------")
+    print("\n--------------------------- Controls ---------------------------")
 
     print("\nKeyboard Controls (Tank Movement):")
     print("  - Up Arrow: Move tank forward")
@@ -91,9 +91,10 @@ def show_controls():
     print("\nOther Controls")
     print("  - C Key: Stop tank movement")
     print("  - L Key: Reset entire scene")
+    print("  - J Key: Toggle between acritive / inactive camera movement"
     print("  - ESC Key: Exit the program")
 
-    print("\n----------------------------------------------------")
+    print("\n----------------------------------------------------------------")
 
 
 
