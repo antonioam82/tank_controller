@@ -361,7 +361,11 @@ def main():
 
         pygame.display.flip()
         pygame.time.wait(10)
-
+    
+    glDeleteLists(grid, 1)
+    glDeleteLists(model_base, 1)
+    glDeleteLists(model_tower, 1)
+    glDeleteLists(model_bullet, 1)
     pygame.quit()
 
 
