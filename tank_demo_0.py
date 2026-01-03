@@ -91,7 +91,7 @@ def show_controls():
     print("\nOther Controls")
     print("  - C Key: Stop tank movement")
     print("  - L Key: Reset entire scene")
-    print("  - J Key: Toggle between acritive / inactive camera movement"
+    print("  - J Key: Toggle between acritive / inactive camera movement")
     print("  - ESC Key: Exit the program")
 
     print("\n----------------------------------------------------------------")
@@ -344,6 +344,11 @@ def main():
 
         pygame.display.flip()
         pygame.time.wait(10)
+
+    glDeleteLists(grid, 1)
+    glDeleteLists(model_base, 1)
+    glDeleteLists(model_tower, 1)
+    glDeleteLists(model_bullet, 1)
 
     pygame.quit()
 
