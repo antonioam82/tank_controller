@@ -145,7 +145,7 @@ def main():
     # ============== ESTADO ==============
     x = y = z = 0.00                # desplazamiento del mundo
     grid_mov_x = grid_mov_z = 0.0
-    #stop_rate = 0.0
+    stop_rate_x = stop_rate_z = 0.0
     last_cam_pos_x = last_cam_pos_z = 0.0
     
     hide_info = True
@@ -175,28 +175,28 @@ def main():
                     grid_mov_x = 0.0
                     model_angle = 180
                     direction = 'front'
-                    #stop_rate = 0.0
+                    stop_rate_x = stop_rate_z = 0.0
 
                 elif e.key == K_DOWN:
                     grid_mov_z = -0.05
                     grid_mov_x = 0.0
                     model_angle = 0
                     direction = 'back'
-                    #stop_rate = 0.0
+                    stop_rate_x = stop_rate_z = 0.0
 
                 elif e.key == K_LEFT:
                     grid_mov_x = 0.05
                     grid_mov_z = 0.0
                     model_angle = -90
                     direction = 'left'
-                    #stop_rate = 0.0
+                    stop_rate_x = stop_rate_z = 0.0
 
                 elif e.key == K_RIGHT:
                     grid_mov_x = -0.05
                     grid_mov_z = 0.0
                     model_angle = 90
                     direction = 'right'
-                    #stop_rate = 0.0
+                    stop_rate_x = stop_rate_z = 0.0
 
                 elif e.key == K_b:
                     y_tower = 0.0
@@ -206,7 +206,10 @@ def main():
 
                 elif e.key == K_c:
                     grid_mov_x = grid_mov_z = 0.0
-                    #stop_rate = 0.01
+                    if direction == 'front' or direction == 'back':
+                        stop_rate_z = 0.01
+                    elif direction == 'right' or direction == 'left':
+                        stop_rate_x = 0.01
 
                 elif e.key == K_j:
                     hide_info = not hide_info
@@ -357,7 +360,9 @@ def main():
             draw_text(font, 10, 552, f'DIRECTION: {direction}')
             draw_text(font, 10, 534, f'X: {x:.3f}')
             draw_text(font, 10, 516, f'Y: {y:.3f}')
-            draw_text(font, 10, 498, f'Z: {z:.3f}')    
+            draw_text(font, 10, 498, f'Z: {z:.3f}')
+            draw_text(font, 10, 480, f'SRX: {stop_rate_x:.3f}')
+            draw_text(font, 10, 462, f'SRZ: {stop_rate_z:.3f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
