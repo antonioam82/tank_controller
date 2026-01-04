@@ -143,7 +143,7 @@ def main():
     grid = draw_grid()
 
     # ============== ESTADO ==============
-    x = y = z = 0.0                # desplazamiento del mundo
+    x = y = z = 0.00                # desplazamiento del mundo
     grid_mov_x = grid_mov_z = 0.0
     #stop_rate = 0.0
     last_cam_pos_x = last_cam_pos_z = 0.0
@@ -355,9 +355,9 @@ def main():
         if not hide_info:
             draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
             draw_text(font, 10, 552, f'DIRECTION: {direction}')
-            draw_text(font, 10, 534, f'X: {x}')
-            draw_text(font, 10, 516, f'Y: {y}')
-            draw_text(font, 10, 498, f'Z: {z}')    
+            draw_text(font, 10, 534, f'X: {x:.3f}')
+            draw_text(font, 10, 516, f'Y: {y:.3f}')
+            draw_text(font, 10, 498, f'Z: {z:.3f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
