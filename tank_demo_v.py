@@ -143,9 +143,9 @@ def main():
     grid = draw_grid()
 
     # ============== ESTADO ==============
-    x = y = z = 0.00                # desplazamiento del mundo
-    grid_mov_x = grid_mov_z = 0.0
-    stop_rate_x = stop_rate_z = 0.0
+    x = y = z = 0.0000                # desplazamiento del mundo
+    grid_mov_x = grid_mov_z = 0.0000
+    stop_rate_x = stop_rate_z = 0.0000
     last_cam_pos_x = last_cam_pos_z = 0.0
     
     hide_info = True
@@ -171,32 +171,32 @@ def main():
                     running = False
 
                 elif e.key == K_UP:
-                    grid_mov_z = 0.05
-                    grid_mov_x = 0.0
+                    grid_mov_z = 0.1000 #0.05
+                    grid_mov_x = 0.0000
                     model_angle = 180
                     direction = 'front'
-                    stop_rate_x = stop_rate_z = 0.0
+                    stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_DOWN:
-                    grid_mov_z = -0.05
-                    grid_mov_x = 0.0
+                    grid_mov_z = -0.10000 #-0.05
+                    grid_mov_x = 0.0000
                     model_angle = 0
                     direction = 'back'
-                    stop_rate_x = stop_rate_z = 0.0
+                    stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_LEFT:
-                    grid_mov_x = 0.05
-                    grid_mov_z = 0.0
+                    grid_mov_x = 0.0500
+                    grid_mov_z = 0.0000
                     model_angle = -90
                     direction = 'left'
-                    stop_rate_x = stop_rate_z = 0.0
+                    stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_RIGHT:
-                    grid_mov_x = -0.05
-                    grid_mov_z = 0.0
+                    grid_mov_x = -0.05000
+                    grid_mov_z = 0.0000
                     model_angle = 90
                     direction = 'right'
-                    stop_rate_x = stop_rate_z = 0.0
+                    stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_b:
                     y_tower = 0.0
@@ -205,11 +205,11 @@ def main():
                     y_tower = 180
 
                 elif e.key == K_c:
-                    grid_mov_x = grid_mov_z = 0.0
+                    #grid_mov_x = grid_mov_z = 0.0
                     if direction == 'front' or direction == 'back':
-                        stop_rate_z = 0.01
+                        stop_rate_z = 0.0001
                     elif direction == 'right' or direction == 'left':
-                        stop_rate_x = 0.01
+                        stop_rate_x = 0.0001
 
                 elif e.key == K_j:
                     hide_info = not hide_info
@@ -290,6 +290,14 @@ def main():
             grid_mov_z = 0.0'''
 
         #print(f'GRID X: {grid_mov_x} GRID Z: {grid_mov_z}')
+        #if grid_mov_z > 0.0000 or grid_mov_z < 0.0000:
+        #FRENADA PROGRESIVA PARA MOVIMIENTO HACIA ADELANTE
+        if grid_mov_z > 0.0000:
+            grid_mov_z -= stop_rate_z
+
+        #if grid_mov_z < 0.0000:
+            #grid_mov_z += stop_rate_z
+
         x += grid_mov_x
         z += grid_mov_z
         
@@ -358,11 +366,12 @@ def main():
         if not hide_info:
             draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
             draw_text(font, 10, 552, f'DIRECTION: {direction}')
-            draw_text(font, 10, 534, f'X: {x:.3f}')
-            draw_text(font, 10, 516, f'Y: {y:.3f}')
-            draw_text(font, 10, 498, f'Z: {z:.3f}')
-            draw_text(font, 10, 480, f'SRX: {stop_rate_x:.3f}')
-            draw_text(font, 10, 462, f'SRZ: {stop_rate_z:.3f}')    
+            draw_text(font, 10, 534, f'X: {x:.4f}')
+            draw_text(font, 10, 516, f'Y: {y:.4f}')
+            draw_text(font, 10, 498, f'Z: {z:.4f}')
+            draw_text(font, 10, 480, f'SRX: {stop_rate_x:.4f}')
+            draw_text(font, 10, 462, f'SRZ: {stop_rate_z:.4f}')
+            draw_text(font, 10, 444, f'GRID MOV Z: {grid_mov_z:.4f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
