@@ -148,7 +148,7 @@ def main():
     stop_rate_x = stop_rate_z = 0.0000
     last_cam_pos_x = last_cam_pos_z = 0.0
     
-    hide_info = True
+    hide_info = False
 
     model_angle = 180
     y_tower = 0.0
