@@ -171,14 +171,14 @@ def main():
                     running = False
 
                 elif e.key == K_UP:
-                    grid_mov_z = 0.1000 #0.05
+                    grid_mov_z = 0.0500
                     grid_mov_x = 0.0000
                     model_angle = 180
                     direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_DOWN:
-                    grid_mov_z = -0.10000 #-0.05
+                    grid_mov_z = -0.0500 #-0.10000
                     grid_mov_x = 0.0000
                     model_angle = 0
                     direction = 'back'
@@ -219,6 +219,7 @@ def main():
 
                 elif e.key == K_l:
                        x = y = z = 0.0
+                       stop_rate_x = stop_rate_z = 0.0000
                        grid_mov_x = grid_mov_z = 0.0
                        model_angle = 180
                        y_tower = 0.0
@@ -289,14 +290,15 @@ def main():
         else:
             grid_mov_z = 0.0'''
 
-        #print(f'GRID X: {grid_mov_x} GRID Z: {grid_mov_z}')
-        #if grid_mov_z > 0.0000 or grid_mov_z < 0.0000:
         #FRENADA PROGRESIVA PARA MOVIMIENTO HACIA ADELANTE
-        if grid_mov_z > 0.0000:
+
+        if grid_mov_z > 0.0000 and direction == 'front':
             grid_mov_z -= stop_rate_z
 
-        #if grid_mov_z < 0.0000:
-            #grid_mov_z += stop_rate_z
+        if grid_mov_z < 0.0000 and direction == 'back':
+            grid_mov_z += stop_rate_z
+
+        ##################################################
 
         x += grid_mov_x
         z += grid_mov_z
