@@ -371,7 +371,8 @@ def main():
             draw_text(font, 10, 498, f'Z: {z:.4f}')
             draw_text(font, 10, 480, f'SRX: {stop_rate_x:.4f}')
             draw_text(font, 10, 462, f'SRZ: {stop_rate_z:.4f}')
-            draw_text(font, 10, 444, f'GRID MOV Z: {grid_mov_z:.4f}')    
+            draw_text(font, 10, 444, f'GRID MOV X: {grid_mov_x:.4f}')
+            draw_text(font, 10, 426, f'GRID MOV Z: {grid_mov_z:.4f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
