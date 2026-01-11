@@ -152,7 +152,7 @@ def main():
 
     model_angle = 180
     y_tower = 0.0
-    sc_y = 0.0
+    rot_y = 0.0
     stop_camera = False
     scale = 1.0
     direction = 'front'
@@ -223,7 +223,7 @@ def main():
                        grid_mov_x = grid_mov_z = 0.0
                        model_angle = 180
                        y_tower = 0.0
-                       sc_y = 0.0
+                       rot_y = 0.0
                        scale = 1.0
                        direction = 'front'
                        stop_camera = False
@@ -249,9 +249,9 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[K_t]:
-            sc_y += 1.0
+            rot_y += 1.0
         elif keys[K_r]:
-            sc_y -= 1.0
+            rot_y -= 1.0
 
         if keys[K_f]:
             glRotatef(0.5, 1.0, 0.0, 0.0)
@@ -337,7 +337,7 @@ def main():
 
         glPushMatrix()
         glScalef(scale, scale, scale)
-        glRotatef(sc_y, 0, 1, 0)
+        glRotatef(rot_y, 0, 1, 0)
         if not stop_camera:
             glTranslatef(x, y, z)
         else:
@@ -374,14 +374,14 @@ def main():
 
         if not hide_info:
             draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
-            draw_text(font, 10, 552, f'DIRECTION: {direction}')
-            draw_text(font, 10, 534, f'X: {x:.4f}')
-            draw_text(font, 10, 516, f'Y: {y:.4f}')
-            draw_text(font, 10, 498, f'Z: {z:.4f}')
-            draw_text(font, 10, 480, f'SRX: {stop_rate_x:.4f}')
-            draw_text(font, 10, 462, f'SRZ: {stop_rate_z:.4f}')
-            draw_text(font, 10, 444, f'GRID MOV X: {grid_mov_x:.4f}')
-            draw_text(font, 10, 426, f'GRID MOV Z: {grid_mov_z:.4f}')    
+            draw_text(font, 10, 553, f'DIRECTION: {direction}')
+            draw_text(font, 10, 536, f'X: {x:.4f}')
+            draw_text(font, 10, 519, f'Y: {y:.4f}')
+            draw_text(font, 10, 502, f'Z: {z:.4f}')
+            draw_text(font, 10, 485, f'SRX: {stop_rate_x:.4f}')
+            draw_text(font, 10, 468, f'SRZ: {stop_rate_z:.4f}')
+            draw_text(font, 10, 451, f'GRID MOV X: {grid_mov_x:.4f}')
+            draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
