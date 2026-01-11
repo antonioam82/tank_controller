@@ -152,6 +152,7 @@ def main():
 
     model_angle = 180
     y_tower = 0.0
+    rot_x = 0.0
     rot_y = 0.0
     stop_camera = False
     scale = 1.0
@@ -254,9 +255,11 @@ def main():
             rot_y -= 1.0
 
         if keys[K_f]:
-            glRotatef(0.5, 1.0, 0.0, 0.0)
+            rot_x = 0.5
+            glRotatef(rot_x, 1.0, 0.0, 0.0)
         elif keys[K_g]:
-            glRotatef(-0.5, 1.0, 0.0, 0.0)
+            rot_x = -0.5
+            glRotatef(rot_x, 1.0, 0.0, 0.0)
 
         if keys[K_p]:
             y += 0.1
@@ -381,7 +384,10 @@ def main():
             draw_text(font, 10, 485, f'SRX: {stop_rate_x:.4f}')
             draw_text(font, 10, 468, f'SRZ: {stop_rate_z:.4f}')
             draw_text(font, 10, 451, f'GRID MOV X: {grid_mov_x:.4f}')
-            draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')    
+            draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')
+            draw_text(font, 10, 417, f'ROT X: {rot_x}')
+            draw_text(font, 10, 400, f'ROT Y: {rot_y}')
+            draw_text(font, 10, 383, f'TOWER ROT: {y_tower}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
