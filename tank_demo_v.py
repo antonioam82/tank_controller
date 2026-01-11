@@ -290,7 +290,8 @@ def main():
         else:
             grid_mov_z = 0.0'''
 
-        #FRENADA PROGRESIVA PARA MOVIMIENTO HACIA ADELANTE
+        #FRENADA PROGRESIVA####################################
+
         if direction == 'front' or direction == 'back':
             if grid_mov_z > 0.0000 and direction == 'front':
                 grid_mov_z -= stop_rate_z
@@ -304,7 +305,7 @@ def main():
             if grid_mov_x < 0.0000 and direction == 'right':
                 grid_mov_x += stop_rate_x
 
-        ##################################################
+        #######################################################
 
         x += grid_mov_x
         z += grid_mov_z
