@@ -53,6 +53,23 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
+def setup_view_ortho(display):
+    glMatrixMode(GL_PROJECTION)
+    #glLoadIdentity()
+    aspect_ratio = display[0] / display[1]
+    ortho_size = 10
+    glOrtho(-ortho_size * 0.5 * aspect_ratio, ortho_size * 0.5 * aspect_ratio, -ortho_size * 0.5, ortho_size * 0.5, -50, 50)
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
+
+def setup_view_perspective(display):
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(50, (display[0] / display[1]), 0.1, 80)#50.0)
+    glMatrixMode(GL_MODELVIEW)
+    #glLoadIdentity()
+    #glTranslatef(0.0, 0.0, -10.0)
+
 def show_controls():
     print("\n--------------------- Controls ---------------------")
 
@@ -146,6 +163,7 @@ def main():
     grid_mov_x = grid_mov_z = 0.0000
     stop_rate_x = stop_rate_z = 0.0000
     last_cam_pos_x = last_cam_pos_z = 0.0
+    ortographic = False
     
     hide_info = False
 
@@ -169,6 +187,20 @@ def main():
             elif e.type == KEYDOWN:
                 if e.key == K_ESCAPE:
                     running = False
+
+                elif e.key == K_v and (e.mod & KMOD_ALT):
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    glTranslatef(0.0, 0.0, -10.0)
+                    scale = 0.39
+                    glRotatef(90.0, 1.0, 0.0, 0.0)
+
+                #elif  e.key == K_p and (e.mod & KMOD_ALT):
+                    #ortographic = not ortographic
+                    #if ortographic:
+                        #setup_view_ortho(display)
+                    #else:
+                        #setup_view_perspective(display)'''
 
                 elif e.key == K_UP:
                     grid_mov_z = 0.0500
@@ -200,13 +232,6 @@ def main():
 
                 elif e.key == K_b:
                     y_tower = 0.0
-
-                elif e.key == K_v and (e.mod & KMOD_ALT):
-                    glLoadIdentity()
-                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
-                    glTranslatef(0.0, 0.0, -10.0)
-                    scale = 0.39
-                    glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_v:
                     y_tower = 180
