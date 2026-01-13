@@ -30,7 +30,6 @@ def draw_grid():
     glEndList()
     return grid_list
 
-
 def load_object(filename):
     vertices = []
     edges = set()
@@ -201,6 +200,13 @@ def main():
 
                 elif e.key == K_b:
                     y_tower = 0.0
+
+                elif e.key == K_v and (e.mod & KMOD_ALT):
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    glTranslatef(0.0, 0.0, -10.0)
+                    scale = 0.39
+                    glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_v:
                     y_tower = 180
@@ -387,7 +393,8 @@ def main():
             draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')
             draw_text(font, 10, 417, f'ROT X: {rot_x}')
             draw_text(font, 10, 400, f'ROT Y: {rot_y}')
-            draw_text(font, 10, 383, f'TOWER ROT: {y_tower}')    
+            draw_text(font, 10, 383, f'TOWER ROT: {y_tower}')
+            draw_text(font, 10, 366, f'SCALE: {scale:.2f}')    
 
         pygame.display.flip()
         pygame.time.wait(10)
