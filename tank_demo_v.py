@@ -262,6 +262,7 @@ def main():
                        grid_mov_x = grid_mov_z = 0.0
                        model_angle = 180
                        y_tower = 0.0
+                       rot_x = 0.0
                        rot_y = 0.0
                        scale = 1.0
                        direction = 'front'
