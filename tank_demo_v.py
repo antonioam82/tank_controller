@@ -174,6 +174,7 @@ def main():
     model_angle = 180
     y_tower = 0.0
     rot_x = 0.0
+    ROT_X_SPEED = 0.5 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
     scale = 1.0
@@ -292,11 +293,13 @@ def main():
             rot_y -= 1.0
 
         if keys[K_f]:
-            rot_x = 0.5
-            glRotatef(rot_x, 1.0, 0.0, 0.0)
+            #rot_x = 0.5
+            #glRotatef(rot_x, 1.0, 0.0, 0.0)
+            rot_x += ROT_X_SPEED
         elif keys[K_g]:
-            rot_x = -0.5
-            glRotatef(rot_x, 1.0, 0.0, 0.0)
+            #rot_x = -0.5
+            #glRotatef(rot_x, 1.0, 0.0, 0.0)
+            rot_x -= ROT_X_SPEED
 
         if keys[K_p]:
             y += 0.1
@@ -383,7 +386,8 @@ def main():
 
         glPushMatrix()
         glScalef(scale, scale, scale)
-        glRotatef(rot_y, 0, 1, 0)
+        glRotatef(rot_x, 1.0, 0.0, 0.0)
+        glRotatef(rot_y, 0.0, 1.0, 0.0)
         if not stop_camera:
             glTranslatef(x, y, z)
         else:
