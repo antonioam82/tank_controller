@@ -167,6 +167,10 @@ def main():
     
     hide_info = False
 
+    act_anim = False
+    dest_scale = 0.81
+
+
     model_angle = 180
     y_tower = 0.0
     rot_x = 0.0
@@ -193,6 +197,8 @@ def main():
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10.0)
                     scale = 0.39
+                    dest_scale = 0.81
+                    act_anim = True
                     glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
@@ -323,6 +329,12 @@ def main():
             grid_mov_z -= stop_rate
         else:
             grid_mov_z = 0.0'''
+
+        if act_anim:
+            if scale < dest_scale:
+                scale += 0.01
+            else:
+                act_anim = False
 
         #FRENADA PROGRESIVA####################################
 
