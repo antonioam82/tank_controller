@@ -133,7 +133,7 @@ def main():
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
     glTranslatef(0, 0, -10)
-    glRotatef(35, 1, 0, 0)
+    #glRotatef(35, 1, 0, 0)
     glEnable(GL_DEPTH_TEST)
 
     base = os.path.dirname(__file__)
@@ -169,12 +169,12 @@ def main():
 
     act_anim = False
     dest_scale = 0.81
-    dest_rot_x = -88.5
+    dest_rot_x = 1.0 #-88.5
 
 
     model_angle = 180
     y_tower = 0.0
-    rot_x = 0.0
+    rot_x = 35.0 #0.0
     ROT_X_SPEED = 0.5 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
@@ -198,10 +198,11 @@ def main():
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10.0)
+                    rot_x = 90############################
                     scale = 0.39
                     dest_scale = 0.81
                     act_anim = True
-                    glRotatef(90.0, 1.0, 0.0, 0.0)
+                    #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
