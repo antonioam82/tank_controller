@@ -169,6 +169,7 @@ def main():
 
     act_anim = False
     dest_scale = 0.81
+    dest_rot_x = -88.5
 
 
     model_angle = 180
@@ -337,6 +338,8 @@ def main():
         if act_anim:
             if scale < dest_scale:
                 scale += 0.01
+            elif rot_x > dest_rot_x:
+                rot_x -= 1.0
             else:
                 act_anim = False
 
