@@ -170,6 +170,10 @@ def main():
     act_anim = False
     dest_scale = 0.81
     dest_rot_x = 1.0 #-88.5
+    act_anim2 = False
+    dest_rot_y = -152.0
+    #dest_rot_x = -28.0
+    act_anim3 = False
 
 
     model_angle = 180
@@ -178,7 +182,7 @@ def main():
     ROT_X_SPEED = 0.5 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
-    scale = 1.0
+    scale = 1.00
     direction = 'front'
 
     bullets = []
@@ -194,7 +198,7 @@ def main():
                 if e.key == K_ESCAPE:
                     running = False
 
-                elif e.key == K_v and (e.mod & KMOD_ALT):
+                elif e.key == K_1 and (e.mod & KMOD_ALT):
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10.0)
@@ -202,7 +206,15 @@ def main():
                     scale = 0.39
                     dest_scale = 0.81
                     act_anim = True
+                    dest_rot_x = 1.0
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
+
+                elif e.key == K_2 and (e.mod & KMOD_ALT):
+                    act_anim2 = True
+
+                elif e.key == K_3 and (e.mod & KMOD_ALT):
+                    act_anim3 = True
+                    dest_rot_x = 6.3
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
@@ -327,14 +339,6 @@ def main():
             scale -= 0.02
 
         # ===== ACTUALIZACIÓN =====
-        '''if grid_mov_x >= 0.0:
-            grid_mov_x -= stop_rate
-        else:
-            grid_mov_x = 0.0
-        if grid_mov_z >= 0.0:
-            grid_mov_z -= stop_rate
-        else:
-            grid_mov_z = 0.0'''
 
         if act_anim:
             if scale < dest_scale:
@@ -343,6 +347,18 @@ def main():
                 rot_x -= 1.0
             else:
                 act_anim = False
+
+        if act_anim2:
+            if rot_y > dest_rot_y:
+                rot_y -= 1.0
+            else:
+                act_anim2 = False
+
+        if act_anim3:
+            if rot_x < dest_rot_x:
+                rot_x += 0.1
+            else:
+                act_anim3 = False
 
         #FRENADA PROGRESIVA####################################
 
@@ -437,9 +453,9 @@ def main():
             draw_text(font, 10, 468, f'SRZ: {stop_rate_z:.4f}')
             draw_text(font, 10, 451, f'GRID MOV X: {grid_mov_x:.4f}')
             draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')
-            draw_text(font, 10, 417, f'ROT X: {rot_x}')
+            draw_text(font, 10, 417, f'ROT X: {rot_x:.4f}')
             draw_text(font, 10, 400, f'ROT Y: {rot_y}')
-            draw_text(font, 10, 383, f'TOWER ROT: {y_tower}')
+            draw_text(font, 10, 383, f'TOWER ROT: {y_tower:.4f}')
             draw_text(font, 10, 366, f'SCALE: {scale:.2f}')    
 
         pygame.display.flip()
