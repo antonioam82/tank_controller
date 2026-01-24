@@ -47,7 +47,7 @@ def load_object(filename):
                 faces.append(face_indices)
                 for i in range(len(face_indices)):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
-                    
+             
     return vertices, edges, faces
 
 
@@ -58,6 +58,13 @@ def draw_model(path):
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
+    if path != 'C:\\Users\\Usuario\\Documents\\repositorios\\tank_controller\\tanque\\bullet.obj':
+        glBegin(GL_QUADS)
+        glColor3f(0.1, 0.1, 0.1)
+        for face in f:
+            for vertex in face:
+                glVertex3fv(v[vertex])
+        glEnd()
 
 def setup_view_ortho(display):
     glMatrixMode(GL_PROJECTION)
@@ -439,6 +446,7 @@ def main():
 
         # ===== TANQUE =====
         glPushMatrix()
+        glLineWidth(2.0)
         glColor3f(0.0,1.0,0.0)
         glTranslatef(-x, 0.2, -z)
         glRotatef(model_angle, 0, 1, 0)
@@ -447,7 +455,8 @@ def main():
         glRotatef(y_tower, 0, 1, 0)
         glCallList(model_tower)
         glPopMatrix()
-
+        
+        glColor3f(0.0,1.0,0.0)
         glCallList(model_base)
         glPopMatrix()
 
