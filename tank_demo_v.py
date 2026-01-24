@@ -174,6 +174,8 @@ def main():
     dest_rot_y = -152.0
     #dest_rot_x = -28.0
     act_anim3 = False
+    act_anim4 = False
+    dest_y_tower = 62.0
 
 
     model_angle = 180
@@ -215,6 +217,9 @@ def main():
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
                     act_anim3 = True
                     dest_rot_x = 6.3
+                
+                elif e.key == K_4 and (e.mod & KMOD_ALT):
+                    act_anim4 = True
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
@@ -339,7 +344,8 @@ def main():
             scale -= 0.02
 
         # ===== ACTUALIZACIÓN =====
-
+        
+        #--------------animaciones--------------#
         if act_anim:
             if scale < dest_scale:
                 scale += 0.01
@@ -359,6 +365,14 @@ def main():
                 rot_x += 0.1
             else:
                 act_anim3 = False
+
+        if act_anim4:
+            if y_tower < dest_y_tower:
+                y_tower += 1.0
+            else:
+                act_anim4 = False
+        
+        #----------------------------------------#
 
         #FRENADA PROGRESIVA####################################
 
