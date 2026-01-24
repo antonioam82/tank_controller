@@ -194,6 +194,7 @@ def main():
     model_angle = 180
     y_tower = 0.0
     rot_x = 35.0 #0.0
+    dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ROT_X_SPEED = 0.5 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
