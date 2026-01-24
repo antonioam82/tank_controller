@@ -31,22 +31,28 @@ def draw_grid():
     return grid_list
 
 def load_object(filename):
+    face_indices = []
+    faces = []
     vertices = []
     edges = set()
-    with open(filename, 'r') as f:
-        for line in f:
-            p = line.split()
+    with open(filename, 'r') as file:
+        for line in file:
             if line.startswith('v '):
-                vertices.append([float(p[1]), float(p[2]), float(p[3])])
+                parts = line.strip().split()
+                vertex = [float(parts[1]), float(parts[2]), float(parts[3])]
+                vertices.append(vertex)
             elif line.startswith('f '):
-                idx = [int(i) - 1 for i in p[1:]]
-                for i in range(len(idx)):
-                    edges.add(tuple(sorted((idx[i], idx[(i + 1) % len(idx)]))))
-    return vertices, edges
+                parts = line.strip().split()
+                face_indices = [int(part) - 1 for part in parts[1:]]
+                faces.append(face_indices)
+                for i in range(len(face_indices)):
+                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
+                    
+    return vertices, edges, faces
 
 
 def draw_model(path):
-    v, e = load_object(path)
+    v, e, f = load_object(path)
     glBegin(GL_LINES)
     for a, b in e:
         glVertex3f(*v[a])
