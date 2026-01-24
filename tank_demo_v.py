@@ -58,7 +58,7 @@ def draw_model(path):
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
-    if path != 'C:\\Users\\Usuario\\Documents\\repositorios\\tank_controller\\tanque\\bullet.obj':
+    if os.path.basename(path) != 'bullet.obj':
         glBegin(GL_QUADS)
         glColor3f(0.1, 0.1, 0.1)
         for face in f:
