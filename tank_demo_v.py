@@ -226,7 +226,7 @@ def main():
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10.0)
-                    rot_x = 90############################
+                    rot_x = 90  ############################
                     scale = 0.39
                     dest_scale = 0.81
                     act_anim = True
