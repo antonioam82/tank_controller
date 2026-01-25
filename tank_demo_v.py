@@ -490,7 +490,7 @@ def main():
             draw_text(font, 10, 485, f'SRX: {stop_rate_x:.4f}')
             draw_text(font, 10, 468, f'SRZ: {stop_rate_z:.4f}')
             draw_text(font, 10, 451, f'GRID MOV X: {grid_mov_x:.4f}')
-            draw_text(font, 10, 434, f'GRID MOVZ: {grid_mov_z:.4f}')
+            draw_text(font, 10, 434, f'GRID MOV Z: {grid_mov_z:.4f}')
             draw_text(font, 10, 417, f'ROT X: {rot_x:.4f}')
             draw_text(font, 10, 400, f'ROT Y: {rot_y}')
             draw_text(font, 10, 383, f'TOWER ROT: {y_tower:.4f}')
