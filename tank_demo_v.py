@@ -53,11 +53,18 @@ def load_object(filename):
 
 def draw_model(path):
     v, e, f = load_object(path)
+    if os.path.basename(path) == 'bullet.obj':
+        glColor3f(0.0,1.0,0.0)
+        glLineWidth(1.0)
+    else: 
+        glColor3f(1.0,0.0,0.0)
+        glLineWidth(2.0)
     glBegin(GL_LINES)
     for a, b in e:
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
+
     if os.path.basename(path) != 'bullet.obj':
         glBegin(GL_QUADS)
         glColor3f(0.1, 0.1, 0.1)
@@ -65,6 +72,7 @@ def draw_model(path):
             for vertex in face:
                 glVertex3fv(v[vertex])
         glEnd()
+
 
 def setup_view_ortho(display):
     glMatrixMode(GL_PROJECTION)
@@ -447,8 +455,8 @@ def main():
 
         # ===== TANQUE =====
         glPushMatrix()
-        glLineWidth(2.0)
-        glColor3f(0.0,1.0,0.0)
+        #glLineWidth(2.0)
+        #glColor3f(0.0,1.0,0.0)
         glTranslatef(-x, 0.2, -z)
         glRotatef(model_angle, 0, 1, 0)
 
@@ -457,14 +465,14 @@ def main():
         glCallList(model_tower)
         glPopMatrix()
         
-        glColor3f(0.0,1.0,0.0)
+        #glColor3f(0.0,1.0,0.0)
         glCallList(model_base)
         glPopMatrix()
 
         # ===== BALAS (MUNDO REAL) =====
         for b in bullets:
             glPushMatrix()
-            glColor3f(1.0,0.0,0.0)
+            #glLineWidth(1.0)
             glTranslatef(b["pos"][0], b["pos"][1], b["pos"][2])
             ang = math.degrees(math.atan2(b["dir"][0], b["dir"][2]))
             glRotatef(ang, 0, 1, 0)
