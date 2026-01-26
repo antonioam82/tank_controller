@@ -52,20 +52,23 @@ def load_object(filename):
 
 
 def draw_model(path):
+    model_name = os.path.basename(path)
     v, e, f = load_object(path)
-    if os.path.basename(path) == 'bullet.obj':
+    #glColor3f(0.0,1.0,0.0) if model_name == 'bullet.obj' else glColor3f(1.0,0.0,0.0), glLineWidth(2.0) 
+    if model_name == 'bullet.obj':
         glColor3f(0.0,1.0,0.0)
         glLineWidth(1.0)
     else: 
         glColor3f(1.0,0.0,0.0)
         glLineWidth(2.0)
+
     glBegin(GL_LINES)
     for a, b in e:
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
 
-    if os.path.basename(path) != 'bullet.obj':
+    if model_name != 'bullet.obj':
         glBegin(GL_QUADS)
         glColor3f(0.1, 0.1, 0.1)
         for face in f:
