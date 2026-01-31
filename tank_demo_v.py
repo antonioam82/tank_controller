@@ -6,6 +6,7 @@ from OpenGL.GLU import *
 import math
 import os
 
+
 # ================= GRID =================
 grid_size = 110
 grid_spacing = 1
@@ -192,6 +193,7 @@ def main():
     hide_info = False
 
     act_anim = False
+    cen_counter = 0.0
     dest_scale = 0.81
     dest_rot_x = 1.0 #-88.5
     act_anim2 = False
@@ -200,10 +202,6 @@ def main():
     act_anim3 = False
     act_anim4 = False
     dest_y_tower = 62.0
-
-    dest_model_angle = 0.0
-    rotating = False
-    rot_completed = False
 
 
     model_angle = 180
@@ -228,6 +226,16 @@ def main():
             elif e.type == KEYDOWN:
                 if e.key == K_ESCAPE:
                     running = False
+                
+                elif e.key == K_0 and (e.mod & KMOD_ALT):
+                    print("HWLLO!")
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    rot_x = 0.0
+                    scale = 0.39
+                    glTranslatef(0.0, 0.0, -10.0)
+                    glRotatef(90.0, 1.0, 0.0, 0.0)
+
 
                 elif e.key == K_1 and (e.mod & KMOD_ALT):
                     glLoadIdentity()
@@ -238,6 +246,7 @@ def main():
                     dest_scale = 0.81
                     act_anim = True
                     dest_rot_x = 1.0
+                    cen_counter = 0.0
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
@@ -257,19 +266,12 @@ def main():
                     #else:
                         #setup_view_perspective(display)'''
 
-                elif e.key == K_UP or rot_completed:
+                elif e.key == K_UP:
+                    grid_mov_z = 0.0500
+                    grid_mov_x = 0.0000
+                    model_angle = 180
                     direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
-                    if rot_completed:
-                        print("jjhgjgjjgghgghghhhghj")
-                        rot_completed = False
-                        grid_mov_z = 0.0500
-                        grid_mov_x = 0.0000
-                        #model_angle = 180 #######################################
-                        rotating = False
-                    else:
-                        rotating = True
-                        dest_model_angle = 180
 
                 elif e.key == K_DOWN:
                     grid_mov_z = -0.0500 #-0.10000
@@ -407,12 +409,6 @@ def main():
                 y_tower += 1.0
             else:
                 act_anim4 = False
-
-        if rotating:
-            if model_angle < dest_model_angle:
-                model_angle += 4.0
-            else:
-                rot_completed = True
         
         #----------------------------------------#
 
@@ -527,3 +523,4 @@ def main():
 
 
 main()
+
