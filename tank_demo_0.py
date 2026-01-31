@@ -152,6 +152,8 @@ def main():
     sc_y = 0.0
 
     hide_text = False
+    dest_model_angle = 0.0
+    rotating = False
 
     stop_camera = False
     last_cam_pos_x = last_cam_pos_z = 0.0
@@ -172,9 +174,10 @@ def main():
                     running = False
 
                 elif e.key == K_UP:
-                    grid_mov_z = 0.05
-                    grid_mov_x = 0.0
-                    model_angle = 180
+                    rotating = True
+                    #grid_mov_z = 0.05
+                    #grid_mov_x = 0.0
+                    dest_model_angle = 180
                     direction = 'front'
 
                 elif e.key == K_DOWN:
@@ -280,6 +283,19 @@ def main():
         if not stop_camera:
             last_cam_pos_x = x
             last_cam_pos_z = z
+
+        # -----------------GIRO CAMBIO---------------- #
+        if rotating:
+            grid_mov_z = 0.0
+            grid_mov_x = 0.0
+            if model_angle < dest_model_angle:
+                model_angle += 3.0
+            else:
+                grid_mov_z = 0.05
+                grid_mov_x = 0.0
+                rotating = False
+        # -------------------------------------------- #
+            
 
         # ===== LIMITAR MOVIMIEMTO DENTRO DEL GRID =====
         if x - 2 < (-grid_size - 0.1) or x + 2 > (grid_size + 0.1):
