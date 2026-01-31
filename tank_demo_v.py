@@ -203,6 +203,10 @@ def main():
     act_anim4 = False
     dest_y_tower = 62.0
 
+    dest_model_angle = 0.0
+    rotating = False
+    rot_completed = False
+
 
     model_angle = 180
     y_tower = 0.0
@@ -266,12 +270,19 @@ def main():
                     #else:
                         #setup_view_perspective(display)'''
 
-                elif e.key == K_UP:
-                    grid_mov_z = 0.0500
-                    grid_mov_x = 0.0000
-                    model_angle = 180
+                elif e.key == K_UP or rot_completed:
                     direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
+                    if rot_completed:
+                        print("jjhgjgjjgghgghghhhghj")
+                        rot_completed = False
+                        grid_mov_z = 0.0500
+                        grid_mov_x = 0.0000
+                        #model_angle = 180 #######################################
+                        rotating = False
+                    else:
+                        rotating = True
+                        dest_model_angle = 180
 
                 elif e.key == K_DOWN:
                     grid_mov_z = -0.0500 #-0.10000
@@ -409,6 +420,12 @@ def main():
                 y_tower += 1.0
             else:
                 act_anim4 = False
+
+        if rotating:
+            if model_angle < dest_model_angle:
+                model_angle += 4.0
+            else:
+                rot_completed = True
         
         #----------------------------------------#
 
