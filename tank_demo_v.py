@@ -6,7 +6,6 @@ from OpenGL.GLU import *
 import math
 import os
 
-
 # ================= GRID =================
 grid_size = 110
 grid_spacing = 1
@@ -193,7 +192,6 @@ def main():
     hide_info = False
 
     act_anim = False
-    cen_counter = 0.0
     dest_scale = 0.81
     dest_rot_x = 1.0 #-88.5
     act_anim2 = False
@@ -230,16 +228,6 @@ def main():
             elif e.type == KEYDOWN:
                 if e.key == K_ESCAPE:
                     running = False
-                
-                elif e.key == K_0 and (e.mod & KMOD_ALT):
-                    print("HWLLO!")
-                    glLoadIdentity()
-                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
-                    rot_x = 0.0
-                    scale = 0.39
-                    glTranslatef(0.0, 0.0, -10.0)
-                    glRotatef(90.0, 1.0, 0.0, 0.0)
-
 
                 elif e.key == K_1 and (e.mod & KMOD_ALT):
                     glLoadIdentity()
@@ -250,7 +238,6 @@ def main():
                     dest_scale = 0.81
                     act_anim = True
                     dest_rot_x = 1.0
-                    cen_counter = 0.0
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
