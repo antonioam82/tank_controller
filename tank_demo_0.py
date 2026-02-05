@@ -181,21 +181,22 @@ def main():
                     direction = 'front'
 
                 elif e.key == K_DOWN:
-                    grid_mov_z = -0.05
-                    grid_mov_x = 0.0
-                    model_angle = 0
+                    rotating = True
+                    #grid_mov_z = -0.05
+                    #grid_mov_x = 0.0
+                    dest_model_angle = 0
                     direction = 'back'
 
                 elif e.key == K_LEFT:
-                    grid_mov_x = 0.05
-                    grid_mov_z = 0.0
-                    model_angle = -90
+                    rotating = True
+                    #grid_mov_x = 0.05
+                    #grid_mov_z = 0.0
+                    dest_model_angle = -90
                     direction = 'left'
 
                 elif e.key == K_RIGHT:
-                    grid_mov_x = -0.05
-                    grid_mov_z = 0.0
-                    model_angle = 90
+                    rotating = True
+                    dest_model_angle = 90
                     direction = 'right'
 
                 elif e.key == K_b:
@@ -285,15 +286,37 @@ def main():
             last_cam_pos_z = z
 
         # -----------------GIRO CAMBIO---------------- #
+        #print(direction)
         if rotating:
             grid_mov_z = 0.0
             grid_mov_x = 0.0
-            if model_angle < dest_model_angle:
-                model_angle += 3.0
+            if direction == 'front' or direction == 'right':
+                #print("hheeeheh")
+                if model_angle < dest_model_angle:
+                    model_angle += 3.0
+                else:
+                    if direction == 'front':
+                        grid_mov_z = 0.05
+                        grid_mov_x = 0.0
+                        rotating = False
+                    else:
+                        grid_mov_x = -0.05
+                        grid_mov_z = 0.0
+                        rotating = False
             else:
-                grid_mov_z = 0.05
-                grid_mov_x = 0.0
-                rotating = False
+                if model_angle > dest_model_angle:
+                    model_angle -= 3.0
+                else:
+                    if direction == 'back':
+                        grid_mov_z = -0.05
+                        grid_mov_x = 0.0
+                        rotating = False
+                    else:
+                        grid_mov_x = 0.05
+                        grid_mov_z = 0.0
+                        rotating = False
+                        
+
         # -------------------------------------------- #
             
 
