@@ -379,7 +379,9 @@ def main():
         
         if not hide_text:
             draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
-            draw_text(font, 10, 552, f'DIRECTION: {direction}')       
+            draw_text(font, 10, 552, f'DIRECTION: {direction}')
+            draw_text(font, 10, 532, f'DEST ANGLE: {dest_model_angle}')
+            draw_text(font, 10, 512, f'MODL ANGLE: {model_angle}')       
 
         pygame.display.flip()
         pygame.time.wait(10)
