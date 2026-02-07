@@ -152,13 +152,14 @@ def main():
     sc_y = 0.0
 
     hide_text = False
-    dest_model_angle = 0.0
+    dest_model_angle = 180
     rotating = False
 
     stop_camera = False
     last_cam_pos_x = last_cam_pos_z = 0.0
     scale = 1.0
     direction = 'front'
+    new_direction = 'front' ##################################
 
     bullets = []
     bullet_speed = 0.5 #0.2
