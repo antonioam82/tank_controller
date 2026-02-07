@@ -53,11 +53,16 @@ def load_object(filename):
 
 
 def draw_model(path):
+    # HABILITAR TRANSPARENCIA
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
     model_name = os.path.basename(path)
     v, e, f = load_object(path)
-    #glColor3f(0.0,1.0,0.0) if model_name == 'bullet.obj' else glColor3f(1.0,0.0,0.0), glLineWidth(2.0) 
+    #glColor3f(0.0,1.0,0.0) if model_name == 'bullet.obj' else glColor3f(1.0,0.0,0.0), glLineWidth(2.0)
+ 
     if model_name == 'bullet.obj':
-        glColor3f(0.0,1.0,0.0)
+        glColor4f(0.0,1.0,0.0,0.5)
         glLineWidth(1.0)
     else: 
         glColor3f(1.0,0.0,0.0)
@@ -69,14 +74,15 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
+    glBegin(GL_QUADS)
     if model_name != 'bullet.obj':
-        glBegin(GL_QUADS)
         glColor3f(0.1, 0.1, 0.1)
-        for face in f:
-            for vertex in face:
-                glVertex3fv(v[vertex])
-        glEnd()
-
+    else:
+        glColor4f(0.0, 1.0, 0.0, 0.1)
+    for face in f:
+        for vertex in face:
+            glVertex3fv(v[vertex])
+    glEnd()
 
 def setup_view_ortho(display):
     glMatrixMode(GL_PROJECTION)
@@ -141,20 +147,20 @@ def draw_text(font, x, y, text):
 def main():
     show_controls()
     pygame.init()
-    #display = (800, 600)
-    display = (1600, 900)
+    display = (800, 600)
+    #display = (1600, 900)
 
     font = pygame.font.SysFont('arial',15)
 
     # ========================== ANTIALIASING =========================
-    pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
-    pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+    #pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-    glEnable(GL_MULTISAMPLE)
-    glEnable(GL_LINE_SMOOTH)
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    #glEnable(GL_MULTISAMPLE)
+    #glEnable(GL_LINE_SMOOTH)
+    #glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
     # =================================================================
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
