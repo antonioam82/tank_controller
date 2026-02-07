@@ -141,19 +141,20 @@ def draw_text(font, x, y, text):
 def main():
     show_controls()
     pygame.init()
-    display = (800, 600)
+    #display = (800, 600)
+    display = (1600, 900)
 
     font = pygame.font.SysFont('arial',15)
 
     # ========================== ANTIALIASING =========================
-    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
-    #pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+    pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+    pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-    #glEnable(GL_MULTISAMPLE)
-    #glEnable(GL_LINE_SMOOTH)
-    #glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    glEnable(GL_MULTISAMPLE)
+    glEnable(GL_LINE_SMOOTH)
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
     # =================================================================
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
@@ -190,7 +191,7 @@ def main():
     last_cam_pos_x = last_cam_pos_z = 0.0
     ortographic = False
     
-    hide_info = False
+    hide_info = True
 
     act_anim = False
     cen_counter = 0.0
