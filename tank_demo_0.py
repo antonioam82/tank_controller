@@ -176,27 +176,29 @@ def main():
 
                 elif e.key == K_UP:
                     rotating = True
-                    #grid_mov_z = 0.05
-                    #grid_mov_x = 0.0
+                    grid_mov_z = 0.0
+                    grid_mov_x = 0.0
                     dest_model_angle = 180
                     direction = 'front'
 
                 elif e.key == K_DOWN:
                     rotating = True
-                    #grid_mov_z = -0.05
-                    #grid_mov_x = 0.0
+                    grid_mov_z = 0.0
+                    grid_mov_x = 0.0
                     dest_model_angle = 0
                     direction = 'back'
 
                 elif e.key == K_LEFT:
                     rotating = True
-                    #grid_mov_x = 0.05
-                    #grid_mov_z = 0.0
+                    grid_mov_x = 0.0
+                    grid_mov_z = 0.0
                     dest_model_angle = -90
                     direction = 'left'
 
                 elif e.key == K_RIGHT:
                     rotating = True
+                    grid_mov_z = 0.0
+                    grid_mov_x = 0.0
                     dest_model_angle = 90
                     direction = 'right'
 
@@ -289,8 +291,8 @@ def main():
         # -----------------GIRO CAMBIO---------------- #
         #print(direction)
         if rotating:
-            grid_mov_z = 0.0
-            grid_mov_x = 0.0
+            #grid_mov_z = 0.0
+            #grid_mov_x = 0.0
             if direction == 'front' or direction == 'right':
                 #print("hheeeheh")
                 if model_angle < dest_model_angle:
