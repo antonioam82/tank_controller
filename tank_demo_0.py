@@ -178,29 +178,29 @@ def main():
                     rotating = True
                     grid_mov_z = 0.0
                     grid_mov_x = 0.0
-                    dest_model_angle = 180
-                    direction = 'front'
+                    #dest_model_angle = 180
+                    new_direction = 'front'
 
                 elif e.key == K_DOWN:
                     rotating = True
                     grid_mov_z = 0.0
                     grid_mov_x = 0.0
-                    dest_model_angle = 0
-                    direction = 'back'
+                    #dest_model_angle = 0
+                    new_direction = 'back'
 
                 elif e.key == K_LEFT:
                     rotating = True
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
-                    dest_model_angle = -90
-                    direction = 'left'
+                    #dest_model_angle = -90
+                    new_direction = 'left'
 
                 elif e.key == K_RIGHT:
                     rotating = True
                     grid_mov_z = 0.0
                     grid_mov_x = 0.0
-                    dest_model_angle = 90
-                    direction = 'right'
+                    #dest_model_angle = 90
+                    new_direction = 'right'
 
                 elif e.key == K_b:
                     y_tower = 0.0
@@ -290,7 +290,7 @@ def main():
 
         # -----------------GIRO CAMBIO---------------- #
         #print(direction)
-        if rotating:
+        '''if rotating:
             #grid_mov_z = 0.0
             #grid_mov_x = 0.0
             if direction == 'front' or direction == 'right':
@@ -317,7 +317,62 @@ def main():
                     else:
                         grid_mov_x = 0.05
                         grid_mov_z = 0.0
+                        rotating = False'''
+        if rotating:
+            model_angle
+            if direction == 'front':
+                if new_direction == 'right':
+                    #dest_model_angle = 90 ############################################
+                    if model_angle > 90:
+                        model_angle -= 3.0
+                    else:
+                        grid_mov_x = -0.05
+                        grid_mov_z = 0.0
+                        direction = new_direction
                         rotating = False
+                elif new_direction == 'left':
+                    if model_angle < 270:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_x = 0.05
+                        grid_mov_z = 0.00
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'back':
+                    if model_angle > 0:
+                        model_angle -= 3.0
+                    else:
+                        grid_mov_x = 0.00
+                        grid_mov_z = -0.05
+                        direction = new_direction
+                        rotating = False
+            elif direction == 'right':
+                if new_direction == 'front':
+                    if model_angle < 180:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_x = 0.00
+                        grid_mov_z = 0.05
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'left':
+                    if model_angle < 270:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_x = 0.05
+                        grid_mov_z = 0.00
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'back':
+                    if model_angle > 0:
+                        model_angle -= 3.0
+                    else:
+                        grid_mov_x = 0.00
+                        grid_mov_z = -0.05
+                        direction = new_direction
+                        rotating = False                              
+                        
+
                         
 
         # -------------------------------------------- #
