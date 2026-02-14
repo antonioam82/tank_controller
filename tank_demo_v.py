@@ -165,7 +165,7 @@ def main():
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
     glTranslatef(0, 0, -10)
-    #glRotatef(35, 1, 0, 0)
+    #glRotatef(35, 1, 0, 0)#!
     glEnable(GL_DEPTH_TEST)
 
     base = os.path.dirname(__file__)
