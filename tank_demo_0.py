@@ -175,11 +175,14 @@ def main():
                     running = False
 
                 elif e.key == K_UP:
-                    rotating = True
-                    grid_mov_z = 0.0
-                    grid_mov_x = 0.0
-                    #dest_model_angle = 180
                     new_direction = 'front'
+                    if direction != new_direction:
+                        rotating = True
+                        grid_mov_z = 0.0
+                        grid_mov_x = 0.0
+                    else:
+                        grid_mov_x = 0.0
+                        grid_mov_z = 0.05
 
                 elif e.key == K_DOWN:
                     rotating = True
