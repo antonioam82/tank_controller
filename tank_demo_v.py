@@ -353,9 +353,9 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[K_t]:
-            rot_y += 1.0
+            rot_y += 0.5
         elif keys[K_r]:
-            rot_y -= 1.0
+            rot_y -= 0.5
 
         if keys[K_f]:
             #rot_x = 0.5
@@ -401,7 +401,7 @@ def main():
 
         if act_anim2:
             if rot_y > dest_rot_y:
-                rot_y -= 1.0
+                rot_y -= 0.5
             else:
                 act_anim2 = False
 
