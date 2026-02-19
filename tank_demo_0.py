@@ -374,6 +374,32 @@ def main():
                         grid_mov_z = -0.05
                         direction = new_direction
                         rotating = False                              
+            elif direction == 'left':
+                if new_direction == 'front':
+                    if model_angle > 180:
+                        model_angle -= 3.0
+                    else:
+                        grid_mov_z = 0.0500
+                        grid_mov_x = 0.0000
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'back':
+                    if model_angle < 360:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_z = -0.0500
+                        grid_mov_x = 0.0000
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'right':
+                    if model_angle > 90:
+                        model_angle -= 3.0
+                    else:
+                        grid_mov_x = -0.05000
+                        grid_mov_z = 0.0000
+                        direction = new_direction
+                        rotating = False
+                                  
                         
 
                         
