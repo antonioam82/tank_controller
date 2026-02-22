@@ -142,6 +142,15 @@ def draw_text(font, x, y, text):
     glWindowPos2d(x, y)
     glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
+def stop_movement(direction):
+    stop_rate_z = 0.0000
+    stop_rate_x = 0.0000
+    if direction == 'front' or direction == 'back':
+        stop_rate_z = 0.0001
+    elif direction == 'right' or direction == 'left':
+        stop_rate_x = 0.0001
+    return stop_rate_x, stop_rate_z
+
 
 # ================= MAIN =================
 def main():
@@ -197,7 +206,7 @@ def main():
     last_cam_pos_x = last_cam_pos_z = 0.0
     ortographic = False
     
-    hide_info = True
+    hide_info = False
 
     act_anim = False
     cen_counter = 0.0
@@ -235,7 +244,6 @@ def main():
                     running = False
                 
                 elif e.key == K_0 and (e.mod & KMOD_ALT):
-                    print("HWLLO!")
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     rot_x = 0.0
@@ -309,10 +317,7 @@ def main():
 
                 elif e.key == K_c:
                     #grid_mov_x = grid_mov_z = 0.0
-                    if direction == 'front' or direction == 'back':
-                        stop_rate_z = 0.0001
-                    elif direction == 'right' or direction == 'left':
-                        stop_rate_x = 0.0001
+                    stop_rate_x, stop_rate_z = stop_movement(direction)
 
                 elif e.key == K_j:
                     hide_info = not hide_info
@@ -402,6 +407,8 @@ def main():
         if act_anim2:
             if rot_y > dest_rot_y:
                 rot_y -= 0.5
+            #elif rot_x < dest_rot_x:
+                #rot_x += 0.1
             else:
                 act_anim2 = False
 
