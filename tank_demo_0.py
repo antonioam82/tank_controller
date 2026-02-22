@@ -150,6 +150,7 @@ def main():
     model_angle = 180
     y_tower = 0.0
     sc_y = 0.0
+    current = None
 
     hide_text = False
     dest_model_angle = 180
@@ -399,10 +400,32 @@ def main():
                         grid_mov_z = 0.0000
                         direction = new_direction
                         rotating = False
-                                  
-                        
-
-                        
+            elif direction == 'back':
+                if new_direction == 'front':
+                    if model_angle < 180:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_x = 0.00
+                        grid_mov_z = 0.05
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'right':
+                    if model_angle < 90:
+                        model_angle += 3.0
+                    else:
+                        grid_mov_x = -0.05
+                        grid_mov_z = 0.0
+                        direction = new_direction
+                        rotating = False
+                elif new_direction == 'left':
+                    model_angle = 270
+                    '''if model_angle < 90:
+                            model_angle += 3.0        
+                    else:'''
+                    grid_mov_x = 0.05
+                    grid_mov_z = 0.0
+                    direction = new_direction
+                    roatating = False
 
         # -------------------------------------------- #
             
