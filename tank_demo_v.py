@@ -232,6 +232,7 @@ def main():
 
     bullets = []
     bullet_speed = 0.5 #0.2
+    stop_init = False
 
     running = True
     while running:
@@ -266,10 +267,11 @@ def main():
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
                     act_anim2 = True
-
+ 
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
                     act_anim3 = True
                     dest_rot_x = 6.3
+                    stop_init = True
                 
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
                     act_anim4 = True
@@ -405,6 +407,7 @@ def main():
                 act_anim = False
 
         if act_anim2:
+
             if rot_y > dest_rot_y:
                 rot_y -= 0.5
             #elif rot_x < dest_rot_x:
@@ -413,6 +416,10 @@ def main():
                 act_anim2 = False
 
         if act_anim3:
+            if stop_init:
+                stop_rate_x, stop_rate_z = stop_movement(direction)
+                stop_init = False
+
             if rot_x < dest_rot_x:
                 rot_x += 0.1
             else:
