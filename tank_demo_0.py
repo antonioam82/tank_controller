@@ -175,7 +175,7 @@ def main():
                 if e.key == K_ESCAPE:
                     running = False
 
-                elif e.key == K_UP:
+                elif e.key == K_UP and not rotating:
                     new_direction = 'front'
                     if direction != new_direction:
                         rotating = True
@@ -185,21 +185,21 @@ def main():
                         grid_mov_x = 0.0
                         grid_mov_z = 0.05
 
-                elif e.key == K_DOWN:
+                elif e.key == K_DOWN and not rotating and direction != 'back':
                     rotating = True
                     grid_mov_z = 0.0
                     grid_mov_x = 0.0
                     #dest_model_angle = 0
                     new_direction = 'back'
 
-                elif e.key == K_LEFT:
+                elif e.key == K_LEFT and not rotating and direction != 'left':
                     rotating = True
                     grid_mov_x = 0.0
                     grid_mov_z = 0.0
                     #dest_model_angle = -90
                     new_direction = 'left'
 
-                elif e.key == K_RIGHT:
+                elif e.key == K_RIGHT and not rotating and direction != 'right':
                     rotating = True
                     grid_mov_z = 0.0
                     grid_mov_x = 0.0
@@ -425,7 +425,7 @@ def main():
                     grid_mov_x = 0.05
                     grid_mov_z = 0.0
                     direction = new_direction
-                    roatating = False
+                    rotating = False
 
         # -------------------------------------------- #
             
