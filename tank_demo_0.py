@@ -155,6 +155,7 @@ def main():
     hide_text = False
     dest_model_angle = 180
     rotating = False
+    prev_angle = None
 
     stop_camera = False
     last_cam_pos_x = last_cam_pos_z = 0.0
@@ -333,6 +334,7 @@ def main():
                         grid_mov_x = -0.05
                         grid_mov_z = 0.0
                         direction = new_direction
+                        prev_angle = 90
                         rotating = False
                 elif new_direction == 'left':
                     if model_angle < 270:
@@ -341,6 +343,7 @@ def main():
                         grid_mov_x = 0.05
                         grid_mov_z = 0.00
                         direction = new_direction
+                        prev_angle = 270
                         rotating = False
                 elif new_direction == 'back':
                     if model_angle > 0:
@@ -349,6 +352,7 @@ def main():
                         grid_mov_x = 0.00
                         grid_mov_z = -0.05
                         direction = new_direction
+                        prev_angle = 0
                         rotating = False
             elif direction == 'right':
                 if new_direction == 'front':
@@ -358,6 +362,7 @@ def main():
                         grid_mov_x = 0.00
                         grid_mov_z = 0.05
                         direction = new_direction
+                        prev_angle = 180
                         rotating = False
                 elif new_direction == 'left':
                     if model_angle < 270:
@@ -366,6 +371,7 @@ def main():
                         grid_mov_x = 0.05
                         grid_mov_z = 0.00
                         direction = new_direction
+                        prev_angle = 270
                         rotating = False
                 elif new_direction == 'back':
                     if model_angle > 0:
@@ -374,6 +380,7 @@ def main():
                         grid_mov_x = 0.00
                         grid_mov_z = -0.05
                         direction = new_direction
+                        prev_angle = 0
                         rotating = False                              
             elif direction == 'left':
                 if new_direction == 'front':
@@ -383,6 +390,7 @@ def main():
                         grid_mov_z = 0.0500
                         grid_mov_x = 0.0000
                         direction = new_direction
+                        prev_angle = 180
                         rotating = False
                 elif new_direction == 'back':
                     if model_angle < 360:
@@ -391,6 +399,7 @@ def main():
                         grid_mov_z = -0.0500
                         grid_mov_x = 0.0000
                         direction = new_direction
+                        prev_angle = 360
                         rotating = False
                 elif new_direction == 'right':
                     if model_angle > 90:
@@ -399,6 +408,7 @@ def main():
                         grid_mov_x = -0.05000
                         grid_mov_z = 0.0000
                         direction = new_direction
+                        prev_angle = 90
                         rotating = False
             elif direction == 'back':
                 if new_direction == 'front':
@@ -408,24 +418,45 @@ def main():
                         grid_mov_x = 0.00
                         grid_mov_z = 0.05
                         direction = new_direction
+                        prev_angle = 180
                         rotating = False
                 elif new_direction == 'right':
+                    if prev_angle == 0:
+                        if model_angle < 90:
+                            model_angle += 3.0
+                        else:
+                            grid_mov_x = -0.05
+                            grid_mov_z = 0.0
+                            direction = new_direction
+                            prev_angle = 90
+                            rotating = False
+ 
+                    elif prev_angle == 360:
+                        if model_angle < 90:
+                            model_angle += 3.0
+                        else:
+                            grid_mov_x = -0.05
+                            grid_mov_z = 0.0
+                            direction = new_direction
+                            prev_angle = 180
+                            rotating = False
+
+ 
+           
+                '''elif new_direction == 'right':
                     if model_angle < 90:
                         model_angle += 3.0
                     else:
                         grid_mov_x = -0.05
                         grid_mov_z = 0.0
                         direction = new_direction
+                        prev_angle = 90
                         rotating = False
                 elif new_direction == 'left':
                     model_angle = 270
-                    '''if model_angle < 90:
-                            model_angle += 3.0        
-                    else:'''
                     grid_mov_x = 0.05
                     grid_mov_z = 0.0
-                    direction = new_direction
-                    rotating = False
+                    direction = new_direction'''
 
         # -------------------------------------------- #
             
