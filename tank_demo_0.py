@@ -432,13 +432,13 @@ def main():
                             rotating = False
  
                     elif prev_angle == 360:
-                        if model_angle < 90:
-                            model_angle += 3.0
+                        if model_angle > 90:
+                            model_angle -= 3.0
                         else:
                             grid_mov_x = -0.05
                             grid_mov_z = 0.0
                             direction = new_direction
-                            prev_angle = 180
+                            prev_angle = 90
                             rotating = False
 
  
