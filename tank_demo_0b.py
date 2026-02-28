@@ -155,9 +155,15 @@ def main():
 
         # ================= MOVIMIENTO =================
         if not rotating:
-            rad = math.radians(model_angle)
-            grid_mov_x = -math.sin(rad) * 0.05
-            grid_mov_z = math.cos(rad) * 0.05
+            if direction == 'front' or direction == 'back':
+                rad = math.radians(model_angle)
+                grid_mov_x = math.sin(rad) * 0.05
+                grid_mov_z = -math.cos(rad) * 0.05
+            else:
+                rad = math.radians(model_angle)
+                grid_mov_x = -math.sin(rad) * 0.05
+                grid_mov_z = math.cos(rad) * 0.05
+
 
         x += grid_mov_x
         z += grid_mov_z
