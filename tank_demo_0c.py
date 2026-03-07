@@ -97,7 +97,7 @@ def main():
     
     # Ajustamos velocidades para que funcionen con Delta Time
     rotation_speed_base = 200.0 # Grados por segundo
-    move_speed_base = 5.0      # Unidades por segundo
+    move_speed_base = 3.0      # Unidades por segundo
     bullet_speed_base = 15.0
 
     y_tower = 0.0
