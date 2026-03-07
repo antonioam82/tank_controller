@@ -218,7 +218,7 @@ def main():
     act_anim3 = False
     act_anim4 = False
     dest_y_tower = 62.0
-
+    act_anim5 = False
 
     model_angle = 180
     y_tower = 0.0
@@ -275,6 +275,16 @@ def main():
                 
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
                     act_anim4 = True
+
+                elif e.key == K_5 and (e.mod & KMOD_ALT):
+                    act_anim5 = True
+                    grid_mov_x = -0.05000
+                    grid_mov_z = 0.0000
+                    model_angle = 90
+                    direction = 'right'
+                    rot_x = 18.5000
+                    scale = 2.92
+                    #stop_rate_x = stop_rate_z = 0.0000
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
@@ -430,6 +440,13 @@ def main():
                 y_tower += 1.0
             else:
                 act_anim4 = False
+
+        if act_anim5:
+            if scale > 1.0:
+                scale -= 0.01
+            else:
+                act_anim5 = False
+
         
         #----------------------------------------#
 
