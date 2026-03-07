@@ -103,6 +103,7 @@ def main():
     show_controls()
     pygame.init()
     display = (800, 600)
+    clock = pygame.time.Clock()
 
     font = pygame.font.SysFont('arial',15)
 
@@ -168,6 +169,7 @@ def main():
 
     running = True
     while running:
+        dt = clock.tick(60) / 1000.0
         for e in pygame.event.get():
             if e.type == QUIT:
                 running = False
@@ -286,8 +288,8 @@ def main():
             scale -= 0.02
 
         # ===== ACTUALIZACIÓN =====
-        x += grid_mov_x
-        z += grid_mov_z
+        x += grid_mov_x #* dt  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        z += grid_mov_z #* dt  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         if not stop_camera:
             last_cam_pos_x = x
@@ -525,7 +527,7 @@ def main():
             draw_text(font, 10, 512, f'MODL ANGLE: {model_angle}')       
 
         pygame.display.flip()
-        pygame.time.wait(10)
+        #pygame.time.wait(10)
 
     glDeleteLists(grid, 1)
     glDeleteLists(model_base, 1)
