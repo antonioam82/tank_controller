@@ -125,13 +125,30 @@ def main():
 
     # =================== ESTADO ====================
     x = y = z = 0.0
+    grid_mov_x = grid_mov_z = 0.0
     
+    model_angle = 180.0
+    target_angle = 180.0
+    rotation_speed = 3.0
+
+    direction = 'front'
+    new_direction = 'front'
+    rotating = False
+
     hide_text = False
     #stop_camera = False
     
     scale = 1.0
 
     sc_y = 0.0
+
+    DIRECTION_ANGLE = {
+        'front': 180,
+        'right': 90,
+        'back': 0,
+        'left': 270
+    }
+ 
 
     running = True
     while running:
@@ -143,8 +160,47 @@ def main():
             elif e.type == KEYDOWN:
                 if e.key == K_ESCAPE:
                     running = False
+                elif e.key == K_UP:
+                    new_direction = 'front'
+                elif e.key == K_DOWN:
+                    new_direction = 'back'
+                elif e.key == K_LEFT:
+                    new_direction = 'left'
+                elif e.key == K_RIGHT:
+                    new_direction = 'right'
+
+                if new_direction != direction:
+                    target_angle = DIRECTION_ANGLE[new_direction]
+                    rotating = True
+                    grid_mov_x = grid_mov_z = 0.0
+
 
         #keys = pygame.key.get_pressed()
+        # ================= GIRO SUAVE CORRECTO =================
+        if rotating:
+            diff = (target_angle - model_angle + 180) % 360 - 180
+            if abs(diff) < rotation_speed:
+                model_angle = target_angle
+                rotating = False
+                direction = new_direction
+            else:
+                model_angle += rotation_speed * (1 if diff > 0 else -1)
+
+
+        # ================= MOVIMIENTO =================
+        if not rotating:
+            if direction == 'front' or direction == 'back':
+                rad = math.radians(model_angle)
+                grid_mov_x = math.sin(rad) * 0.05
+                grid_mov_z = -math.cos(rad) * 0.05
+            else:
+                rad = math.radians(model_angle)
+                grid_mov_x = -math.sin(rad) * 0.05
+                grid_mov_z = math.cos(rad) * 0.05
+
+        x += grid_mov_x
+        z += grid_mov_z
+    
 
         # ===== RENDER =====
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
