@@ -216,8 +216,8 @@ def main():
 
         pygame.display.flip()
 
+    glDeleteLists(grid, 1)
     pygame.quit()
-
 
 main()
 
