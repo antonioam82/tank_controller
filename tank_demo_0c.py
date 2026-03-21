@@ -4,6 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import math
 import os
+from PIL import Image, ImageDraw, ImageFont
 
 # ================= GRID =================
 grid_size = 110
@@ -64,6 +65,22 @@ def show_controls():
     print("  - Right Arrow: Turn tank right")
     print("  - ESC Key: Exit the program")
     print("\n----------------------------------------------------------------")
+
+def draw_text(x, y, text, space):
+    # Crear una imagen pequeña para el texto usando PIL
+    font_size = 18
+    #img = Image.new('RGBA', (space, 20), (0, 0, 0, 0))
+    img = Image.new('RGBA', (space, 20), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    # Intenta cargar fuente del sistema, si no usa la básica
+    try: font = ImageFont.truetype("arial.ttf", font_size)
+    except: font = ImageFont.load_default()
+    
+    draw.text((0, 0), text, font=font, fill=(0, 255, 0, 255))
+    img_data = img.tobytes("raw", "RGBA", 0, -1)
+
+    glWindowPos2d(x, y)
+    glDrawPixels(img.size[0], img.size[1], GL_RGBA, GL_UNSIGNED_BYTE, img_data)
 
 def main():
     show_controls()
@@ -170,6 +187,8 @@ def main():
 
         glCallList(grid)
         glPopMatrix()
+
+        draw_text(10, 570, "HELLO WORLD!", 140)
 
         glfw.swap_buffers(window)
 
