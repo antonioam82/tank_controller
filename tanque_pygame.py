@@ -171,16 +171,15 @@ def main():
 
     font = pygame.font.SysFont('arial', 15)
 
-    #pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     # ========================== ANTIALIASING =========================
-    pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
-    pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+    #pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-    glEnable(GL_MULTISAMPLE)
-    glEnable(GL_LINE_SMOOTH)
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    #glEnable(GL_MULTISAMPLE)
+    #glEnable(GL_LINE_SMOOTH)
+    #glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
     # =================================================================
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
