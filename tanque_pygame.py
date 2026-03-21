@@ -14,7 +14,7 @@ grid_spacing = 1
 
 # ================= VELOCIDADES (unidades por segundo) =================
 TANK_SPEED        = 3.0    # velocidad de traslación del tanque
-STOP_DECEL        = 6.0    # desaceleración al frenar (unidades/s²)
+STOP_DECEL        = 3.0    # desaceleración al frenar (unidades/s²) #6.0
 CAM_ROT_SPEED     = 30.0   # grados/s para rotar escena (T/R)
 CAM_TILT_SPEED    = 15.0   # grados/s para inclinar cámara (F/G)
 CAM_Y_SPEED       = 6.0    # unidades/s para subir/bajar cámara (P/O)
@@ -171,7 +171,17 @@ def main():
 
     font = pygame.font.SysFont('arial', 15)
 
+    #pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    # ========================== ANTIALIASING =========================
+    pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+    pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+
+    glEnable(GL_MULTISAMPLE)
+    glEnable(GL_LINE_SMOOTH)
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+    # =================================================================
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
     glTranslatef(0, 0, -10)
@@ -523,7 +533,7 @@ def main():
             draw_text(font, 10, 417, f'ROT Y: {rot_y:.2f}')
             draw_text(font, 10, 400, f'TOWER ROT: {y_tower:.4f}')
             draw_text(font, 10, 383, f'SCALE: {scale:.2f}')
-            draw_text(font, 10, 366, f'FPS: {clock.get_fps():.0f}')
+            #draw_text(font, 10, 366, f'FPS: {clock.get_fps():.0f}')
 
         pygame.display.flip()
         clock.tick(0)   # sin límite de FPS; el vsync del driver limita naturalmente
