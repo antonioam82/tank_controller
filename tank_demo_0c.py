@@ -70,7 +70,7 @@ def draw_text(x, y, text, space):
     # Crear una imagen pequeña para el texto usando PIL
     font_size = 18
     #img = Image.new('RGBA', (space, 20), (0, 0, 0, 0))
-    img = Image.new('RGBA', (space, 20), (0, 0, 0, 0))
+    img = Image.new('RGBA', (space, 20), (0, 0, 0, 255))
     draw = ImageDraw.Draw(img)
     # Intenta cargar fuente del sistema, si no usa la básica
     try: font = ImageFont.truetype("arial.ttf", font_size)
@@ -98,6 +98,17 @@ def main():
     glfw.make_context_current(window)
     glfw.swap_interval(1) # V-Sync para limitar FPS
 
+    # ======================== ANTIALIASING ======================= #
+    glfw.window_hint(glfw.SAMPLES, 4) 
+    glEnable(GL_MULTISAMPLE)
+    glEnable(GL_LINE_SMOOTH)
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+
+    # MEJORA SUAVIZADO DE LINEAS Y TEXTURAS
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    # ============================================================= #
+
     # Configuración inicial de OpenGL
     gluPerspective(45, display[0] / display[1], 0.1, 90)
     glTranslatef(0, 0, -10)
@@ -117,6 +128,8 @@ def main():
     rotating = False
     scale = 1.0
     sc_y = 0.0
+    
+    hide_text = False
 
     DIRECTION_ANGLE = {
         'front': 180,
@@ -148,6 +161,10 @@ def main():
             new_direction = 'left'
         elif glfw.get_key(window, glfw.KEY_RIGHT) == glfw.PRESS:
             new_direction = 'right'
+        elif glfw.get_key(window, glfw.KEY_H) == glfw.PRESS:
+            hide_text = not hide_text
+        if not hide_text:
+            draw_text(10, 570, "HELLO WORLD!", 140)
 
         if new_direction != direction:
             target_angle = DIRECTION_ANGLE[new_direction]
@@ -188,9 +205,15 @@ def main():
         glCallList(grid)
         glPopMatrix()
 
-        draw_text(10, 570, "HELLO WORLD!", 140)
+        if not hide_text:
+            draw_text(10, 570, "HELLO WORLD!", 140)
+
 
         glfw.swap_buffers(window)
+
+        if not hide_text:
+            draw_text(10, 570, "HELLO WORLD!", 140)
+
 
     glDeleteLists(grid, 1)
     glfw.terminate()
