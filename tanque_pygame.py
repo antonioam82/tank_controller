@@ -14,7 +14,7 @@ grid_spacing = 1
 
 # ================= VELOCIDADES (unidades por segundo) =================
 TANK_SPEED        = 3.0    # velocidad de traslación del tanque
-STOP_DECEL        = 3.0    # desaceleración al frenar (unidades/s²) #6.0
+STOP_DECEL        = 0.5    # desaceleración al frenar (unidades/s²) #6.0
 CAM_ROT_SPEED     = 30.0   # grados/s para rotar escena (T/R)
 CAM_TILT_SPEED    = 15.0   # grados/s para inclinar cámara (F/G)
 CAM_Y_SPEED       = 6.0    # unidades/s para subir/bajar cámara (P/O)
