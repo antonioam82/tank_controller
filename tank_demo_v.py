@@ -424,7 +424,7 @@ def main():
             if scale < dest_scale:
                 scale += 0.6 * dt
             elif rot_x > dest_rot_x:
-                rot_x -= 30.0 * dt
+                rot_x -= 60.0 * dt
             else:
                 act_anim = False
 
