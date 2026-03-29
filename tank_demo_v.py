@@ -5,7 +5,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import math
 import os
-
+import time
 
 # ================= GRID =================
 grid_size = 110
@@ -224,18 +224,26 @@ def main():
     y_tower = 0.0
     rot_x = 35.0 #0.0
     dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    ROT_X_SPEED = 0.5 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ROT_X_SPEED = 15.0 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
     scale = 1.00
     direction = 'front'
 
     bullets = []
-    bullet_speed = 0.5 #0.2
+    bullet_speed = 30.0 #0.2
     stop_init = False
+    tank_speed = 3.0
+
+    clock = pygame.time.Clock()
+    last_time = time.perf_counter()
 
     running = True
     while running:
+        now = time.perf_counter()
+        dt = min(now - last_time, 0.05)
+        last_time = now
+
         for e in pygame.event.get():
             if e.type == QUIT:
                 running = False
@@ -286,6 +294,10 @@ def main():
                     scale = 2.92
                     #stop_rate_x = stop_rate_z = 0.0000
 
+                elif e.key == K_6 and (e.mod & KMOD_ALT):
+                    stop_camera = True
+                    glRotatef(-34.6731, 1.0, 0.0, 0.0)                
+
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
                     #if ortographic:
@@ -294,28 +306,28 @@ def main():
                         #setup_view_perspective(display)'''
 
                 elif e.key == K_UP:
-                    grid_mov_z = 0.0500
+                    grid_mov_z = tank_speed #0.0500 * dt
                     grid_mov_x = 0.0000
                     model_angle = 180
                     direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_DOWN:
-                    grid_mov_z = -0.0500 #-0.10000
+                    grid_mov_z = -tank_speed #-0.0500 #-0.10000
                     grid_mov_x = 0.0000
                     model_angle = 0
                     direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_LEFT:
-                    grid_mov_x = 0.0500
+                    grid_mov_x = tank_speed #0.0500
                     grid_mov_z = 0.0000
                     model_angle = -90
                     direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_RIGHT:
-                    grid_mov_x = -0.05000
+                    grid_mov_x = -tank_speed #-0.05000
                     grid_mov_z = 0.0000
                     model_angle = 90
                     direction = 'right'
@@ -370,58 +382,58 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[K_t]:
-            rot_y += 0.5
+            rot_y += 30.0 * dt
         elif keys[K_r]:
-            rot_y -= 0.5
+            rot_y -= 30.0 * dt
 
         if keys[K_f]:
             #rot_x = 0.5
             #glRotatef(rot_x, 1.0, 0.0, 0.0)
-            rot_x += ROT_X_SPEED
+            rot_x += ROT_X_SPEED * dt
         elif keys[K_g]:
             #rot_x = -0.5
             #glRotatef(rot_x, 1.0, 0.0, 0.0)
-            rot_x -= ROT_X_SPEED
+            rot_x -= ROT_X_SPEED * dt
 
         if keys[K_p]:
-            y += 0.1
+            y += 6.0 * dt
         elif keys[K_o]:
-            y -= 0.1
+            y -= 6.0 * dt
 
 
         if direction == 'front' or direction == 'right':
             if keys[pygame.K_n]:
-                y_tower += 1.0#1.1
+                y_tower += 60.0 * dt
             elif keys[pygame.K_m]:
-                y_tower -= 1.0#1.1
+                y_tower -= 60.0 * dt
         elif direction == 'back' or direction == 'left':
             if keys[pygame.K_n]:
-                y_tower -= 1.0#1.1
+                y_tower -= 60.0 * dt
             elif keys[pygame.K_m]:
-                y_tower += 1.0#1.1
+                y_tower += 60.0 * dt
 
         if keys[K_z]:
-            scale += 0.02
+            scale += 1.2 * dt
         elif keys[K_x]:
-            scale -= 0.02
+            scale -= 1.2 * dt
 
         # ===== ACTUALIZACIÓN =====
         
         #--------------animaciones--------------#
         if act_anim:
             if scale < dest_scale:
-                scale += 0.01
+                scale += 0.6 * dt
             elif rot_x > dest_rot_x:
-                rot_x -= 1.0
+                rot_x -= 0.6 * dt
             else:
                 act_anim = False
 
         if act_anim2:
 
             if rot_y > dest_rot_y:
-                rot_y -= 0.5
+                rot_y -= 30.0 * dt
             #elif rot_x < dest_rot_x:
-                #rot_x += 0.1
+                #rot_x += 30.0 * dt
             else:
                 act_anim2 = False
 
@@ -431,18 +443,18 @@ def main():
                 stop_init = False
 
             if rot_x < dest_rot_x:
-                rot_x += 0.1
+                rot_x += 6.0 * dt
             else:
                 act_anim3 = False
 
         if act_anim4:
             if y_tower < dest_y_tower:
-                y_tower += 1.0
+                y_tower += 60.0 * dt
             else:
                 act_anim4 = False
 
         if act_anim5:
-            if scale > 1.0:
+            if scale > 0.6 * dt:
                 scale -= 0.01
             else:
                 act_anim5 = False
@@ -467,8 +479,8 @@ def main():
 
         #######################################################
 
-        x += grid_mov_x
-        z += grid_mov_z
+        x += grid_mov_x * dt
+        z += grid_mov_z * dt
         
         if not stop_camera:
             last_cam_pos_x = x
@@ -489,8 +501,8 @@ def main():
                 z += 0.1
 
         for b in bullets:
-            b["pos"][0] += b["dir"][0] * bullet_speed
-            b["pos"][2] += b["dir"][2] * bullet_speed
+            b["pos"][0] += b["dir"][0] * bullet_speed * dt
+            b["pos"][2] += b["dir"][2] * bullet_speed * dt
 
         # ===== RENDER =====
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -551,7 +563,8 @@ def main():
             draw_text(font, 10, 366, f'SCALE: {scale:.2f}')    
 
         pygame.display.flip()
-        pygame.time.wait(10)
+        clock.tick(0)
+        #pygame.time.wait(10)
     
     glDeleteLists(grid, 1)
     glDeleteLists(model_base, 1)
