@@ -90,8 +90,12 @@ def draw_model(path):
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
+    
+    if model_name == 'paisaje.obj':
+        glBegin(GL_TRIANGLES)
+    else:
+        glBegin(GL_QUADS)
 
-    glBegin(GL_QUADS)
     if model_name != 'bullet.obj':
         glColor3f(0.1, 0.1, 0.1)
     else:
@@ -190,6 +194,7 @@ def main():
     obj_base   = os.path.join(base, "tanque", "resto_tanque.obj")
     obj_tower  = os.path.join(base, "tanque", "torre.obj")
     obj_bullet = os.path.join(base, "tanque", "bullet.obj")
+    obj_landsc = os.path.join(base, "tanque", "paisaje.obj")
 
     model_base = glGenLists(1)
     glNewList(model_base, GL_COMPILE)
@@ -204,6 +209,11 @@ def main():
     model_bullet = glGenLists(1)
     glNewList(model_bullet, GL_COMPILE)
     draw_model(obj_bullet)
+    glEndList()
+
+    model_landscape = glGenLists(1)
+    glNewList(model_landscape, GL_COMPILE)
+    draw_model(obj_landsc)
     glEndList()
 
     grid = draw_grid()
@@ -494,6 +504,7 @@ def main():
             glTranslatef(last_cam_pos_x, y, last_cam_pos_z)
 
         glCallList(grid)
+        glCallList(model_landscape)
 
         # ===== TANQUE =====
         glPushMatrix()
