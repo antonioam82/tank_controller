@@ -464,8 +464,9 @@ def main():
                 act_anim5 = False
 
         if act_anim7:
-            if y_tower < 0.0:
+            if y_tower < 0.00:
                 y_tower += 60.0 * dt
+
             else:
                 act_anim7 = False
 
