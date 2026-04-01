@@ -219,6 +219,7 @@ def main():
     act_anim4 = False
     dest_y_tower = 62.0
     act_anim5 = False
+    act_anim7 = False
 
     model_angle = 180
     y_tower = 0.0
@@ -296,7 +297,10 @@ def main():
 
                 elif e.key == K_6 and (e.mod & KMOD_ALT):
                     stop_camera = True
-                    glRotatef(-34.6731, 1.0, 0.0, 0.0)                
+                    glRotatef(-34.6731, 1.0, 0.0, 0.0)
+
+                elif e.key == K_7 and (e.mod & KMOD_ALT):
+                    act_anim7 = True
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
@@ -458,6 +462,12 @@ def main():
                 scale -= 0.01
             else:
                 act_anim5 = False
+
+        if act_anim7:
+            if y_tower < 0.0:
+                y_tower += 60.0 * dt
+            else:
+                act_anim7 = False
 
         
         #----------------------------------------#
