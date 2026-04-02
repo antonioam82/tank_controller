@@ -546,7 +546,7 @@ def main():
             #draw_text(font, 10, 366, f'FPS: {clock.get_fps():.0f}')
 
         pygame.display.flip()
-        clock.tick(0)   # sin límite de FPS; el vsync del driver limita naturalmente
+        clock.tick(120)
 
     glDeleteLists(grid, 1)
     glDeleteLists(model_base, 1)

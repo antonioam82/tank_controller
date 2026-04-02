@@ -574,8 +574,7 @@ def main():
             draw_text(font, 10, 366, f'SCALE: {scale:.2f}')    
 
         pygame.display.flip()
-        clock.tick(0)
-        #pygame.time.wait(10)
+        clock.tick(120)
     
     glDeleteLists(grid, 1)
     glDeleteLists(model_base, 1)
