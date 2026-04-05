@@ -146,9 +146,9 @@ def stop_movement(direction):
     stop_rate_z = 0.0000
     stop_rate_x = 0.0000
     if direction == 'front' or direction == 'back':
-        stop_rate_z = 0.0001
+        stop_rate_z = 0.01
     elif direction == 'right' or direction == 'left':
-        stop_rate_x = 0.0001
+        stop_rate_x = 0.01
     return stop_rate_x, stop_rate_z
 
 
@@ -202,7 +202,8 @@ def main():
     # ============== ESTADO ==============
     x = y = z = 0.0000                # desplazamiento del mundo
     grid_mov_x = grid_mov_z = 0.0000
-    stop_rate_x = stop_rate_z = 0.0000
+    #stop_rate_x = stop_rate_z = 0.0000
+    stop_rate = 2.0
     last_cam_pos_x = last_cam_pos_z = 0.0
     ortographic = False
     
@@ -230,6 +231,7 @@ def main():
     stop_camera = False
     scale = 1.00
     direction = 'front'
+    braking = False
 
     bullets = []
     bullet_speed = 30.0 #0.2
@@ -345,7 +347,8 @@ def main():
 
                 elif e.key == K_c:
                     #grid_mov_x = grid_mov_z = 0.0
-                    stop_rate_x, stop_rate_z = stop_movement(direction)
+                    #stop_rate_x, stop_rate_z = stop_movement(direction)
+                    braking = True
 
                 elif e.key == K_j:
                     hide_info = not hide_info
@@ -473,22 +476,26 @@ def main():
         
         #----------------------------------------#
 
-        #FRENADA PROGRESIVA####################################
+        #FRENADA PROGRESIVA###########################################
+        if braking:
+            deceleration = stop_rate * dt
 
-        if direction == 'front' or direction == 'back':
-            if grid_mov_z > 0.0000 and direction == 'front':
-                grid_mov_z -= stop_rate_z
+            if direction in ('front', 'back'):
+                if grid_mov_z > 0.0:
+                    grid_mov_z = max(0.0, grid_mov_z - deceleration)
+                elif grid_mov_z < 0.0:
+                    grid_mov_z = min(0.0, grid_mov_z + deceleration)
+                if grid_mov_z == 0.0:
+                    braking = False
+            else:
+                if grid_mov_x > 0.0:
+                    grid_mov_x = max(0.0, grid_mov_x - deceleration)
+                elif grid_mov_x < 0.0:
+                    grid_mov_x = min(0.0, grid_mov_x + deceleration)
+                if grid_mov_x == 0.0:
+                    braking = False        
 
-            if grid_mov_z < 0.0000 and direction == 'back':
-                grid_mov_z += stop_rate_z
-        else:
-            if grid_mov_x > 0.0000 and direction == 'left':
-                grid_mov_x -= stop_rate_x
-
-            if grid_mov_x < 0.0000 and direction == 'right':
-                grid_mov_x += stop_rate_x
-
-        #######################################################
+        ###############################################################
 
         x += grid_mov_x * dt
         z += grid_mov_z * dt
@@ -556,22 +563,22 @@ def main():
             glCallList(model_bullet)
             glPopMatrix()
 
-        glPopMatrix()
+        glPopMatrix() # 468, 451, 434, 417, 400, 383, 366
 
         if not hide_info:
             draw_text(font, 10, 570, f'CAMERA MOV: {not stop_camera}')
             draw_text(font, 10, 553, f'DIRECTION: {direction}')
-            draw_text(font, 10, 536, f'X: {x:.4f}')
-            draw_text(font, 10, 519, f'Y: {y:.4f}')
-            draw_text(font, 10, 502, f'Z: {z:.4f}')
-            draw_text(font, 10, 485, f'SRX: {stop_rate_x:.4f}')
-            draw_text(font, 10, 468, f'SRZ: {stop_rate_z:.4f}')
-            draw_text(font, 10, 451, f'GRID MOV X: {grid_mov_x:.4f}')
-            draw_text(font, 10, 434, f'GRID MOV Z: {grid_mov_z:.4f}')
-            draw_text(font, 10, 417, f'ROT X: {rot_x:.4f}')
-            draw_text(font, 10, 400, f'ROT Y: {rot_y}')
-            draw_text(font, 10, 383, f'TOWER ROT: {y_tower:.4f}')
-            draw_text(font, 10, 366, f'SCALE: {scale:.2f}')    
+            draw_text(font, 10, 536, f'X: {x:.2f}')
+            draw_text(font, 10, 519, f'Y: {y:.2f}')
+            draw_text(font, 10, 502, f'Z: {z:.2f}')
+            #draw_text(font, 10, 485, f'SR: {stop_rate:.2f}')
+            #draw_text(font, 10, 485, f'SRz: {stop_rate_z:.2f}')
+            draw_text(font, 10, 485, f'GRID MOV X: {grid_mov_x:.2f}')
+            draw_text(font, 10, 468, f'GRID MOV Z: {grid_mov_z:.2f}')
+            draw_text(font, 10, 451, f'ROT X: {rot_x:.2f}')
+            draw_text(font, 10, 434, f'ROT Y: {rot_y:.2f}')
+            draw_text(font, 10, 417, f'TOWER ROT: {y_tower:.2f}')
+            draw_text(font, 10, 400, f'SCALE: {scale:.2f}')    
 
         pygame.display.flip()
         clock.tick(120)
