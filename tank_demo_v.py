@@ -309,7 +309,7 @@ def main():
                     #if ortographic:
                         #setup_view_ortho(display)
                     #else:
-                        #setup_view_perspective(display)'''
+                        #setup_view_perspective(display)
 
                 elif e.key == K_UP:
                     grid_mov_z = tank_speed #0.0500 * dt
