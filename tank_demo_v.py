@@ -142,14 +142,14 @@ def draw_text(font, x, y, text):
     glWindowPos2d(x, y)
     glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
-def stop_movement(direction):
+'''def stop_movement(direction):
     stop_rate_z = 0.0000
     stop_rate_x = 0.0000
     if direction == 'front' or direction == 'back':
         stop_rate_z = 0.01
     elif direction == 'right' or direction == 'left':
         stop_rate_x = 0.01
-    return stop_rate_x, stop_rate_z
+    return stop_rate_x, stop_rate_z'''
 
 
 # ================= MAIN =================
@@ -218,7 +218,7 @@ def main():
     #dest_rot_x = -28.0
     act_anim3 = False
     act_anim4 = False
-    dest_y_tower = 62.0
+    dest_y_tower = 62.20
     act_anim5 = False
     act_anim7 = False
 
@@ -446,7 +446,8 @@ def main():
 
         if act_anim3:
             if stop_init:
-                stop_rate_x, stop_rate_z = stop_movement(direction)
+                #stop_rate_x, stop_rate_z = stop_movement(direction)
+                braking = True    
                 stop_init = False
 
             if rot_x < dest_rot_x:
@@ -455,9 +456,11 @@ def main():
                 act_anim3 = False
 
         if act_anim4:
-            if y_tower < dest_y_tower:
-                y_tower += 60.0 * dt
+            diff = dest_y_tower - y_tower
+            if abs(diff) > 0.1:
+                y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
+                y_tower = dest_y_tower
                 act_anim4 = False
 
         if act_anim5:
