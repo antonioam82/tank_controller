@@ -81,6 +81,7 @@ def draw_model(path):
     if model_name == 'bullet.obj':
         glColor4f(0.0, 1.0, 0.0, 0.5)
         glLineWidth(1.0)
+
     else:
         glColor3f(1.0, 0.0, 0.0)
         glLineWidth(2.0)
@@ -92,14 +93,19 @@ def draw_model(path):
     glEnd()
     
     if model_name == 'paisaje.obj':
+        glColor3f(0.0,0.5,0.0)
         glBegin(GL_TRIANGLES)
     else:
         glBegin(GL_QUADS)
 
-    if model_name != 'bullet.obj':
+    if model_name != 'bullet.obj' and model_name != 'paisaje.obj':
         glColor3f(0.1, 0.1, 0.1)
+
     else:
-        glColor4f(0.0, 1.0, 0.0, 0.1)
+        if model_name == 'paisaje.obj':
+            glColor3f(0.0,0.2,0.0)
+        else:
+            glColor4f(0.0, 1.0, 0.0, 0.1)
     for face in f:
         for vertex in face:
             glVertex3fv(v[vertex])
@@ -222,7 +228,7 @@ def main():
     x = y = z = 0.0
     vel_x = vel_z = 0.0          # velocidad actual en unidades/segundo
     last_cam_pos_x = last_cam_pos_z = 0.0
-    ortographic = False
+    #ortographic = False
 
     hide_info = False
 
