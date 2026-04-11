@@ -289,12 +289,12 @@ def main():
 
                 elif e.key == K_5 and (e.mod & KMOD_ALT):
                     act_anim5 = True
-                    grid_mov_x = -0.05000
+                    grid_mov_x = -300.0 * dt
                     grid_mov_z = 0.0000
                     model_angle = 90
                     direction = 'right'
                     rot_x = 18.5000
-                    scale = 2.92
+                    scale = 0.3# 2.92
                     #stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_6 and (e.mod & KMOD_ALT):
@@ -464,8 +464,9 @@ def main():
                 act_anim4 = False
 
         if act_anim5:
-            if scale > 0.6 * dt:
-                scale -= 0.01
+            #scale = 0.3
+            if scale < 1.77: #if scale > 0.8:
+                scale += 0.01
             else:
                 act_anim5 = False
 
