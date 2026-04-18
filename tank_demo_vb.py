@@ -501,8 +501,8 @@ def main():
 
         ###############################################################
 
-        x += grid_mov_x * dt
-        z += grid_mov_z * dt
+        #x += grid_mov_x * dt
+        #z += grid_mov_z * dt
 
         if not stop_camera:
             last_cam_pos_x = x
