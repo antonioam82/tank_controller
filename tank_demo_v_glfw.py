@@ -141,7 +141,7 @@ def _make_text_texture(text, font_size=15):
         return _text_texture_cache[key]
 
     try:
-        pil_font = ImageFont.truetype("DejaVuSansMono.ttf", font_size)
+        pil_font = ImageFont.truetype("Fixed.ttf", font_size)#("DejaVuSansMono.ttf", font_size)
     except (IOError, OSError):
         try:
             pil_font = ImageFont.truetype(
@@ -152,10 +152,10 @@ def _make_text_texture(text, font_size=15):
     dummy = Image.new("RGBA", (1, 1))
     draw_dummy = ImageDraw.Draw(dummy)
     bbox = draw_dummy.textbbox((0, 0), text, font=pil_font)
-    w = bbox[2] - bbox[0] + 4
-    h = bbox[3] - bbox[1] + 4
+    w = bbox[2] - bbox[0] + 10
+    h = bbox[3] - bbox[1] + 10
 
-    img = Image.new("RGBA", (w, h), (0, 0, 0, 255))
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     draw.text((2, 2), text, font=pil_font, fill=(0, 255, 0, 255))
     img = img.transpose(Image.FLIP_TOP_BOTTOM)
