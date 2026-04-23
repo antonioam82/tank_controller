@@ -285,6 +285,7 @@ def main():
                     stop_init = True
                 
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
+                    bullet_speed = 20.0
                     act_anim4 = True
 
                 elif e.key == K_5 and (e.mod & KMOD_ALT):
