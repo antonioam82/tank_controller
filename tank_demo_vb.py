@@ -233,6 +233,11 @@ def main():
     direction = 'front'
     braking = False
 
+    #---------------------------------------
+    rotating = False
+    moving = True
+    #---------------------------------------
+
     bullets = []
     bullet_speed = 30.0 #0.2
     stop_init = False
@@ -314,6 +319,7 @@ def main():
                 elif e.key == K_UP:
                     #grid_mov_z = tank_speed #0.0500 * dt
                     #grid_mov_x = 0.0000
+                    moving = True
                     model_angle = 180
                     direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
@@ -321,6 +327,7 @@ def main():
                 elif e.key == K_DOWN:
                     #grid_mov_z = -tank_speed #-0.0500 #-0.10000
                     #grid_mov_x = 0.0000
+                    moving = True
                     model_angle = 0
                     direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
@@ -328,6 +335,7 @@ def main():
                 elif e.key == K_LEFT:
                     #grid_mov_x = tank_speed #0.0500
                     #grid_mov_z = 0.0000
+                    moving = True
                     model_angle = -90
                     direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
@@ -335,6 +343,7 @@ def main():
                 elif e.key == K_RIGHT:
                     #grid_mov_x = -tank_speed #-0.05000
                     #grid_mov_z = 0.0000
+                    moving = True
                     model_angle = 90
                     direction = 'right'
                     stop_rate_x = stop_rate_z = 0.0000
@@ -501,8 +510,17 @@ def main():
 
         ###############################################################
 
-        #x += grid_mov_x * dt
-        #z += grid_mov_z * dt
+        if not rotating and moving:
+            rad = math.radians(model_angle)
+            if direction in ['front', 'back']:
+                grid_mov_x = math.sin(rad) * 3.5
+                grid_mov_z = -math.cos(rad) * 3.5
+            else:
+                grid_mov_x = -math.sin(rad) * 3.5
+                grid_mov_z = math.cos(rad) * 3.5
+
+        x += grid_mov_x * dt
+        z += grid_mov_z * dt
 
         if not stop_camera:
             last_cam_pos_x = x
@@ -515,12 +533,14 @@ def main():
                 x -= 0.1
             elif direction == 'right':
                 x += 0.1
+            moving = False
         elif z - 2 < (-grid_size - 0.1) or z + 2 > (grid_size + 0.1):
             grid_mov_z = 0.0
             if direction == 'front':
                 z -= 0.1
             elif direction == 'back':
                 z += 0.1
+            moving = False
 
         for b in bullets:
             b["pos"][0] += b["dir"][0] * bullet_speed * dt
