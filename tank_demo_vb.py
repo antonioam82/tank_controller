@@ -244,7 +244,7 @@ def main():
 
     #---------------------------------------
     rotating = False
-    moving = True
+    moving = False
     model_angle = 180.0
     target_angle = 180.0
     rotation_speed = 3.0
@@ -335,7 +335,7 @@ def main():
                 elif e.key == K_UP:
                     #grid_mov_z = tank_speed #0.0500 * dt
                     #grid_mov_x = 0.0000
-                    moving = False
+                    moving = True
                     #model_angle = 180
                     new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
