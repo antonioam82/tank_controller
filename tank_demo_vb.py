@@ -209,6 +209,15 @@ def main():
 
     hide_info = False
 
+    #------------------------------------------------------
+    DIRECTION_ANGLE = {
+        'front': 180,
+        'right': 90,
+        'back': 0,
+        'left': 270
+    }
+    #------------------------------------------------------
+
     act_anim = False
     cen_counter = 0.0
     dest_scale = 0.81
@@ -236,6 +245,13 @@ def main():
     #---------------------------------------
     rotating = False
     moving = True
+    model_angle = 180.0
+    target_angle = 180.0
+    rotation_speed = 3.0
+    y_tower = 0.0
+    direction = 'front'
+    new_direction = 'front'
+
     #---------------------------------------
 
     bullets = []
@@ -319,33 +335,33 @@ def main():
                 elif e.key == K_UP:
                     #grid_mov_z = tank_speed #0.0500 * dt
                     #grid_mov_x = 0.0000
-                    moving = True
-                    model_angle = 180
-                    direction = 'front'
+                    moving = False
+                    #model_angle = 180
+                    new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_DOWN:
                     #grid_mov_z = -tank_speed #-0.0500 #-0.10000
                     #grid_mov_x = 0.0000
                     moving = True
-                    model_angle = 0
-                    direction = 'back'
+                    #model_angle = 0
+                    new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_LEFT:
                     #grid_mov_x = tank_speed #0.0500
                     #grid_mov_z = 0.0000
                     moving = True
-                    model_angle = -90
-                    direction = 'left'
+                    #model_angle = -90
+                    new_direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_RIGHT:
                     #grid_mov_x = -tank_speed #-0.05000
                     #grid_mov_z = 0.0000
                     moving = True
-                    model_angle = 90
-                    direction = 'right'
+                    #model_angle = 90
+                    new_direction = 'right'
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_b:
@@ -509,6 +525,21 @@ def main():
                     braking = False
 
         ###############################################################
+
+        if new_direction != direction:
+           target_angle = DIRECTION_ANGLE[new_direction]
+           rotating = True
+           grid_mov_x = grid_mov_z = 0.0
+
+
+        if rotating:
+            diff = (target_angle - model_angle + 180) % 360 -180
+            if abs(diff) < rotation_speed:
+                model_angle = target_angle
+                rotating = False
+                direction = new_direction
+            else:
+                model_angle += rotation_speed * (1 if diff > 0 else -1) 
 
         if not rotating and moving:
             rad = math.radians(model_angle)
