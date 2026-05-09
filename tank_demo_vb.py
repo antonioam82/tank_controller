@@ -232,15 +232,12 @@ def main():
     act_anim7 = False
 
     model_angle = 180
-    y_tower = 0.0
     rot_x = 35.0 #0.0
     dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ROT_X_SPEED = 15.0 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
     scale = 1.00
-    direction = 'front'
-    braking = False
 
     #---------------------------------------
     rotating = False
@@ -251,6 +248,7 @@ def main():
     y_tower = 0.0
     direction = 'front'
     new_direction = 'front'
+    braking = False
 
     #---------------------------------------
 
@@ -511,11 +509,14 @@ def main():
 
             if direction in ('front', 'back'):
                 if grid_mov_z > 0.0:
+                    #print("ok")
                     grid_mov_z = max(0.0, grid_mov_z - deceleration)
                 elif grid_mov_z < 0.0:
+                    #print("OK")
                     grid_mov_z = min(0.0, grid_mov_z + deceleration)
                 if grid_mov_z == 0.0:
                     braking = False
+                    moving = False
             else:
                 if grid_mov_x > 0.0:
                     grid_mov_x = max(0.0, grid_mov_x - deceleration)
@@ -523,6 +524,7 @@ def main():
                     grid_mov_x = min(0.0, grid_mov_x + deceleration)
                 if grid_mov_x == 0.0:
                     braking = False
+                    moving = False
 
         ###############################################################
 
@@ -541,7 +543,7 @@ def main():
             else:
                 model_angle += rotation_speed * (1 if diff > 0 else -1) 
 
-        if not rotating and moving:
+        if not rotating and not braking and moving:
             rad = math.radians(model_angle)
             if direction in ['front', 'back']:
                 grid_mov_x = math.sin(rad) * 3.5
