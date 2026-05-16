@@ -389,11 +389,13 @@ def main():
                        stop_rate_x = stop_rate_z = 0.0000
                        grid_mov_x = grid_mov_z = 0.0
                        model_angle = 180
+                       target_angle = 180
                        y_tower = 0.0
                        rot_x = 0.0
                        rot_y = 0.0
                        scale = 1.0
                        direction = 'front'
+                       new_direction = 'front'
                        stop_camera = False
                        glLoadIdentity()
                        gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
