@@ -249,7 +249,7 @@ def main():
     direction = 'front'
     new_direction = 'front'
     braking = False
-
+    resetting = False
     #---------------------------------------
 
     bullets = []
@@ -337,6 +337,7 @@ def main():
                     #model_angle = 180
                     new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
 
                 elif e.key == K_DOWN:
                     #grid_mov_z = -tank_speed #-0.0500 #-0.10000
@@ -345,6 +346,7 @@ def main():
                     #model_angle = 0
                     new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
+                    restting = False
 
                 elif e.key == K_LEFT:
                     #grid_mov_x = tank_speed #0.0500
@@ -353,6 +355,7 @@ def main():
                     #model_angle = -90
                     new_direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
 
                 elif e.key == K_RIGHT:
                     #grid_mov_x = -tank_speed #-0.05000
@@ -361,6 +364,7 @@ def main():
                     #model_angle = 90
                     new_direction = 'right'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
 
                 elif e.key == K_b:
                     y_tower = 0.0
@@ -380,6 +384,7 @@ def main():
                     stop_camera = not stop_camera
 
                 elif e.key == K_l:
+                       resetting = True
                        x = y = z = 0.0
                        stop_rate_x = stop_rate_z = 0.0000
                        grid_mov_x = grid_mov_z = 0.0
@@ -527,14 +532,15 @@ def main():
                     moving = False
 
         ###############################################################
-
+        
+        #--------------------------------ROTACION Y TRANSLACION DEL TANQUE------------------------------#
         if new_direction != direction:
            target_angle = DIRECTION_ANGLE[new_direction]
            rotating = True
            grid_mov_x = grid_mov_z = 0.0
 
 
-        if rotating:
+        if rotating and not resetting:
             diff = (target_angle - model_angle + 180) % 360 -180
             if abs(diff) < rotation_speed:
                 model_angle = target_angle
@@ -543,7 +549,7 @@ def main():
             else:
                 model_angle += rotation_speed * (1 if diff > 0 else -1) 
 
-        if not rotating and not braking and moving:
+        if not rotating and not braking and not resetting and moving:
             rad = math.radians(model_angle)
             if direction in ['front', 'back']:
                 grid_mov_x = math.sin(rad) * 3.5
@@ -558,6 +564,7 @@ def main():
         if not stop_camera:
             last_cam_pos_x = x
             last_cam_pos_z = z
+        #------------------------------------------------------------------------------------------------#
 
         # ===== LIMITAR MOVIMIEMTO DENTRO DEL GRID =====
         if x - 2 < (-grid_size - 0.1) or x + 2 > (grid_size + 0.1):
