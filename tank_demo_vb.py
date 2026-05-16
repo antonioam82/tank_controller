@@ -346,7 +346,7 @@ def main():
                     #model_angle = 0
                     new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
-                    restting = False
+                    resetting = False
 
                 elif e.key == K_LEFT:
                     #grid_mov_x = tank_speed #0.0500
@@ -539,24 +539,25 @@ def main():
            rotating = True
            grid_mov_x = grid_mov_z = 0.0
 
+        if not resetting:
 
-        if rotating and not resetting:
-            diff = (target_angle - model_angle + 180) % 360 -180
-            if abs(diff) < rotation_speed:
-                model_angle = target_angle
-                rotating = False
-                direction = new_direction
-            else:
-                model_angle += rotation_speed * (1 if diff > 0 else -1) 
+            if rotating:
+                diff = (target_angle - model_angle + 180) % 360 -180
+                if abs(diff) < rotation_speed:
+                    model_angle = target_angle
+                    rotating = False
+                    direction = new_direction
+                else:
+                    model_angle += rotation_speed * (1 if diff > 0 else -1) 
 
-        if not rotating and not braking and not resetting and moving:
-            rad = math.radians(model_angle)
-            if direction in ['front', 'back']:
-                grid_mov_x = math.sin(rad) * 3.5
-                grid_mov_z = -math.cos(rad) * 3.5
-            else:
-                grid_mov_x = -math.sin(rad) * 3.5
-                grid_mov_z = math.cos(rad) * 3.5
+            if not rotating and not braking and moving:
+                rad = math.radians(model_angle)
+                if direction in ['front', 'back']:
+                    grid_mov_x = math.sin(rad) * 3.5
+                    grid_mov_z = -math.cos(rad) * 3.5
+                else:
+                    grid_mov_x = -math.sin(rad) * 3.5
+                    grid_mov_z = math.cos(rad) * 3.5
 
         x += grid_mov_x * dt
         z += grid_mov_z * dt
