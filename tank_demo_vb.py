@@ -19,7 +19,7 @@ def draw_grid():
     glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     glBegin(GL_QUADS)
-    glColor3f(0.1,0.2,0.3)
+    glColor4f(0.1,0.2,0.3,0.5)
     glVertex3f(-grid_size,0,-grid_size)
     glVertex3f(grid_size,0,-grid_size)
     glVertex3f(grid_size, 0, grid_size)
@@ -256,7 +256,7 @@ def main():
     moving = False
     model_angle = 180.0
     target_angle = 180.0
-    rotation_speed = 3.0
+    rotation_speed = 1.8 #3.0
     y_tower = 0.0
     direction = 'front'
     new_direction = 'front'
