@@ -13,30 +13,32 @@ grid_size = 110
 grid_spacing = 1
 
 
-def draw_grid():
+def draw_grid(floor):
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
     
-    # HABILITAR TRANSPARENCIA
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    if floor:
 
-    glDepthMask(GL_FALSE)######################
+        # HABILITAR TRANSPARENCIA
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-    glEnable(GL_POLYGON_OFFSET_FILL)
-    glPolygonOffset(0.9,0.9)
+        glDepthMask(GL_FALSE)######################
 
-    glBegin(GL_QUADS)
-    glColor4f(0.1,0.2,0.4,0.2)
-    glVertex3f(-grid_size,0,-grid_size)
-    glVertex3f(grid_size,0,-grid_size)
-    glVertex3f(grid_size, 0, grid_size)
-    glVertex3f(-grid_size, 0, grid_size)
-    glEnd()
-    glDisable(GL_POLYGON_OFFSET_FILL)
+        glEnable(GL_POLYGON_OFFSET_FILL)
+        glPolygonOffset(0.9,0.9)
 
-    glDepthMask(GL_TRUE)#######################
-    glDisable(GL_BLEND)########################
+        glBegin(GL_QUADS)
+        glColor4f(0.1,0.2,0.4,0.2)
+        glVertex3f(-grid_size,0,-grid_size)
+        glVertex3f(grid_size,0,-grid_size)
+        glVertex3f(grid_size, 0, grid_size)
+        glVertex3f(-grid_size, 0, grid_size)
+        glEnd()
+        glDisable(GL_POLYGON_OFFSET_FILL)
+
+        glDepthMask(GL_TRUE)#######################
+        glDisable(GL_BLEND)########################
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
@@ -182,6 +184,7 @@ def main_loop(args):
     pygame.init()
     display = (800, 600)
     #display = (1600, 900)
+    floor = args.floor
 
     font = pygame.font.SysFont('arial',15)
     
@@ -227,7 +230,7 @@ def main_loop(args):
     draw_model(obj_bullet)
     glEndList()
 
-    grid = draw_grid()
+    grid = draw_grid(floor)
 
     # ============== ESTADO ==============
     x = y = z = 0.0000                # desplazamiento del mundo
@@ -694,6 +697,7 @@ def main():
     allow_abbrev = False
     )
     parser.add_argument('-alsg','--antialiasing',action='store_true',help='Activate antialiasing')
+    parser.add_argument('-fl','--floor',action='store_true',help='Show floor')
     args = parser.parse_args()
 
     main_loop(args)
