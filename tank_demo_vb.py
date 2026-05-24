@@ -6,6 +6,7 @@ from OpenGL.GLU import *
 import math
 import os
 import time
+import argparse
 
 # ================= GRID =================
 grid_size = 110
@@ -175,25 +176,31 @@ def draw_text(font, x, y, text):
     return stop_rate_x, stop_rate_z'''
 
 
-# ================= MAIN =================
-def main():
+# ================= MAIN LOOP =================
+def main_loop(args):
     show_controls()
     pygame.init()
     display = (800, 600)
     #display = (1600, 900)
 
     font = pygame.font.SysFont('arial',15)
+    
+    if args.antialiasing:
 
-    # ========================== ANTIALIASING =========================
-    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
-    #pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
+        # ========================== ANTIALIASING =========================
+        pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+        pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
-    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+        pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-    #glEnable(GL_MULTISAMPLE)
-    #glEnable(GL_LINE_SMOOTH)
-    #glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
-    # =================================================================
+        glEnable(GL_MULTISAMPLE)
+        glEnable(GL_LINE_SMOOTH)
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+        # =================================================================
+
+    else:
+        pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+
 
     gluPerspective(45, display[0] / display[1], 0.1, 90)
     glTranslatef(0, 0, -10)
@@ -678,6 +685,19 @@ def main():
     glDeleteLists(model_tower, 1)
     glDeleteLists(model_bullet, 1)
     pygame.quit()
+
+def main():
+    parser = argparse.ArgumentParser(
+    prog = "tank_demo_vb.py",
+    conflict_handler = "resolve",
+    description = "Tank demo 4",
+    allow_abbrev = False
+    )
+    parser.add_argument('-alsg','--antialiasing',action='store_true',help='Activate antialiasing')
+    args = parser.parse_args()
+
+    main_loop(args)
+
 
 
 main()
