@@ -15,6 +15,18 @@ grid_spacing = 1
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
+
+    glEnable(GL_POLYGON_OFFSET_FILL)
+    glPolygonOffset(0.9,0.9)
+    glBegin(GL_QUADS)
+    glColor3f(0.1,0.2,0.3)
+    glVertex3f(-grid_size,0,-grid_size)
+    glVertex3f(grid_size,0,-grid_size)
+    glVertex3f(grid_size, 0, grid_size)
+    glVertex3f(-grid_size, 0, grid_size)
+    glEnd()
+    glDisable(GL_POLYGON_OFFSET_FILL)
+
     glLineWidth(1.0)
     glBegin(GL_LINES)
     glColor3f(1.0, 1.0, 1.0)
