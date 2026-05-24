@@ -15,17 +15,27 @@ grid_spacing = 1
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
+    
+    # HABILITAR TRANSPARENCIA
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+    glDepthMask(GL_FALSE)######################
 
     glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
+
     glBegin(GL_QUADS)
-    glColor4f(0.1,0.2,0.3,0.5)
+    glColor4f(0.1,0.2,0.4,0.2)
     glVertex3f(-grid_size,0,-grid_size)
     glVertex3f(grid_size,0,-grid_size)
     glVertex3f(grid_size, 0, grid_size)
     glVertex3f(-grid_size, 0, grid_size)
     glEnd()
     glDisable(GL_POLYGON_OFFSET_FILL)
+
+    glDepthMask(GL_TRUE)#######################
+    glDisable(GL_BLEND)########################
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
@@ -76,6 +86,7 @@ def draw_model(path):
     if model_name == 'bullet.obj':
         glColor4f(0.0,1.0,0.0,0.5)
         glLineWidth(1.0)
+        #glDisable(GL_BLEND)
     else:
         glColor3f(1.0,0.0,0.0)
         glLineWidth(2.0)
