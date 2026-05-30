@@ -222,7 +222,7 @@ def main_loop(args):
     act_anim = False
     cen_counter = 0.0
     dest_scale = 0.81
-    dest_rot_x = 0.50#1.0 #-88.5
+    dest_rot_x = 0.50 #1.0 #-88.5
     act_anim2 = False
     dest_rot_y = -152.0
     #dest_rot_x = -28.0
@@ -231,6 +231,8 @@ def main_loop(args):
     dest_y_tower = 62.20
     act_anim5 = False
     act_anim7 = False
+    act_anim8 = False
+
 
     model_angle = 180
     y_tower = 0.0
@@ -287,6 +289,10 @@ def main_loop(args):
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
+                    x = y = z = 0.00
+                    scale = 0.81
+                    rot_x = 0.58
+                    rot_y = 0.00
                     act_anim2 = True
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
@@ -297,14 +303,6 @@ def main_loop(args):
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
                     bullet_speed = 20.0
                     act_anim4 = True
-
-                elif e.key == K_5 and (e.mod & KMOD_ALT):
-                    scale = 1.84
-                    rot_y = -89.44
-                    rot_x = 35.00
-                    dest_scale = 0.52
-                    dest_rot_x = 57.37
-                    dest_rot_y = -1.42
 
                 elif e.key == K_5 and (e.mod & KMOD_ALT):
                     act_anim5 = True
@@ -322,6 +320,16 @@ def main_loop(args):
 
                 elif e.key == K_7 and (e.mod & KMOD_ALT):
                     act_anim7 = True
+
+                elif e.key == K_8 and (e.mod & KMOD_ALT):
+                    scale = 1.84
+                    rot_y = -89.44
+                    rot_x = 35.00
+                    dest_scale = 0.52
+                    dest_rot_x = 57.37
+                    dest_rot_y = -1.42
+                    act_anim8 = True
+
 
                 #elif  e.key == K_p and (e.mod & KMOD_ALT):
                     #ortographic = not ortographic
@@ -455,11 +463,8 @@ def main_loop(args):
                 act_anim = False
 
         if act_anim2:
-
             if rot_y > dest_rot_y:
                 rot_y -= 30.0 * dt
-            #elif rot_x < dest_rot_x:
-                #rot_x += 30.0 * dt
             else:
                 act_anim2 = False
 
@@ -495,6 +500,8 @@ def main_loop(args):
 
             else:
                 act_anim7 = False
+
+         
 
         
         #----------------------------------------#
