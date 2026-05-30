@@ -8,6 +8,9 @@ import math
 import os
 import time
 
+
+#TO DO: MOVIMIENTO GRADUAL DE CAÑON PARA TECLA 'B'
+
 # ================= GRID =================
 grid_size = 110
 grid_spacing = 1
