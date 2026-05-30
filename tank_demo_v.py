@@ -222,7 +222,7 @@ def main_loop(args):
     act_anim = False
     cen_counter = 0.0
     dest_scale = 0.81
-    dest_rot_x = 1.0 #-88.5
+    dest_rot_x = 0.50#1.0 #-88.5
     act_anim2 = False
     dest_rot_y = -152.0
     #dest_rot_x = -28.0
@@ -235,7 +235,7 @@ def main_loop(args):
     model_angle = 180
     y_tower = 0.0
     rot_x = 35.0 #0.0
-    dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    #dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ROT_X_SPEED = 15.0 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
@@ -244,9 +244,9 @@ def main_loop(args):
     braking = False
 
     bullets = []
-    bullet_speed = 30.0 #0.2
+    bullet_speed = 15.0 #30.0 #0.2
     stop_init = False
-    tank_speed = 3.0
+    tank_speed = 2.0 #3.0
 
     clock = pygame.time.Clock()
     last_time = time.perf_counter()
@@ -297,6 +297,14 @@ def main_loop(args):
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
                     bullet_speed = 20.0
                     act_anim4 = True
+
+                elif e.key == K_5 and (e.mod & KMOD_ALT):
+                    scale = 1.84
+                    rot_y = -89.44
+                    rot_x = 35.00
+                    dest_scale = 0.52
+                    dest_rot_x = 57.37
+                    dest_rot_y = -1.42
 
                 elif e.key == K_5 and (e.mod & KMOD_ALT):
                     act_anim5 = True
