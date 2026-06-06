@@ -8,9 +8,6 @@ import math
 import os
 import time
 
-
-#TO DO: MOVIMIENTO GRADUAL DE CAÑON PARA TECLA 'B'
-
 # ================= GRID =================
 grid_size = 110
 grid_spacing = 1
@@ -236,7 +233,6 @@ def main_loop(args):
     act_anim7 = False
     act_anim8 = False
 
-
     model_angle = 180
     y_tower = 0.0
     rot_x = 35.0 #0.0
@@ -370,7 +366,9 @@ def main_loop(args):
                     stop_rate_x = stop_rate_z = 0.0000
 
                 elif e.key == K_b:
-                    y_tower = 0.0
+                    #y_tower = 0.0
+                    dest_y_tower = 0.0
+                    act_anim7 = True
 
                 elif e.key == K_v:
                     y_tower = 180
@@ -498,14 +496,12 @@ def main_loop(args):
                 act_anim5 = False
 
         if act_anim7:
-            if y_tower < 0.00:
-                y_tower += 60.0 * dt
-
+            diff = dest_y_tower - y_tower
+            if abs(diff) > 0.1:
+                y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
+                y_tower = dest_y_tower
                 act_anim7 = False
-
-         
-
         
         #----------------------------------------#
 
