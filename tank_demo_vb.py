@@ -402,7 +402,9 @@ def main_loop(args):
                     resetting = False
 
                 elif e.key == K_b:
-                    y_tower = 0.0
+                    #y_tower = 0.0
+                    act_anim7 = True
+                    dest_y_tower = 0.0
 
                 elif e.key == K_v:
                     y_tower = 180
@@ -536,12 +538,12 @@ def main_loop(args):
                 act_anim5 = False
 
         if act_anim7:
-            if y_tower < 0.00:
-                y_tower += 60.0 * dt
-
+            diff = dest_y_tower - y_tower
+            if abs(diff) > 0.1:
+                y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
+                y_tower = dest_y_tower
                 act_anim7 = False
-
 
         #----------------------------------------#
 
