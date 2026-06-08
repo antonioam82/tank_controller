@@ -8,7 +8,8 @@ import os
 import time
 import argparse
 
-#TO DO: MOVIMIENTO GRADUAL DE CAÑON PARA TECLA 'B'
+#antena_rotor2.obj
+#base_antena2.obj 
 
 # ================= GRID =================
 grid_size = 110
@@ -216,6 +217,8 @@ def main_loop(args):
     obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
     obj_tower = os.path.join(base, "tanque", "torre.obj")
     obj_bullet = os.path.join(base, "tanque", "bullet.obj")
+    obj_base_antena = os.path.join(base, "tanque", "base_antena2.obj")
+    obj_rotor_antena = os.path.join(base, "tanque", "antena_rotor2.obj")
 
     model_base = glGenLists(1)
     glNewList(model_base, GL_COMPILE)
@@ -230,6 +233,16 @@ def main_loop(args):
     model_bullet = glGenLists(1)
     glNewList(model_bullet, GL_COMPILE)
     draw_model(obj_bullet)
+    glEndList()
+
+    model_base_antena = glGenLists(1)
+    glNewList(model_base_antena, GL_COMPILE)
+    draw_model(obj_base_antena)
+    glEndList()
+
+    model_rotor_antena = glGenLists(1)
+    glNewList(model_rotor_antena, GL_COMPILE)
+    draw_model(obj_rotor_antena)
     glEndList()
 
     grid = draw_grid(floor)
@@ -285,6 +298,7 @@ def main_loop(args):
     new_direction = 'front'
     braking = False
     resetting = False
+    rotor_pos = 0.0
     #---------------------------------------
 
     bullets = []
@@ -651,11 +665,20 @@ def main_loop(args):
         glPushMatrix()
         glRotatef(y_tower, 0, 1, 0)
         glCallList(model_tower)
+        #glScalef(0.4,0.4,0.4)
+        glCallList(model_base_antena)
+        glPushMatrix()
+        glRotatef(rotor_pos,0,1,0)
+
+        glCallList(model_rotor_antena)
+        glPopMatrix()
         glPopMatrix()
 
         #glColor3f(0.0,1.0,0.0)
         glCallList(model_base)
         glPopMatrix()
+
+        rotor_pos += 2.0
 
         # ===== BALAS (MUNDO REAL) =====
         for b in bullets:
