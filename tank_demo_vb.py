@@ -714,6 +714,8 @@ def main_loop(args):
     glDeleteLists(model_base, 1)
     glDeleteLists(model_tower, 1)
     glDeleteLists(model_bullet, 1)
+    glDeleteLists(model_base_antena, 1)
+    glDeleteLists(model_rotor_antena, 1)
     pygame.quit()
 
 def main():
