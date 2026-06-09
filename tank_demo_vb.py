@@ -342,7 +342,6 @@ def main_loop(args):
                     act_anim = True
                     dest_rot_x = 1.0
                     cen_counter = 0.0
-                    #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
                     act_anim2 = True
@@ -380,35 +379,24 @@ def main_loop(args):
                         #setup_view_perspective(display)
 
                 elif e.key == K_UP:
-                    #grid_mov_z = tank_speed #0.0500 * dt
-                    #grid_mov_x = 0.0000
                     moving = True
-                    #model_angle = 180
                     new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
 
                 elif e.key == K_DOWN:
-                    #grid_mov_z = -tank_speed #-0.0500 #-0.10000
-                    #grid_mov_x = 0.0000
                     moving = True
-                    #model_angle = 0
                     new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
 
                 elif e.key == K_LEFT:
-                    #grid_mov_x = tank_speed #0.0500
-                    #grid_mov_z = 0.0000
                     moving = True
-                    #model_angle = -90
                     new_direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
 
                 elif e.key == K_RIGHT:
-                    #grid_mov_x = -tank_speed #-0.05000
-                    #grid_mov_z = 0.0000
                     moving = True
                     #model_angle = 90
                     new_direction = 'right'
@@ -416,7 +404,6 @@ def main_loop(args):
                     resetting = False
 
                 elif e.key == K_b:
-                    #y_tower = 0.0
                     act_anim7 = True
                     dest_y_tower = 0.0
 
@@ -545,8 +532,7 @@ def main_loop(args):
                 act_anim4 = False
 
         if act_anim5:
-            #scale = 0.3
-            if scale < 1.77: #if scale > 0.8:
+            if scale < 1.77:
                 scale += 0.01
             else:
                 act_anim5 = False
@@ -567,10 +553,8 @@ def main_loop(args):
 
             if direction in ('front', 'back'):
                 if grid_mov_z > 0.0:
-                    #print("ok")
                     grid_mov_z = max(0.0, grid_mov_z - deceleration)
                 elif grid_mov_z < 0.0:
-                    #print("OK")
                     grid_mov_z = min(0.0, grid_mov_z + deceleration)
                 if grid_mov_z == 0.0:
                     braking = False
@@ -665,11 +649,9 @@ def main_loop(args):
         glPushMatrix()
         glRotatef(y_tower, 0, 1, 0)
         glCallList(model_tower)
-        #glScalef(0.4,0.4,0.4)
         glCallList(model_base_antena)
         #glPushMatrix()
         glRotatef(rotor_pos,0,1,0)
-
         glCallList(model_rotor_antena)
         #glPopMatrix()
         glPopMatrix()
@@ -683,7 +665,6 @@ def main_loop(args):
         # ===== BALAS (MUNDO REAL) =====
         for b in bullets:
             glPushMatrix()
-            #glLineWidth(1.0)
             glTranslatef(b["pos"][0], b["pos"][1], b["pos"][2])
             ang = math.degrees(math.atan2(b["dir"][0], b["dir"][2]))
             glRotatef(ang, 0, 1, 0)
