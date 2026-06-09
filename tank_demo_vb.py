@@ -208,7 +208,7 @@ def main_loop(args):
         pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
 
-    gluPerspective(45, display[0] / display[1], 0.1, 90)
+    gluPerspective(45, display[0] / display[1], 0.1, 120)#90
     glTranslatef(0, 0, -10)
     #glRotatef(35, 1, 0, 0)#!
     glEnable(GL_DEPTH_TEST)
