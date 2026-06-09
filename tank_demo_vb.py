@@ -667,11 +667,11 @@ def main_loop(args):
         glCallList(model_tower)
         #glScalef(0.4,0.4,0.4)
         glCallList(model_base_antena)
-        glPushMatrix()
+        #glPushMatrix()
         glRotatef(rotor_pos,0,1,0)
 
         glCallList(model_rotor_antena)
-        glPopMatrix()
+        #glPopMatrix()
         glPopMatrix()
 
         #glColor3f(0.0,1.0,0.0)
