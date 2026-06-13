@@ -191,6 +191,8 @@ def main_loop(args):
     obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
     obj_tower = os.path.join(base, "tanque", "torre.obj")
     obj_bullet = os.path.join(base, "tanque", "bullet.obj")
+    obj_base_antena = os.path.join(base, "tanque", "RadarBase_48.obj")
+    obj_rotor_antena = os.path.join(base, "tanque", "RadarRotor_48.obj")
 
     model_base = glGenLists(1)
     glNewList(model_base, GL_COMPILE)
@@ -205,6 +207,16 @@ def main_loop(args):
     model_bullet = glGenLists(1)
     glNewList(model_bullet, GL_COMPILE)
     draw_model(obj_bullet)
+    glEndList()
+
+    model_base_antena = glGenLists(1)
+    glNewList(model_base_antena, GL_COMPILE)
+    draw_model(obj_base_antena)
+    glEndList()
+
+    model_rotor_antena = glGenLists(1)
+    glNewList(model_rotor_antena, GL_COMPILE)
+    draw_model(obj_rotor_antena)
     glEndList()
 
     grid = draw_grid()
@@ -236,6 +248,7 @@ def main_loop(args):
     model_angle = 180
     y_tower = 0.0
     rot_x = 35.0 #0.0
+    rot_y_antena = 0.0
     #dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ROT_X_SPEED = 15.0 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
@@ -576,6 +589,12 @@ def main_loop(args):
         glPushMatrix()
         glRotatef(y_tower, 0, 1, 0)
         glCallList(model_tower)
+        glCallList(model_base_antena)
+        glPopMatrix()
+
+        glPushMatrix()
+        glRotatef(rot_y_antena, 0, 1, 0)
+        glCallList(model_rotor_antena)
         glPopMatrix()
         
         #glColor3f(0.0,1.0,0.0)
@@ -591,6 +610,8 @@ def main_loop(args):
             glRotatef(ang, 0, 1, 0)
             glCallList(model_bullet)
             glPopMatrix()
+        
+        rot_y_antena += 1.5
 
         glPopMatrix() # 468, 451, 434, 417, 400, 383, 366
 
