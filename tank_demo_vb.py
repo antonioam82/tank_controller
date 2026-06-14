@@ -539,18 +539,18 @@ def main_loop(args):
 
         if act_anim7:
             diff = dest_y_tower - y_tower
-            if abs(diff) > 0.1:
+            if abs(diff) > 0.1 and abs(diff) <= 180:
                 y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
                 y_tower = dest_y_tower
                 act_anim7 = False
+
 
         #----------------------------------------#
 
         #FRENADA PROGRESIVA###########################################
         if braking:
             deceleration = stop_rate * dt
-
             if direction in ('front', 'back'):
                 if grid_mov_z > 0.0:
                     grid_mov_z = max(0.0, grid_mov_z - deceleration)
