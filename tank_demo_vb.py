@@ -666,7 +666,7 @@ def main_loop(args):
         glCallList(model_base)
         glPopMatrix()
 
-        rotor_pos += 2.0
+        rotor_pos += 240.0 * dt
 
         # ===== BALAS (MUNDO REAL) =====
         for b in bullets:
