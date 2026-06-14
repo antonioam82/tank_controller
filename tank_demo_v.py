@@ -611,7 +611,7 @@ def main_loop(args):
             glCallList(model_bullet)
             glPopMatrix()
         
-        rot_y_antena += 1.5
+        rot_y_antena += 240 * dt
 
         glPopMatrix() # 468, 451, 434, 417, 400, 383, 366
 
