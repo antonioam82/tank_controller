@@ -509,11 +509,12 @@ def main_loop(args):
                 act_anim5 = False
 
         if act_anim7:
-            diff = dest_y_tower - y_tower
-            if abs(diff) > 0.1:
+            normalized = (y_tower + 180) % 360 - 180
+            diff = -normalized
+            if abs(diff) > 0.01:
                 y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
-                y_tower = dest_y_tower
+                y_tower = 0.0
                 act_anim7 = False
         
         #----------------------------------------#

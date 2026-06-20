@@ -539,7 +539,8 @@ def main_loop(args):
 
         if act_anim7:
             normalized = (y_tower + 180) % 360 - 180
-            diff = -normalized  # destino siempre es 0.0
+            #print("NORMALIZED: ",normalized)
+            diff = -normalized
             if abs(diff) > 0.1:
                 y_tower += math.copysign(min(abs(diff), 60.0 * dt), diff)
             else:
