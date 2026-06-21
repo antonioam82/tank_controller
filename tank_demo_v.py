@@ -380,7 +380,7 @@ def main_loop(args):
 
                 elif e.key == K_b:
                     #y_tower = 0.0
-                    dest_y_tower = 0.0
+                    #dest_y_tower = 0.0
                     act_anim7 = True
 
                 elif e.key == K_v:
