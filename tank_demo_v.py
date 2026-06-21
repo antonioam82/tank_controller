@@ -462,7 +462,7 @@ def main_loop(args):
 
         if keys[K_z]:
             scale += 1.2 * dt
-        elif keys[K_x]:
+        elif keys[K_x] and scale >= 0.08:
             scale -= 1.2 * dt
 
         # ===== ACTUALIZACIÓN =====
