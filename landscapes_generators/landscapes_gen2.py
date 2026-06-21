@@ -1,7 +1,4 @@
 import random
-import os
-
-os.chdir(r'C:\Users\Usuario\Documents\modelos')
 
 def crear_paisaje_obj(filename="paisaje.obj", size=110, num_formaciones=40):
     vertices = []

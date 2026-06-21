@@ -1,5 +1,9 @@
 import random
 import math
+import argparse
+from colorama import init, Fore, Style
+
+init()
 
 '''def crear_paisaje_complejo(filename="paisaje_complejo.obj", size=110, num_clusters=15):
     vertices = []
@@ -124,6 +128,17 @@ def crear_roca_compleja(filename="paisaje_rocoso.obj", size=110, num_rocas=18):
             f.write(f"v {v[0]:.4f} {v[1]:.4f} {v[2]:.4f}\n")
         for face in faces:
             f.write(f"f {face[0]} {face[1]} {face[2]}\n")
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="landscapes_gen1.py",
+        description="Generate landscapes",
+        conflict_handler="resolve",
+    )
+
+    parser.add_argument("-name","--landscape_name",default="landscape.obj",help="Obj landscape name")
+
+
 
 if __name__ == "__main__":
     crear_roca_compleja()
