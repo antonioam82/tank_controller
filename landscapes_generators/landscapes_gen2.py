@@ -1,6 +1,12 @@
 import random
+import argparse
+from colorama import init, Fore, Style
 
-def crear_paisaje_obj(filename="paisaje.obj", size=110, num_formaciones=40):
+init()
+
+def crear_paisaje_obj(filename):
+    size = 110
+    num_formaciones = 40
     vertices = []
     faces = []
     v_count = 1
@@ -9,18 +15,18 @@ def crear_paisaje_obj(filename="paisaje.obj", size=110, num_formaciones=40):
         # Posición aleatoria dentro del grid
         x_base = random.uniform(-size, size)
         z_base = random.uniform(-size, size)
-        
+
         # Dimensiones de la formación (montañas bajas y rocas)
         width = random.uniform(5, 15)
         height = random.uniform(3, 8) # Altura baja
         depth = random.uniform(5, 15)
-        
+
         # Crear un "pirámide" irregular para cada formación
         # Vértice superior (pico)
         vertices.append((x_base, height, z_base))
         pico_idx = v_count
         v_count += 1
-        
+
         # Vértices de la base (4 puntos)
         base_pts = [
             (x_base - width/2, 0.1, z_base - depth/2),
@@ -28,13 +34,13 @@ def crear_paisaje_obj(filename="paisaje.obj", size=110, num_formaciones=40):
             (x_base + width/2, 0.1, z_base + depth/2),
             (x_base - width/2, 0.1, z_base + depth/2)
         ]
-        
+
         base_indices = []
         for pt in base_pts:
             vertices.append(pt)
             base_indices.append(v_count)
             v_count += 1
-        
+
         # Crear caras laterales
         for i in range(4):
             v1 = base_indices[i]
@@ -49,6 +55,16 @@ def crear_paisaje_obj(filename="paisaje.obj", size=110, num_formaciones=40):
         for face in faces:
             f.write(f"f {face[0]} {face[1]} {face[2]}\n")
 
+def main():
+    parser = argparse.ArgumentParser(
+        prog="landscapes_gen2.py",
+        description="Generate landscapes",
+        conflict_handler="resolve",
+    )
+
+    parser.add_argument("-name","--landscape_name",default="landscape.obj",help="Obj landscape name")
+    args = parser.parse_args()
+    crear_paisaje_obj(args.landscape_name) 
+
 if __name__ == "__main__":
-    crear_paisaje_obj()
-    print("Archivo 'paisaje.obj' generado con éxito.")
+    main()
