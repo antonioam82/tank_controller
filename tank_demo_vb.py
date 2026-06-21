@@ -278,6 +278,7 @@ def main_loop(args):
     dest_y_tower = 62.20
     act_anim5 = False
     act_anim7 = False
+    act_anim8 = False
 
     model_angle = 180
     rot_x = 35.0 #0.0
@@ -405,9 +406,10 @@ def main_loop(args):
 
                 elif e.key == K_b:
                     act_anim7 = True
-                    dest_y_tower = 0.0
+                    #dest_y_tower = 0.0
 
                 elif e.key == K_v:
+                    #act_anim8 = True
                     y_tower = 180
 
                 elif e.key == K_c:
