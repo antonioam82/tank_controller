@@ -76,6 +76,12 @@ def crear_roca_compleja(filename):
         for face in faces:
             f.write(f"f {face[0]} {face[1]} {face[2]}\n")
 
+def l_name(name):
+    if not name.endswith(".obj"):
+        name = name+".obj"
+    return name
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="landscapes_gen1.py",
@@ -83,7 +89,7 @@ def main():
         conflict_handler="resolve",
     )
 
-    parser.add_argument("-name","--landscape_name",default="landscape.obj",help="Obj landscape name")
+    parser.add_argument("-name","--landscape_name",type=l_name,default="landscape.obj",help="Obj landscape name")
     args = parser.parse_args()
     crear_roca_compleja(args.landscape_name)
 
