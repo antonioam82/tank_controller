@@ -15,17 +15,17 @@ grid_spacing = 1
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
-    '''glEnable(GL_POLYGON_OFFSET_FILL)
+    glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     
     glBegin(GL_QUADS)
     glColor3f(0.1,0.4,0.2)
-    glVertex3f(-grid_size,-10,-grid_size)
-    glVertex3f(grid_size,-10,-grid_size)
-    glVertex3f(grid_size,-10,grid_size)
-    glVertex3f(-grid_size,-10,-grid_size)
+    glVertex3f(-grid_size,-2,-grid_size)
+    glVertex3f(grid_size,-2,-grid_size)
+    glVertex3f(grid_size,-2,grid_size)
+    glVertex3f(-grid_size,-2,-grid_size)
     glEnd()
-    glDisable(GL_POLYGON_OFFSET_FILL)'''
+    glDisable(GL_POLYGON_OFFSET_FILL)
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
@@ -57,7 +57,10 @@ def main():
     glLoadIdentity()
     gluPerspective(45, (display[0] / display[1]), 0.1, 500.0)
     
+    
     grid = draw_grid()
+
+    clock = pygame.time.Clock()
     running = True
     while running:
         for e in pygame.event.get():
@@ -72,6 +75,7 @@ def main():
         #glTranslatef(0,0,mov_z)
 
         pygame.display.flip()
+        clock.tick(60)
 
     glDeleteLists(grid, 1)
     pygame.quit()
