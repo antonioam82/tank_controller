@@ -300,12 +300,12 @@ def main_loop(args):
     braking = False
     resetting = False
     rotor_pos = 0.0
+    tank_speed = args.speed
+    bullet_speed = args.bullet_speed
     #---------------------------------------
 
     bullets = []
-    bullet_speed = 30.0 #0.2
     stop_init = False
-    tank_speed = 3.0
 
     clock = pygame.time.Clock()
     last_time = time.perf_counter()
@@ -593,11 +593,11 @@ def main_loop(args):
             if not rotating and not braking and moving:
                 rad = math.radians(model_angle)
                 if direction in ['front', 'back']:
-                    grid_mov_x = math.sin(rad) * 3.5
-                    grid_mov_z = -math.cos(rad) * 3.5
+                    grid_mov_x = math.sin(rad) * tank_speed
+                    grid_mov_z = -math.cos(rad) * tank_speed #* 3.5
                 else:
-                    grid_mov_x = -math.sin(rad) * 3.5
-                    grid_mov_z = math.cos(rad) * 3.5
+                    grid_mov_x = -math.sin(rad) * tank_speed #* 3.5
+                    grid_mov_z = math.cos(rad) * tank_speed #* 3.5
 
         x += grid_mov_x * dt
         z += grid_mov_z * dt
@@ -703,6 +703,12 @@ def main_loop(args):
     glDeleteLists(model_rotor_antena, 1)
     pygame.quit()
 
+def check_speed(s):
+    val = float(s)
+    if val <= 0.0:
+        raise argparse.ArgumentTypeError(f"VAL ERROR: Speed must be greater than 0 ('{val}' is not valid)")
+    return val
+
 def main():
     parser = argparse.ArgumentParser(
     prog = "tank_demo_vb.py",
@@ -712,6 +718,8 @@ def main():
     )
     parser.add_argument('-alsg','--antialiasing',action='store_true',help='Activate antialiasing')
     parser.add_argument('-fl','--floor',action='store_true',help='Show floor')
+    parser.add_argument('-spd','--speed',type=check_speed,default=3.5,help="Tank speed")
+    parser.add_argument('-bspd','--bullet_speed',type=check_speed,default=30.0,help="Bullet speed")
     args = parser.parse_args()
 
     main_loop(args)
