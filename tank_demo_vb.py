@@ -215,7 +215,7 @@ def main_loop(args):
 
     base = os.path.dirname(__file__)
     obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
-    obj_tower = os.path.join(base, "tanque", "torre.obj")
+    obj_tower = os.path.join(base, "tanque", "torre2.obj")
     obj_bullet = os.path.join(base, "tanque", "bullet.obj")
     obj_base_antena = os.path.join(base, "tanque", "RadarBase_48.obj")
     obj_rotor_antena = os.path.join(base, "tanque", "RadarRotor_48.obj")
