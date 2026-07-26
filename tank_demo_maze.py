@@ -12,20 +12,57 @@ import argparse
 grid_size = 110
 grid_spacing = 1
 
+def load_object(filename):
+    face_indices = []
+    faces = []
+    vertices = []
+    edges = set()
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith('v '):
+                parts = line.strip().split()
+                vertex = [float(parts[1]), float(parts[2]), float(parts[3])]
+                vertices.append(vertex)
+            elif line.startswith('f '):
+                parts = line.strip().split()
+                face_indices = [int(part) - 1 for part in parts[1:]]
+                faces.append(face_indices)
+                for i in range(len(face_indices)):
+                    edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
+
+    return vertices, edges, faces 
+
+def draw_model(path):
+    model_name = os.path.basename(path)
+    v, e, f = load_object(path)
+    glBegin(GL_LINES)
+    for a, b in e:
+        glVertex3f(*v[a])
+        glVertex3f(*v[b])
+    glEnd()
+
+    glColor3f(0.0, 0.1, 0.0)
+    glBegin(GL_QUADS)
+    for face in f:
+        for vertex in face:
+            glVertex3fv(v[vertex])
+    glEnd()
+
+
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
     glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     
-    glBegin(GL_QUADS)
+    '''glBegin(GL_QUADS)
     glColor3f(0.1,0.4,0.2)
     glVertex3f(-grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,grid_size)
     glVertex3f(-grid_size,-2,-grid_size)
     glEnd()
-    glDisable(GL_POLYGON_OFFSET_FILL)
+    glDisable(GL_POLYGON_OFFSET_FILL)'''
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
@@ -56,7 +93,20 @@ def main():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(45, (display[0] / display[1]), 0.1, 500.0)
+
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
+    gluLookAt(0, 30, 80,   # posición de la cámara (alejada y elevada)
+              0, 0, 0,     # punto al que mira (ajustá según el centro real de tu maze)
+              0, 1, 0)     # vector "arriba"
     
+    base = os.path.dirname(__file__)
+    obj_maze = os.path.join(base, "tanque", "maze_large_with_plazes.obj")
+
+    model_maze = glGenLists(1)
+    glNewList(model_maze, GL_COMPILE)
+    draw_model(obj_maze)
+    glEndList()
     
     grid = draw_grid()
 
@@ -72,6 +122,10 @@ def main():
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glCallList(grid)
+        glPushMatrix()
+        glRotatef(90, 1.0, 0.0, 0.0)
+        glCallList(model_maze)
+        glPopMatrix()
         #glTranslatef(0,0,mov_z)
 
         pygame.display.flip()
