@@ -8,6 +8,7 @@ import math
 import os
 import time
 import argparse
+import numpy as np
 
 grid_size = 110
 grid_spacing = 1
@@ -29,6 +30,14 @@ def load_object(filename):
                 faces.append(face_indices)
                 for i in range(len(face_indices)):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
+        
+        #verts_np = np.array(vertices)
+        verts_np = np.array(vertices)
+        min_v = np.min(verts_np, axis=0)
+        max_v = np.max(verts_np, axis=0)
+        center = (min_v + max_v) / 2.0
+
+        vertices = [list(np.array(v) - center) for v in vertices]
 
     return vertices, edges, faces 
 
@@ -124,6 +133,7 @@ def main():
         glCallList(grid)
         glPushMatrix()
         glRotatef(90, 1.0, 0.0, 0.0)
+        glScale(10.0,10.0,5.0)
         glCallList(model_maze)
         glPopMatrix()
         #glTranslatef(0,0,mov_z)
