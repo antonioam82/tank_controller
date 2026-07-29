@@ -9,11 +9,13 @@ import os
 import time
 import argparse
 import numpy as np
+from pathlib import Path
 
 grid_size = 110
 grid_spacing = 1
 
 def load_object(filename):
+    model = Path(filename).name
     face_indices = []
     faces = []
     vertices = []
@@ -31,13 +33,13 @@ def load_object(filename):
                 for i in range(len(face_indices)):
                     edges.add(tuple(sorted((face_indices[i], face_indices[(i + 1) % len(face_indices)]))))
         
-        #verts_np = np.array(vertices)
-        verts_np = np.array(vertices)
-        min_v = np.min(verts_np, axis=0)
-        max_v = np.max(verts_np, axis=0)
-        center = (min_v + max_v) / 2.0
+        if model == 'maze_large_with_plazes.obj':
+            verts_np = np.array(vertices)
+            min_v = np.min(verts_np, axis=0)
+            max_v = np.max(verts_np, axis=0)
+            center = (min_v + max_v) / 2.0
 
-        vertices = [list(np.array(v) - center) for v in vertices]
+            vertices = [list(np.array(v) - center) for v in vertices]
 
     return vertices, edges, faces 
 
