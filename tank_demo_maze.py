@@ -11,7 +11,7 @@ import argparse
 import numpy as np
 from pathlib import Path
 
-grid_size = 140
+grid_size = 190
 grid_spacing = 1
 
 def load_object(filename):
