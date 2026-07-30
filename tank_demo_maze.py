@@ -11,7 +11,7 @@ import argparse
 import numpy as np
 from pathlib import Path
 
-grid_size = 110
+grid_size = 140
 grid_spacing = 1
 
 def load_object(filename):
@@ -63,11 +63,11 @@ def draw_model(path):
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
-    glEnable(GL_POLYGON_OFFSET_FILL)
+    '''glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     
-    '''glBegin(GL_QUADS)
-    glColor3f(0.1,0.4,0.2)
+    glBegin(GL_QUADS)
+    glColor3f(0.1,0.4,0.8)
     glVertex3f(-grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,grid_size)
@@ -96,6 +96,10 @@ def main():
     pygame.init()
     display = (800, 600)
     #mov_z = 0.001
+
+    scene_rotx = 0.0
+    scene_roty = 0.0
+    scene_rotz = 0.0
     
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     glEnable(GL_DEPTH_TEST)
@@ -131,11 +135,25 @@ def main():
                 if e.key == K_ESCAPE:
                     running = False
 
+        key = pygame.key.get_pressed()
+
+        if key[pygame.K_r]:
+            glRotatef(2,0.0,1.0,0.0)
+        elif key[pygame.K_t]:
+            glRotatef(-2,0.0,1.0,0.0)
+
+        if key[pygame.K_f]:
+            glRotatef(2,1.0,0.0,0.0)
+        elif key[pygame.K_g]:
+            glRotatef(-2,1.0,0.0,0.0)
+
+
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glCallList(grid)
         glPushMatrix()
         glRotatef(90, 1.0, 0.0, 0.0)
-        glScale(10.0,10.0,5.0)
+        glScale(10.0,10.0,3.0)
         glCallList(model_maze)
         glPopMatrix()
         #glTranslatef(0,0,mov_z)
