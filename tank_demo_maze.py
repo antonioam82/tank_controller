@@ -63,17 +63,17 @@ def draw_model(path):
 def draw_grid():
     grid_list = glGenLists(1)
     glNewList(grid_list, GL_COMPILE)
-    '''glEnable(GL_POLYGON_OFFSET_FILL)
+    glEnable(GL_POLYGON_OFFSET_FILL)
     glPolygonOffset(0.9,0.9)
     
     glBegin(GL_QUADS)
-    glColor3f(0.1,0.4,0.8)
+    glColor3f(0.4,0.5,0.1)
     glVertex3f(-grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,-grid_size)
     glVertex3f(grid_size,-2,grid_size)
-    glVertex3f(-grid_size,-2,-grid_size)
+    glVertex3f(-grid_size,-2,grid_size)
     glEnd()
-    glDisable(GL_POLYGON_OFFSET_FILL)'''
+    glDisable(GL_POLYGON_OFFSET_FILL)
 
     glLineWidth(1.0)
     glBegin(GL_LINES)
