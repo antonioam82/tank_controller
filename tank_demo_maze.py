@@ -100,6 +100,8 @@ def main():
     scene_rotx = 0.0
     scene_roty = 0.0
     scene_rotz = 0.0
+
+    scene_scale = 1.5
     
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     glEnable(GL_DEPTH_TEST)
@@ -124,6 +126,8 @@ def main():
     glEndList()
     
     grid = draw_grid()
+    #glScale(scene_scale,scene_scale,scene_scale)
+
 
     clock = pygame.time.Clock()
     running = True
@@ -147,16 +151,27 @@ def main():
         elif key[pygame.K_g]:
             glRotatef(-2,1.0,0.0,0.0)
 
+        if key[pygame.K_z]:
+            scene_scale += 0.05
+        elif key[pygame.K_x]:
+            scene_scale -= 0.05
+
 
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        glPushMatrix()
+        glScalef(scene_scale,scene_scale,scene_scale)
+     
         glCallList(grid)
         glPushMatrix()
         glRotatef(90, 1.0, 0.0, 0.0)
-        glScale(10.0,10.0,3.0)
+        glScalef(10.0,10.0,2.5)
+        glTranslatef(0,0,0)
         glCallList(model_maze)
         glPopMatrix()
         #glTranslatef(0,0,mov_z)
+        glPopMatrix()
 
         pygame.display.flip()
         clock.tick(60)
