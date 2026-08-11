@@ -103,7 +103,7 @@ def setup_view_perspective(display):
     #glTranslatef(0.0, 0.0, -10.0)
 
 def show_controls():
-    print("\n--------------------- Controls ---------------------")
+    print("\n------------------------ Controls ------------------------")
 
     print("\nKeyboard Controls (Tank Movement):")
     print("  - Up Arrow: Move tank forward")
@@ -133,9 +133,10 @@ def show_controls():
     print("\nOther Controls")
     print("  - C Key: Stop tank movement")
     print("  - L Key: Reset entire scene")
+    print("  - H Key: Toggle the visibility of on-screen information")
     print("  - ESC Key: Exit the program")
 
-    print("\n----------------------------------------------------")
+    print("\n----------------------------------------------------------")
 
 def draw_text(font, x, y, text):
     textSurface = font.render(text, True, (0, 255, 0), (0, 0, 0))
