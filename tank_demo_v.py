@@ -189,7 +189,7 @@ def main_loop(args):
 
     base = os.path.dirname(__file__)
     obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
-    obj_tower = os.path.join(base, "tanque", "torre.obj")
+    obj_tower = os.path.join(base, "tanque", "torre2.obj")
     obj_bullet = os.path.join(base, "tanque", "bullet.obj")
     obj_base_antena = os.path.join(base, "tanque", "RadarBase_48.obj")
     obj_rotor_antena = os.path.join(base, "tanque", "RadarRotor_48.obj")
@@ -255,12 +255,26 @@ def main_loop(args):
     stop_camera = False
     scale = 1.00
     direction = 'front'
+    new_direction = 'front' ###########################
     braking = False
+    moving = False
+    resetting = False
+    rotating = False
+    rotation_speed = 1.8
 
     bullets = []
     bullet_speed = 15.0 #30.0 #0.2
     stop_init = False
     tank_speed = 2.0 #3.0
+
+    #-------------------------------------------
+    DIRECTION_ANGLE = {
+        'front': 180,
+        'right': 90,
+        'back': 0,
+        'left': 270
+    }
+    #-------------------------------------------
 
     clock = pygame.time.Clock()
     last_time = time.perf_counter()
@@ -351,32 +365,40 @@ def main_loop(args):
                         #setup_view_perspective(display)
 
                 elif e.key == K_UP:
-                    grid_mov_z = tank_speed #0.0500 * dt
-                    grid_mov_x = 0.0000
-                    model_angle = 180
-                    direction = 'front'
+                    #grid_mov_z = tank_speed #0.0500 * dt
+                    #grid_mov_x = 0.0000
+                    #model_angle = 180
+                    new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
+                    moving = True
 
                 elif e.key == K_DOWN:
-                    grid_mov_z = -tank_speed #-0.0500 #-0.10000
-                    grid_mov_x = 0.0000
-                    model_angle = 0
-                    direction = 'back'
+                    #grid_mov_z = -tank_speed #-0.0500 #-0.10000
+                    #grid_mov_x = 0.0000
+                    #model_angle = 0
+                    new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
+                    moving = True
 
                 elif e.key == K_LEFT:
-                    grid_mov_x = tank_speed #0.0500
-                    grid_mov_z = 0.0000
-                    model_angle = -90
-                    direction = 'left'
+                    #grid_mov_x = tank_speed #0.0500
+                    #grid_mov_z = 0.0000
+                    #model_angle = -90
+                    new_direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
+                    moving = True
 
                 elif e.key == K_RIGHT:
-                    grid_mov_x = -tank_speed #-0.05000
-                    grid_mov_z = 0.0000
-                    model_angle = 90
-                    direction = 'right'
+                    #grid_mov_x = -tank_speed #-0.05000
+                    #grid_mov_z = 0.0000
+                    #model_angle = 90
+                    new_direction = 'right'
                     stop_rate_x = stop_rate_z = 0.0000
+                    resetting = False
+                    moving = True
 
                 elif e.key == K_b:
                     #y_tower = 0.0
@@ -390,6 +412,9 @@ def main_loop(args):
                     #grid_mov_x = grid_mov_z = 0.0
                     #stop_rate_x, stop_rate_z = stop_movement(direction)
                     braking = True
+
+                elif e.key == K_h:
+                    hide_info = not hide_info
 
                 elif e.key == K_j:
                     hide_info = not hide_info
@@ -407,6 +432,8 @@ def main_loop(args):
                        rot_y = 0.0
                        scale = 1.0
                        direction = 'front'
+                       new_direction = 'front'
+                       moving = False
                        stop_camera = False
                        glLoadIdentity()
                        gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
@@ -530,16 +557,44 @@ def main_loop(args):
                     grid_mov_z = min(0.0, grid_mov_z + deceleration)
                 if grid_mov_z == 0.0:
                     braking = False
+                    moving = False
             else:
                 if grid_mov_x > 0.0:
                     grid_mov_x = max(0.0, grid_mov_x - deceleration)
                 elif grid_mov_x < 0.0:
                     grid_mov_x = min(0.0, grid_mov_x + deceleration)
                 if grid_mov_x == 0.0:
-                    braking = False        
+                    braking = False
+                    moving = False        
 
         ###############################################################
+        
+        #--------------ROTACION Y TRANSLACION, TANQUE--------------
+        if new_direction != direction:
+            target_angle = DIRECTION_ANGLE[new_direction]
+            rotating = True
+            grid_mov_x = grid_mov_z = 0.0
 
+        if not resetting:
+        
+            if rotating:
+                diff = (target_angle - model_angle + 180) % 360 -180
+                if abs(diff) < rotation_speed:
+                    model_angle = target_angle
+                    rotating = False
+                    direction = new_direction
+                else:
+                    model_angle += rotation_speed * (1 if diff > 0 else -1)
+
+            if not rotating and not braking and moving:
+                rad = math.radians(model_angle)
+                if direction in ['front', 'back']:
+                    grid_mov_x = math.sin(rad) * tank_speed
+                    grid_mov_z = -math.cos(rad) * tank_speed
+                else:
+                    grid_mov_x = -math.sin(rad) * tank_speed
+                    grid_mov_z = math.cos(rad) * tank_speed
+               
         x += grid_mov_x * dt
         z += grid_mov_z * dt
         
@@ -552,15 +607,18 @@ def main_loop(args):
             grid_mov_x = 0.0
             if direction == 'left':
                 x -= 0.1
+                moving = False
             elif direction == 'right':
                 x += 0.1
+                moving = False
         elif z - 2 < (-grid_size - 0.1) or z + 2 > (grid_size + 0.1):
             grid_mov_z = 0.0
             if direction == 'front':
                 z -= 0.1
+                moving = False
             elif direction == 'back':
                 z += 0.1
-
+                moving = False
         for b in bullets:
             b["pos"][0] += b["dir"][0] * bullet_speed * dt
             b["pos"][2] += b["dir"][2] * bullet_speed * dt
