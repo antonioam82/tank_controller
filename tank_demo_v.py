@@ -225,15 +225,12 @@ def main_loop(args):
     # ============== ESTADO ==============
     x = y = z = 0.0000                # desplazamiento del mundo
     grid_mov_x = grid_mov_z = 0.0000
-    #stop_rate_x = stop_rate_z = 0.0000
     stop_rate = 2.0
     last_cam_pos_x = last_cam_pos_z = 0.0
-    ortographic = False
     
     #hide_info = False
 
     act_anim = False
-    cen_counter = 0.0
     dest_scale = 0.81
     dest_rot_x = 0.50 #1.0 #-88.5
     act_anim2 = False
@@ -250,7 +247,6 @@ def main_loop(args):
     y_tower = 0.0
     rot_x = 35.0 #0.0
     rot_y_antena = 0.0
-    #dest_rot_x = 0.50 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ROT_X_SPEED = 15.0 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     rot_y = 0.0
     stop_camera = False
