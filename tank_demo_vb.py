@@ -148,11 +148,15 @@ def show_controls():
     print("  - Y Key: Fire bullet")
 
     print("\nScene / Camera Controls:")
-    print("  - T Key: Rotate scene clockwise around Y-axis")
-    print("  - R Key: Rotate scene counterclockwise around Y-axis")
-    print("  - F Key: Tilt camera downward")
-    print("  - G Key: Tilt camera upward")
+    print("  - T Key: Rotate scene left")
+    print("  - R Key: Rotate scene right")
+    print("  - F Key: Tilt camera upward")
+    print("  - G Key: Tilt camera downward")
     print("  - S Key: Lock / unlock camera movement")
+
+    print("\nVertical Controls:")
+    print("  - P Key: Move scene up")
+    print("  - O Key: Move scene down")
 
     print("\nScale Controls:")
     print("  - Z Key: Increase scale")
