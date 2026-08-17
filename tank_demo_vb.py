@@ -420,6 +420,9 @@ def main_loop(args):
                     #grid_mov_x = grid_mov_z = 0.0
                     #stop_rate_x, stop_rate_z = stop_movement(direction)
                     braking = True
+                
+                elif e.key == K_h:
+                    hide_info = not hide_info
 
                 elif e.key == K_j:
                     hide_info = not hide_info
