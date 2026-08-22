@@ -261,12 +261,12 @@ def main_loop(args):
     moving = False
     resetting = False
     rotating = False
-    rotation_speed = 1.8
+    rotation_speed = args.rotation_speed #1.8
 
     bullets = []
-    bullet_speed = 15.0 #30.0 #0.2
+    bullet_speed = args.bullet_speed #15.0 #30.0 #0.2
     stop_init = False
-    tank_speed = 2.0 #3.0
+    tank_speed = args.tank_speed #2.0 #3.0
 
     #-------------------------------------------
     DIRECTION_ANGLE = {
@@ -709,6 +709,9 @@ def main():
     )
     parser.add_argument('-alsg','--antialiasing',action='store_true',help='Activate antialiasing')
     parser.add_argument('-fs','--full_screen',action='store_true',help='View in full screen')
+    parser.add_argument('-spd','--tank_speed',type=float,default=2.0,help='Tank speed')
+    parser.add_argument('-bspd','--bullet_speed',type=float,default=15.0,help='Bullets speed')
+    parser.add_argument('-rts','--rotation_speed',type=float,default=1.8,help='Direction rot speed')
     args = parser.parse_args()
 
     main_loop(args)
