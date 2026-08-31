@@ -473,11 +473,13 @@ def main_loop(args):
         if keys[K_f]:
             #rot_x = 0.5
             #glRotatef(rot_x, 1.0, 0.0, 0.0)
-            rot_x += ROT_X_SPEED * dt
+            if rot_x < 179.9:
+                rot_x += ROT_X_SPEED * dt
         elif keys[K_g]:
             #rot_x = -0.5
             #glRotatef(rot_x, 1.0, 0.0, 0.0)
-            rot_x -= ROT_X_SPEED * dt
+            if rot_x > 0.1:
+                rot_x -= ROT_X_SPEED * dt
 
         if keys[K_p]:
             y += 6.0 * dt
