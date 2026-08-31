@@ -142,14 +142,15 @@ def main():
         key = pygame.key.get_pressed()
 
         if key[pygame.K_r]:
-            glRotatef(2,0.0,1.0,0.0)
+            scene_roty += 0.2
         elif key[pygame.K_t]:
-            glRotatef(-2,0.0,1.0,0.0)
+            scene_roty -= 0.2
 
         if key[pygame.K_f]:
-            glRotatef(2,1.0,0.0,0.0)
+            glRotatef(0.5, 1.0, 0.0, 0.0)
         elif key[pygame.K_g]:
-            glRotatef(-2,1.0,0.0,0.0)
+            glRotatef(-0.5, 1.0, 0.0, 0.0)
+
 
         if key[pygame.K_z]:
             scene_scale += 0.05
@@ -162,13 +163,15 @@ def main():
 
         glPushMatrix()
         glScalef(scene_scale,scene_scale,scene_scale)
-     
+        glRotatef(scene_roty,0,1,0)
         glCallList(grid)
+
         glPushMatrix()
         glRotatef(90, 1.0, 0.0, 0.0)
         glScalef(10.0,10.0,2.5)
         glTranslatef(0,0,0)
         glCallList(model_maze)
+
         glPopMatrix()
         #glTranslatef(0,0,mov_z)
         glPopMatrix()
