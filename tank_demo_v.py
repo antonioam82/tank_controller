@@ -316,15 +316,13 @@ def main_loop(args):
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
-                    #x = y = z = 0.00
-                    #scale = 0.81
-                    #rot_x = 0.58
-                    #rot_y = 0.00
+                    dest_rot_x = 6.3 ##########
+                    stop_init = True ##########
                     act_anim2 = True
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
                     act_anim3 = True
-                    dest_rot_x = 6.3
+                    #dest_rot_x = 6.3
                     stop_init = True
                 
                 elif e.key == K_4 and (e.mod & KMOD_ALT):
@@ -505,8 +503,11 @@ def main_loop(args):
                 act_anim = False
 
         if act_anim2:
-            if rot_y > dest_rot_y:
-                rot_y -= 30.0 * dt
+            if rot_y > dest_rot_y or rot_x < dest_rot_x:
+                if rot_y > dest_rot_y:
+                    rot_y -= 30.0 * dt
+                if rot_x < dest_rot_x:
+                    rot_x += 1.5 * dt #6.0
             else:
                 act_anim2 = False
 
@@ -515,11 +516,13 @@ def main_loop(args):
                 #stop_rate_x, stop_rate_z = stop_movement(direction)
                 braking = True    
                 stop_init = False
-
-            if rot_x < dest_rot_x:
-                rot_x += 6.0 * dt
             else:
                 act_anim3 = False
+
+            '''if rot_x < dest_rot_x:
+                rot_x += 6.0 * dt
+            else:
+                act_anim3 = False'''
 
         if act_anim4:
             diff = dest_y_tower - y_tower
