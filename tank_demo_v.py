@@ -318,8 +318,7 @@ def main_loop(args):
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
                     rot_x =  0.8887259988114238 
                     rot_y = 0.0                
-                    dest_rot_x = 6.3 ##########
-                    stop_init = True ##########
+                    dest_rot_x = 7.86 #6.31 ##########
                     act_anim2 = True
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
@@ -505,7 +504,7 @@ def main_loop(args):
                 if rot_y > dest_rot_y:
                     rot_y -= 30.0 * dt
                 if rot_x < dest_rot_x:
-                    rot_x += 1.5 * dt #6.0
+                    rot_x += 1.4 * dt #6.0
             else:
                 act_anim2 = False
 
