@@ -235,10 +235,10 @@ def main_loop(args):
     #hide_info = False
 
     act_anim = False
-    dest_scale = 0.81
-    dest_rot_x = 0.50 #1.0 #-88.5
+    #dest_scale = 0.81
+    #dest_rot_x = 0.50 #1.0 #-88.5
     act_anim2 = False
-    dest_rot_y = -152.0
+    #dest_rot_y = -242.14
     #dest_rot_x = -28.0
     act_anim3 = False
     act_anim4 = False
@@ -300,8 +300,7 @@ def main_loop(args):
                     rot_x = 0.0
                     scale = 0.39
                     glTranslatef(0.0, 0.0, -10.0)
-                    glRotatef(90.0, 1.0, 0.0, 0.0)
-
+                    glRotatef(90.0, 1, 0, 0)
 
                 elif e.key == K_1 and (e.mod & KMOD_ALT):
                     glLoadIdentity()
@@ -316,9 +315,15 @@ def main_loop(args):
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
-                    rot_x =  0.8887259988114238 
-                    rot_y = 0.0                
-                    dest_rot_x = 7.86 #6.31 ##########
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
+                    glTranslatef(0.0, 0.0, -10.0)
+                    scale = 0.81
+                    rot_x =  1.0 
+                    rot_y = -90.0
+                             
+                    dest_rot_x = 6.32 ##########
+                    dest_rot_y = -242.14
                     act_anim2 = True
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
@@ -515,11 +520,6 @@ def main_loop(args):
                 stop_init = False
             else:
                 act_anim3 = False
-
-            '''if rot_x < dest_rot_x:
-                rot_x += 6.0 * dt
-            else:
-                act_anim3 = False'''
 
         if act_anim4:
             diff = dest_y_tower - y_tower
