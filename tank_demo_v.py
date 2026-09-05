@@ -316,6 +316,8 @@ def main_loop(args):
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
+                    rot_x =  0.8887259988114238 
+                    rot_y = 0.0                
                     dest_rot_x = 6.3 ##########
                     stop_init = True ##########
                     act_anim2 = True
@@ -461,12 +463,8 @@ def main_loop(args):
             rot_y -= 30.0 * dt
 
         if keys[K_f]:
-            #rot_x = 0.5
-            #glRotatef(rot_x, 1.0, 0.0, 0.0)
             rot_x += ROT_X_SPEED * dt
         elif keys[K_g]:
-            #rot_x = -0.5
-            #glRotatef(rot_x, 1.0, 0.0, 0.0)
             rot_x -= ROT_X_SPEED * dt
 
         if keys[K_p]:
