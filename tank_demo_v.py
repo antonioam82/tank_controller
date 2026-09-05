@@ -316,10 +316,10 @@ def main_loop(args):
                     #glRotatef(90.0, 1.0, 0.0, 0.0)
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
-                    x = y = z = 0.00
-                    scale = 0.81
-                    rot_x = 0.58
-                    rot_y = 0.00
+                    #x = y = z = 0.00
+                    #scale = 0.81
+                    #rot_x = 0.58
+                    #rot_y = 0.00
                     act_anim2 = True
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
