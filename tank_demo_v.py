@@ -723,6 +723,12 @@ def main_loop(args):
     glDeleteLists(model_base, 1)
     glDeleteLists(model_tower, 1)
     glDeleteLists(model_bullet, 1)
+
+    if args.antialiasing:
+        glDisable(GL_MULTISAMPLE)
+        glDisable(GL_LINE_SMOOTH)
+    glDisable(GL_DEPTH_TEST)
+
     pygame.quit()
 
 # ================= MAIN =================
@@ -743,6 +749,4 @@ def main():
     main_loop(args)
 
 main()
-
-
 
