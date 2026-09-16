@@ -412,6 +412,11 @@ def main():
     glDeleteLists(model_list, 1)
     glDeleteLists(model_list2, 1)
     glDeleteLists(model_list3, 1)
+
+    glDisable(GL_MULTISAMPLE)
+    glDisable(GL_LINE_SMOOTH)
+    glDisable(GL_DEPTH_TEST)
+
     pygame.quit()
 
 main()
