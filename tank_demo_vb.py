@@ -710,6 +710,12 @@ def main_loop(args):
     glDeleteLists(model_bullet, 1)
     glDeleteLists(model_base_antena, 1)
     glDeleteLists(model_rotor_antena, 1)
+
+    if args.antialiasing:
+        glDisable(GL_MULTISAMPLE)
+        glDisable(GL_LINE_SMOOTH)
+    glDisable(GL_DEPTH_TEST)
+
     pygame.quit()
 
 def check_speed(s):
