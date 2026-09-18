@@ -75,6 +75,9 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
+    #glEnable(GL_POLYGON_OFFSET_FILL)
+    #glPolygonOffset(factor, units)
+
     glBegin(GL_QUADS)
     if model_name != 'bullet.obj':
         glColor3f(0.1, 0.1, 0.1)
@@ -159,6 +162,9 @@ def draw_text(font, x, y, text):
 
 # ====================MAIN LOOP=================== #
 def main_loop(args):
+    #factor = args.factor
+    #units = args.units
+
     show_controls()
     pygame.init()
     if args.full_screen:
@@ -744,6 +750,9 @@ def main():
     parser.add_argument('-spd','--tank_speed',type=float,default=2.0,help='Tank speed')
     parser.add_argument('-bspd','--bullet_speed',type=float,default=15.0,help='Bullets speed')
     parser.add_argument('-rts','--rotation_speed',type=float,default=1.8,help='Direction rot speed')
+    #parser.add_argument('-f','--factor',type=float,default=1.0,help="Slope Scaling (Slope-Factor)")
+    #parser.add_argument('-u','--units',type=float,default=1.0,help="Minimum Phase Shift Units (Constant-Units)")
+
     args = parser.parse_args()
 
     main_loop(args)
