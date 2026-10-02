@@ -53,7 +53,7 @@ def load_object(filename):
     return vertices, edges, faces
 
 
-def draw_model(path):
+def draw_model(path,factor,units):
     # HABILITAR TRANSPARENCIA
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -75,8 +75,8 @@ def draw_model(path):
         glVertex3f(*v[b])
     glEnd()
 
-    #glEnable(GL_POLYGON_OFFSET_FILL)
-    #glPolygonOffset(factor, units)
+    glEnable(GL_POLYGON_OFFSET_FILL)
+    glPolygonOffset(factor, units)
 
     glBegin(GL_QUADS)
     if model_name != 'bullet.obj':
@@ -162,8 +162,8 @@ def draw_text(font, x, y, text):
 
 # ====================MAIN LOOP=================== #
 def main_loop(args):
-    #factor = args.factor
-    #units = args.units
+    factor = args.factor
+    units = args.units
 
     show_controls()
     pygame.init()
@@ -207,27 +207,27 @@ def main_loop(args):
 
     model_base = glGenLists(1)
     glNewList(model_base, GL_COMPILE)
-    draw_model(obj_base)
+    draw_model(obj_base,factor,units)
     glEndList()
 
     model_tower = glGenLists(1)
     glNewList(model_tower, GL_COMPILE)
-    draw_model(obj_tower)
+    draw_model(obj_tower,factor,units)
     glEndList()
 
     model_bullet = glGenLists(1)
     glNewList(model_bullet, GL_COMPILE)
-    draw_model(obj_bullet)
+    draw_model(obj_bullet,factor,units)
     glEndList()
 
     model_base_antena = glGenLists(1)
     glNewList(model_base_antena, GL_COMPILE)
-    draw_model(obj_base_antena)
+    draw_model(obj_base_antena,factor,units)
     glEndList()
 
     model_rotor_antena = glGenLists(1)
     glNewList(model_rotor_antena, GL_COMPILE)
-    draw_model(obj_rotor_antena)
+    draw_model(obj_rotor_antena,factor,units)
     glEndList()
 
     grid = draw_grid()
@@ -241,14 +241,9 @@ def main_loop(args):
     #hide_info = False
 
     act_anim = False
-    #dest_scale = 0.81
-    #dest_rot_x = 0.50 #1.0 #-88.5
     act_anim2 = False
-    #dest_rot_y = -242.14
-    #dest_rot_x = -28.0
     act_anim3 = False
     act_anim4 = False
-    #dest_y_tower = 62.21
     act_anim5 = False
     act_anim7 = False
     act_anim8 = False
@@ -376,52 +371,36 @@ def main_loop(args):
                         #setup_view_perspective(display)
 
                 elif e.key == K_UP:
-                    #grid_mov_z = tank_speed #0.0500 * dt
-                    #grid_mov_x = 0.0000
-                    #model_angle = 180
                     new_direction = 'front'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
                     moving = True
 
                 elif e.key == K_DOWN:
-                    #grid_mov_z = -tank_speed #-0.0500 #-0.10000
-                    #grid_mov_x = 0.0000
-                    #model_angle = 0
                     new_direction = 'back'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
                     moving = True
 
                 elif e.key == K_LEFT:
-                    #grid_mov_x = tank_speed #0.0500
-                    #grid_mov_z = 0.0000
-                    #model_angle = -90
                     new_direction = 'left'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
                     moving = True
 
                 elif e.key == K_RIGHT:
-                    #grid_mov_x = -tank_speed #-0.05000
-                    #grid_mov_z = 0.0000
-                    #model_angle = 90
                     new_direction = 'right'
                     stop_rate_x = stop_rate_z = 0.0000
                     resetting = False
                     moving = True
 
                 elif e.key == K_b:
-                    #y_tower = 0.0
-                    #dest_y_tower = 0.0
                     act_anim7 = True
 
                 elif e.key == K_v:
                     y_tower = 180
 
                 elif e.key == K_c:
-                    #grid_mov_x = grid_mov_z = 0.0
-                    #stop_rate_x, stop_rate_z = stop_movement(direction)
                     braking = True
 
                 elif e.key == K_h:
@@ -713,8 +692,6 @@ def main_loop(args):
             draw_text(font, 10, 536, f'X: {x:.2f}')
             draw_text(font, 10, 519, f'Y: {y:.2f}')
             draw_text(font, 10, 502, f'Z: {z:.2f}')
-            #draw_text(font, 10, 485, f'SR: {stop_rate:.2f}')
-            #draw_text(font, 10, 485, f'SRz: {stop_rate_z:.2f}')
             draw_text(font, 10, 485, f'GRID MOV X: {grid_mov_x:.2f}')
             draw_text(font, 10, 468, f'GRID MOV Z: {grid_mov_z:.2f}')
             draw_text(font, 10, 451, f'ROT X: {rot_x:.2f}')
@@ -750,8 +727,8 @@ def main():
     parser.add_argument('-spd','--tank_speed',type=float,default=2.0,help='Tank speed')
     parser.add_argument('-bspd','--bullet_speed',type=float,default=15.0,help='Bullets speed')
     parser.add_argument('-rts','--rotation_speed',type=float,default=1.8,help='Direction rot speed')
-    #parser.add_argument('-f','--factor',type=float,default=1.0,help="Slope Scaling (Slope-Factor)")
-    #parser.add_argument('-u','--units',type=float,default=1.0,help="Minimum Phase Shift Units (Constant-Units)")
+    parser.add_argument('-f','--factor',type=float,default=0.0,help="Slope Scaling (Slope-Factor)")
+    parser.add_argument('-u','--units',type=float,default=0.0,help="Minimum Phase Shift Units (Constant-Units)")
 
     args = parser.parse_args()
 
