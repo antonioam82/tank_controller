@@ -178,7 +178,7 @@ def main_loop(args):
 
     if args.antialiasing:
 
-        # ========================== ANTIALIASING =========================
+        # ========================== ANTIALIASING ==========================
         pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
         pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)
 
@@ -187,7 +187,7 @@ def main_loop(args):
         glEnable(GL_MULTISAMPLE)
         glEnable(GL_LINE_SMOOTH)
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
-       # =================================================================
+        # ==================================================================
 
     else:
         pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
