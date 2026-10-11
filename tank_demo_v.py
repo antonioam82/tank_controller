@@ -710,6 +710,8 @@ def main_loop(args):
         glDisable(GL_MULTISAMPLE)
         glDisable(GL_LINE_SMOOTH)
     glDisable(GL_DEPTH_TEST)
+    glDisable(GL_POLYGON_OFFSET_FILL)
+
 
     pygame.quit()
 
