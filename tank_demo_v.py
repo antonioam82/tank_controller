@@ -57,6 +57,8 @@ def draw_model(path,factor,units):
     # HABILITAR TRANSPARENCIA
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    glEnable(GL_POLYGON_OFFSET_FILL)
+    glPolygonOffset(factor, units)
 
     model_name = os.path.basename(path)
     v, e, f = load_object(path)
@@ -74,9 +76,6 @@ def draw_model(path,factor,units):
         glVertex3f(*v[a])
         glVertex3f(*v[b])
     glEnd()
-
-    glEnable(GL_POLYGON_OFFSET_FILL)
-    glPolygonOffset(factor, units)
 
     glBegin(GL_QUADS)
     if model_name != 'bullet.obj':

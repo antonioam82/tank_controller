@@ -44,6 +44,9 @@ def load_object(filename):
     return vertices, edges, faces 
 
 def draw_model(path):
+    glEnable(GL_POLYGON_OFFSET_FILL)
+    glPolygonOffset(1.0, 1.0)
+
     model_name = os.path.basename(path)
     v, e, f = load_object(path)
     glBegin(GL_LINES)
