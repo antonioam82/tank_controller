@@ -275,8 +275,6 @@ def main_loop(args):
     dest_scale = 0.81
     dest_rot_x = 1.0 #-88.5
     act_anim2 = False
-    dest_rot_y = -152.0
-    #dest_rot_x = -28.0
     act_anim3 = False
     act_anim4 = False
     dest_y_tower = 62.20
@@ -349,6 +347,7 @@ def main_loop(args):
                     cen_counter = 0.0
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
+                    dest_rot_y = -152.0
                     act_anim2 = True
 
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
