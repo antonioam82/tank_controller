@@ -317,15 +317,9 @@ def main_loop(args):
 
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
-                    glLoadIdentity()
-                    gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
-                    glTranslatef(0.0, 0.0, -10.0)
-                    scale = 0.81
-                    rot_x =  1.0 
-                    rot_y = -90.0
-                    dest_rot_x = 6.32 ##########
-                    dest_rot_y = -242.14
+                    dest_rot_y = -152.0
                     act_anim2 = True
+
  
                 elif e.key == K_3 and (e.mod & KMOD_ALT):
                     act_anim3 = True
@@ -492,39 +486,14 @@ def main_loop(args):
 
         
         if act_anim2:
-            
-            diff_y = dest_rot_y - rot_y
-            diff_x = dest_rot_x - rot_x
-            moving_y = abs(diff_y) > 0.05
-            moving_x = abs(diff_x) > 0.05
 
-            if moving_y or moving_x:
-                # El eje con más recorrido marca el ritmo
-                max_diff = max(abs(diff_y), abs(diff_x))
-                ratio_y = abs(diff_y) / max_diff if max_diff > 0 else 1.0
-                ratio_x = abs(diff_x) / max_diff if max_diff > 0 else 1.0
-
-                speed = max(max_diff * 0.01, 0.5) * dt * 60
-
-                if moving_y:
-                    rot_y += math.copysign(min(abs(diff_y), speed * ratio_y), diff_y)
-                    if moving_x:
-                        rot_x += math.copysign(min(abs(diff_x), speed * ratio_x), diff_x)
+            if rot_y > dest_rot_y:
+                rot_y -= 30.0 * dt
+            #elif rot_x < dest_rot_x:
+                #rot_x += 30.0 * dt
             else:
-                rot_y = dest_rot_y
-                rot_x = dest_rot_x
                 act_anim2 = False
 
-            '''if rot_y > dest_rot_y or rot_x < dest_rot_x:
-                if rot_y > dest_rot_y:
-                    rot_y -= decy * dt
-                    print(decy)      #30.0 * dt
-                    decy -= decelerator
-                if rot_x < dest_rot_x:
-                    rot_x += decx * dt #6.0
-                    decx -= decelerator
-            else:
-                act_anim2 = False'''
 
         if act_anim3:
             if stop_init:
