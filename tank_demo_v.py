@@ -87,6 +87,7 @@ def draw_model(path,factor,units):
             glVertex3fv(v[vertex])
     glEnd()
 
+
 def setup_view_ortho(display):
     glMatrixMode(GL_PROJECTION)
     #glLoadIdentity()
@@ -303,6 +304,7 @@ def main_loop(args):
                     glRotatef(90.0, 1, 0, 0)
 
                 elif e.key == K_1 and (e.mod & KMOD_ALT):
+               
                     glLoadIdentity()
                     gluPerspective(45, (display[0] / display[1]), 0.1, 90.0)
                     glTranslatef(0.0, 0.0, -10.0)
@@ -312,7 +314,7 @@ def main_loop(args):
                     act_anim = True
                     dest_rot_x = 1.0
                     cen_counter = 0.0
-                    #glRotatef(90.0, 1.0, 0.0, 0.0)
+
 
                 elif e.key == K_2 and (e.mod & KMOD_ALT):
                     glLoadIdentity()
@@ -488,29 +490,30 @@ def main_loop(args):
             else:
                 act_anim = False
 
+        
         if act_anim2:
-            if act_anim2:
-                diff_y = dest_rot_y - rot_y
-                diff_x = dest_rot_x - rot_x
-                moving_y = abs(diff_y) > 0.05
-                moving_x = abs(diff_x) > 0.05
+            
+            diff_y = dest_rot_y - rot_y
+            diff_x = dest_rot_x - rot_x
+            moving_y = abs(diff_y) > 0.05
+            moving_x = abs(diff_x) > 0.05
 
-                if moving_y or moving_x:
-                    # El eje con más recorrido marca el ritmo
-                    max_diff = max(abs(diff_y), abs(diff_x))
-                    ratio_y = abs(diff_y) / max_diff if max_diff > 0 else 1.0
-                    ratio_x = abs(diff_x) / max_diff if max_diff > 0 else 1.0
+            if moving_y or moving_x:
+                # El eje con más recorrido marca el ritmo
+                max_diff = max(abs(diff_y), abs(diff_x))
+                ratio_y = abs(diff_y) / max_diff if max_diff > 0 else 1.0
+                ratio_x = abs(diff_x) / max_diff if max_diff > 0 else 1.0
 
-                    speed = max(max_diff * 0.01, 0.5) * dt * 60
+                speed = max(max_diff * 0.01, 0.5) * dt * 60
 
-                    if moving_y:
-                        rot_y += math.copysign(min(abs(diff_y), speed * ratio_y), diff_y)
+                if moving_y:
+                    rot_y += math.copysign(min(abs(diff_y), speed * ratio_y), diff_y)
                     if moving_x:
                         rot_x += math.copysign(min(abs(diff_x), speed * ratio_x), diff_x)
-                else:
-                    rot_y = dest_rot_y
-                    rot_x = dest_rot_x
-                    act_anim2 = False
+            else:
+                rot_y = dest_rot_y
+                rot_x = dest_rot_x
+                act_anim2 = False
 
             '''if rot_y > dest_rot_y or rot_x < dest_rot_x:
                 if rot_y > dest_rot_y:
