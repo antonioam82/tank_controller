@@ -18,6 +18,10 @@ pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 glMatrixMode(GL_PROJECTION)
 glLoadIdentity()
 gluPerspective(50, display[0] / display[1], 0.1, 100.0)
+glTranslatef(0.0, 0.0, -10.0)
+#glEnable(GL_DEPTH_TEST)
+glRotatef(35.0, 1.0, 0.0, 0.0)
+
 glMatrixMode(GL_MODELVIEW)
 
 def draw_grid():
@@ -38,7 +42,7 @@ def draw_grid():
 
 line_vbo, line_count = draw_grid()
 glLineWidth(1.0)
-#angle = 0.0
+angle = 0.0
 clock = pygame.time.Clock()
 
 running = True
@@ -51,10 +55,10 @@ while running:
 
     # Cámara: alejada, inclinada hacia abajo y girando despacio
     glLoadIdentity()
-    glTranslatef(0.0, 0.0, -25.0)
-    glRotatef(30.0, 1, 0, 0)
-    #glRotatef(angle, 0, 1, 0)
-    #angle += 0.3
+    #glTranslatef(0.0, 0.0, -25.0)
+    #glRotatef(30.0, 1, 0, 0)
+    glRotatef(angle, 0, 1, 0)
+    angle += 0.3
 
     # --- Se hace en CADA frame: una sola llamada de dibujo ---
     glEnableClientState(GL_VERTEX_ARRAY)
