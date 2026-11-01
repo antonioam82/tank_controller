@@ -54,6 +54,7 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
+    #glClearColor(0.2, 0.4, 0.8, 1.0)  # color fondo
     glClear(GL_COLOR_BUFFER_BIT)
 
     # Cámara: alejada, inclinada hacia abajo y girando despacio
