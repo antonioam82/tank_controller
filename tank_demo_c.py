@@ -24,7 +24,7 @@ glRotatef(35.0, 1.0, 0.0, 0.0)
 
 glMatrixMode(GL_MODELVIEW)
 
-def draw_grid():
+def create_grid():
     line_data = []
     for x in range(-grid_size, grid_size + 1, grid_spacing):
         line_data += [x, 0, -grid_size, x, 0, grid_size]
@@ -40,7 +40,7 @@ def draw_grid():
     return line_vbo, len(line_vertices) // 3   # el VBO y cuántos vértices tiene
 
 
-line_vbo, line_count = draw_grid()
+line_vbo, line_count = create_grid()
 glLineWidth(1.0)
 angle = 0.0
 clock = pygame.time.Clock()
