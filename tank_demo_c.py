@@ -24,6 +24,24 @@ glRotatef(35.0, 1.0, 0.0, 0.0)
 
 glMatrixMode(GL_MODELVIEW)
 
+def load_obj(path):
+    vertices, faces = [], []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            parts = line.split()
+            if not parts or parts[0].startswith("#"):
+                continue
+            if parts[0] == "v":
+                vertices.append([float(x) for x in parts[1:4]])
+            elif parts[0] == "f":
+                idx = []
+                for token in parts[1:]:
+                    i = int(token.split("/")[0])
+                    idx.append(i - 1 if i > 0 else len(vertices) + i)
+                faces.append(idx)
+
+    return np.array(vertices, dtype=np.float32), faces 
+
 def create_grid():
     line_data = []
     for x in range(-grid_size, grid_size + 1, grid_spacing):
@@ -39,8 +57,33 @@ def create_grid():
 
     return line_vbo, len(line_vertices) // 3   # el VBO y cuántos vértices tiene
 
+def build_flat_mesh(vertices, faces):
+    tri = triangulate(faces).reshape(-1,3)
+    tri_pos = vertices[tri]                                   # (T, 3, 3)
+    n = np.cross(tri_pos[:, 1] - tri_pos[:, 0], tri_pos[:, 2] - tri_pos[:, 0])
+    n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+    positions = tri_pos.reshape(-1, 3).astype(np.float32)
+    normals = np.repeat(n, 3, axis=0).astype(np.float32)
+    return positions, normals
 
+def triangulate(faces):
+    """Abanico: [a, b, c, d] -> (a, b, c) + (a, c, d). Válido para caras convexas."""
+    tris = []
+    for face in faces:
+        for k in range(1, len(face) - 1):
+            tris += [face[0], face[k], face[k + 1]]
+    return np.array(tris, dtype=np.uint32)
+
+# GRID
 line_vbo, line_count = create_grid()
+
+# CARGA DE ARCHIVOS OBJ
+base = os.path.dirname(__file__)
+obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
+vertices, faces = load_obj(obj_base)
+positions, normals = build_flat_mesh(vertices, faces)
+
+
 glLineWidth(1.0)
 angle = 0.0
 clock = pygame.time.Clock()
