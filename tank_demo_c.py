@@ -1,28 +1,14 @@
-import sys
 import numpy as np
-import pygame 
+import pygame
 from pygame.locals import DOUBLEBUF, OPENGL
 from OpenGL.GL import *
-from OpenGL.GLU import gluPerspective, gluLookAt
-import math
+from OpenGL.GLU import gluPerspective
 import os
 
 # DIMENSIONES DEL GRID
 grid_size = 20
 grid_spacing = 1
 
-pygame.init()
-display = (800, 600)
-pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-
-glMatrixMode(GL_PROJECTION)
-glLoadIdentity()
-gluPerspective(50, display[0] / display[1], 0.1, 100.0)
-glTranslatef(0.0, 0.0, -10.0)
-#glEnable(GL_DEPTH_TEST)
-glRotatef(35.0, 1.0, 0.0, 0.0)
-
-glMatrixMode(GL_MODELVIEW)
 
 def load_obj(path):
     vertices, faces = [], []
@@ -39,32 +25,8 @@ def load_obj(path):
                     i = int(token.split("/")[0])
                     idx.append(i - 1 if i > 0 else len(vertices) + i)
                 faces.append(idx)
+    return np.array(vertices, dtype=np.float32), faces
 
-    return np.array(vertices, dtype=np.float32), faces 
-
-def create_grid():
-    line_data = []
-    for x in range(-grid_size, grid_size + 1, grid_spacing):
-        line_data += [x, 0, -grid_size, x, 0, grid_size]
-    for z in range(-grid_size, grid_size + 1, grid_spacing):
-        line_data += [-grid_size, 0, z,  grid_size, 0, z]
-    
-    line_vertices = np.array(line_data, dtype=np.float32)
-
-    line_vbo = glGenBuffers(1)
-    glBindBuffer(GL_ARRAY_BUFFER, line_vbo)
-    glBufferData(GL_ARRAY_BUFFER, line_vertices.nbytes, line_vertices, GL_STATIC_DRAW)
-
-    return line_vbo, len(line_vertices) // 3   # el VBO y cuántos vértices tiene
-
-def build_flat_mesh(vertices, faces):
-    tri = triangulate(faces).reshape(-1,3)
-    tri_pos = vertices[tri]                                   # (T, 3, 3)
-    n = np.cross(tri_pos[:, 1] - tri_pos[:, 0], tri_pos[:, 2] - tri_pos[:, 0])
-    n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
-    positions = tri_pos.reshape(-1, 3).astype(np.float32)
-    normals = np.repeat(n, 3, axis=0).astype(np.float32)
-    return positions, normals
 
 def triangulate(faces):
     """Abanico: [a, b, c, d] -> (a, b, c) + (a, c, d). Válido para caras convexas."""
@@ -74,50 +36,119 @@ def triangulate(faces):
             tris += [face[0], face[k], face[k + 1]]
     return np.array(tris, dtype=np.uint32)
 
-# GRID
-line_vbo, line_count = create_grid()
 
-# CARGA DE ARCHIVOS OBJ
-base = os.path.dirname(__file__)
-obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
-vertices, faces = load_obj(obj_base)
-positions, normals = build_flat_mesh(vertices, faces)
+def build_flat_mesh(vertices, faces):
+    tri = triangulate(faces).reshape(-1, 3)
+    tri_pos = vertices[tri]                                   # (T, 3, 3)
+    n = np.cross(tri_pos[:, 1] - tri_pos[:, 0], tri_pos[:, 2] - tri_pos[:, 0])
+    n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+    positions = tri_pos.reshape(-1, 3).astype(np.float32)
+    normals = np.repeat(n, 3, axis=0).astype(np.float32)
+    return positions, normals
 
 
-glLineWidth(1.0)
-angle = 0.0
-clock = pygame.time.Clock()
+def upload(array):
+    """Sube un array NumPy a un VBO y devuelve su identificador."""
+    vbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo)
+    glBufferData(GL_ARRAY_BUFFER, array.nbytes, array, GL_STATIC_DRAW)
+    return vbo
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                running = False
 
-    #glClearColor(0.2, 0.4, 0.8, 1.0)  # color fondo
-    glClear(GL_COLOR_BUFFER_BIT)
+def create_grid():
+    line_data = []
+    for x in range(-grid_size, grid_size + 1, grid_spacing):
+        line_data += [x, 0, -grid_size, x, 0, grid_size]
+    for z in range(-grid_size, grid_size + 1, grid_spacing):
+        line_data += [-grid_size, 0, z, grid_size, 0, z]
+    line_vertices = np.array(line_data, dtype=np.float32)
+    return upload(line_vertices), len(line_vertices) // 3
 
-    # Cámara: alejada, inclinada hacia abajo y girando despacio
+
+if __name__ == "__main__":
+    pygame.init()
+    display = (800, 600)
+    pygame.display.gl_set_attribute(pygame.GL_DEPTH_SIZE, 24)
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+
+    # PROYECCIÓN: solo la perspectiva
+    glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    #glTranslatef(0.0, 0.0, -25.0)
-    #glRotatef(30.0, 1, 0, 0)
-    glRotatef(angle, 0, 1, 0)
-    angle += 0.3
+    gluPerspective(50, display[0] / display[1], 0.1, 100.0)
+    glMatrixMode(GL_MODELVIEW)
 
-    # --- Se hace en CADA frame: una sola llamada de dibujo ---
-    glEnableClientState(GL_VERTEX_ARRAY)
-    glColor3f(1.0, 1.0, 1.0)
-    glBindBuffer(GL_ARRAY_BUFFER, line_vbo)
-    glVertexPointer(3, GL_FLOAT, 0, None)
-    glDrawArrays(GL_LINES, 0, line_count)
-    glDisableClientState(GL_VERTEX_ARRAY)
+    glClearColor(0.2, 0.4, 0.8, 1.0)   # fondo azul
+    glEnable(GL_DEPTH_TEST)
 
-    pygame.display.flip()
-    clock.tick(60)
+    # LUZ (solo se activa mientras se dibuja el modelo)
+    glEnable(GL_LIGHT0)
+    glLightfv(GL_LIGHT0, GL_AMBIENT, (0.30, 0.30, 0.30, 1.0))
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.85, 0.85, 0.85, 1.0))
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE)
+    glEnable(GL_COLOR_MATERIAL)
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
-glDeleteBuffers(1, [line_vbo])
-pygame.quit()
+    # GRID
+    line_vbo, line_count = create_grid()
 
+    # MODELO OBJ
+    base = os.path.dirname(os.path.abspath(__file__))
+    obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
+    vertices, faces = load_obj(obj_base)
+    positions, normals = build_flat_mesh(vertices, faces)
+    model_pos_vbo = upload(positions)
+    model_nrm_vbo = upload(normals)
+    model_count = len(positions)
+    ground = -float(vertices[:, 1].min()) + 0.01   # sube el modelo para que su base apoye sobre el grid
+
+    angle = 0.0
+    clock = pygame.time.Clock()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        # CÁMARA: alejar, inclinar y luego girar la escena
+        glLoadIdentity()
+        glTranslatef(0.0, 0.0, -10.0)
+        glRotatef(35.0, 1.0, 0.0, 0.0)
+        glLightfv(GL_LIGHT0, GL_POSITION, (0.3, 1.0, 0.5, 0.0))   # luz fija en el mundo
+        glRotatef(angle, 0, 1, 0)
+        angle += 0.3
+
+        # --- GRID (sin iluminación) ---
+        glDisable(GL_LIGHTING)
+        glEnableClientState(GL_VERTEX_ARRAY)
+        glColor3f(1.0, 1.0, 1.0)
+        glBindBuffer(GL_ARRAY_BUFFER, line_vbo)
+        glVertexPointer(3, GL_FLOAT, 0, None)
+        glDrawArrays(GL_LINES, 0, line_count)
+
+        # --- MODELO (relleno, iluminado) ---
+        glEnable(GL_LIGHTING)
+        glEnableClientState(GL_NORMAL_ARRAY)
+        glPushMatrix()
+        glTranslatef(0.0, ground, 0.0)     # apoya el modelo sobre el grid
+        glColor3f(0.35, 0.65, 0.35)
+        glBindBuffer(GL_ARRAY_BUFFER, model_pos_vbo)
+        glVertexPointer(3, GL_FLOAT, 0, None)
+        glBindBuffer(GL_ARRAY_BUFFER, model_nrm_vbo)
+        glNormalPointer(GL_FLOAT, 0, None)
+        glDrawArrays(GL_TRIANGLES, 0, model_count)
+        glPopMatrix()
+
+        glDisableClientState(GL_NORMAL_ARRAY)
+        glDisableClientState(GL_VERTEX_ARRAY)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+    glDeleteBuffers(3, [line_vbo, model_pos_vbo, model_nrm_vbo])
+    pygame.quit()
