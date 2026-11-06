@@ -91,8 +91,10 @@ if __name__ == "__main__":
     # GRID
     line_vbo, line_count = create_grid()
 
-    # MODELO OBJ
+    # MODELOS OBJ -----------------------------------------------------------------------------------------
     base = os.path.dirname(os.path.abspath(__file__))
+
+    # RESTO TANQUE
     obj_base = os.path.join(base, "tanque", "resto_tanque.obj")
     vertices, faces = load_obj(obj_base)
     positions, normals = build_flat_mesh(vertices, faces)
@@ -100,6 +102,16 @@ if __name__ == "__main__":
     model_nrm_vbo = upload(normals)
     model_count = len(positions)
     ground = -float(vertices[:, 1].min()) + 0.01   # sube el modelo para que su base apoye sobre el grid
+    
+    # TORRE2
+    obj_base2 = os.path.join(base, "tanque", "torre2.obj")
+    vertices, faces = load_obj(obj_base2)
+    positions, normals = build_flat_mesh(vertices, faces)
+    model_pos_vbo2 = upload(positions)
+    model_nrm_vbo2 = upload(normals)
+    model_count2 = len(positions)
+
+    # ------------------------------------------------------------------------------------------------------
 
     angle = 0.0
     clock = pygame.time.Clock()
@@ -131,7 +143,9 @@ if __name__ == "__main__":
         glVertexPointer(3, GL_FLOAT, 0, None)
         glDrawArrays(GL_LINES, 0, line_count)
 
-        # --- MODELO (relleno, iluminado) ---
+        # --- MODELOS (relleno, iluminado) ---
+
+        # RESTO TANAQUE
         glEnable(GL_LIGHTING)
         glEnableClientState(GL_NORMAL_ARRAY)
         glPushMatrix()
@@ -142,6 +156,17 @@ if __name__ == "__main__":
         glBindBuffer(GL_ARRAY_BUFFER, model_nrm_vbo)
         glNormalPointer(GL_FLOAT, 0, None)
         glDrawArrays(GL_TRIANGLES, 0, model_count)
+        # TORRE2
+        glPushMatrix()
+        #glTranslatef(0.0, ground, 0.0)     # apoya el modelo sobre el grid
+        #glColor3f(0.35, 0.65, 0.35)
+        glBindBuffer(GL_ARRAY_BUFFER, model_pos_vbo2)
+        glVertexPointer(3, GL_FLOAT, 0, None)
+        glBindBuffer(GL_ARRAY_BUFFER, model_nrm_vbo2)
+        glNormalPointer(GL_FLOAT, 0, None)
+        glDrawArrays(GL_TRIANGLES, 0, model_count2)
+        glPopMatrix()
+
         glPopMatrix()
 
         glDisableClientState(GL_NORMAL_ARRAY)
