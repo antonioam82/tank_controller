@@ -64,6 +64,15 @@ def create_grid():
     line_vertices = np.array(line_data, dtype=np.float32)
     return upload(line_vertices), len(line_vertices) // 3
 
+def draw_model(pos_vbo,nrm_vbo,m_count):
+    glEnable(GL_LIGHTING)
+    glEnableClientState(GL_NORMAL_ARRAY)
+    glBindBuffer(GL_ARRAY_BUFFER, pos_vbo)
+    glVertexPointer(3, GL_FLOAT, 0, None)
+    glBindBuffer(GL_ARRAY_BUFFER, nrm_vbo)
+    glNormalPointer(GL_FLOAT, 0, None)
+    glDrawArrays(GL_TRIANGLES, 0, m_count)
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -115,6 +124,7 @@ if __name__ == "__main__":
 
     angle = 0.0
     clock = pygame.time.Clock()
+    rotating = True
 
     running = True
     while running:
@@ -125,6 +135,9 @@ if __name__ == "__main__":
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
+                elif event.key == pygame.K_s:
+                    rotating = not rotating
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         # CÁMARA: alejar, inclinar y luego girar la escena
@@ -133,7 +146,11 @@ if __name__ == "__main__":
         glRotatef(35.0, 1.0, 0.0, 0.0)
         glLightfv(GL_LIGHT0, GL_POSITION, (0.3, 1.0, 0.5, 0.0))   # luz fija en el mundo
         glRotatef(angle, 0, 1, 0)
-        angle += 0.3
+ 
+        if rotating:
+            angle += 0.3
+        else:
+            angle += 0.0
 
         # --- GRID (sin iluminación) ---
         glDisable(GL_LIGHTING)
@@ -145,7 +162,7 @@ if __name__ == "__main__":
 
         # --- MODELOS (relleno, iluminado) ---
 
-        # RESTO TANAQUE
+        '''# RESTO TANAQUE
         glEnable(GL_LIGHTING)
         glEnableClientState(GL_NORMAL_ARRAY)
         glPushMatrix()
@@ -167,7 +184,18 @@ if __name__ == "__main__":
         glDrawArrays(GL_TRIANGLES, 0, model_count2)
         glPopMatrix()
 
+        glPopMatrix()'''
+        
+        # ----------- SUSTITUYE A BLOQUE DE ARRIBA -----------
+        glPushMatrix()
+        glTranslatef(0.0, ground, 0.0) 
+        glColor3f(0.35, 0.65, 0.35)
+        draw_model(model_pos_vbo,model_nrm_vbo,model_count)
+        glPushMatrix()
+        draw_model(model_pos_vbo2,model_nrm_vbo2,model_count2)
         glPopMatrix()
+        glPopMatrix()
+        # ----------------------------------------------------
 
         glDisableClientState(GL_NORMAL_ARRAY)
         glDisableClientState(GL_VERTEX_ARRAY)
