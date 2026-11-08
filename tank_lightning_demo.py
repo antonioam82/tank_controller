@@ -1,6 +1,6 @@
 import numpy as np
 import pygame
-from pygame.locals import DOUBLEBUF, OPENGL
+from pygame.locals import * #DOUBLEBUF, OPENGL
 from OpenGL.GL import *
 from OpenGL.GLU import gluPerspective
 import os
@@ -125,6 +125,7 @@ if __name__ == "__main__":
     angle = 0.0
     clock = pygame.time.Clock()
     rotating = True
+    tower_y_rot = 0.0
 
     running = True
     while running:
@@ -137,6 +138,16 @@ if __name__ == "__main__":
 
                 elif event.key == pygame.K_s:
                     rotating = not rotating
+
+                elif event.key == pygame.K_b:
+                    tower_y_rot = 0.0
+
+        keys = pygame.key.get_pressed()
+            
+        if keys[K_m]:
+            tower_y_rot += 1.0
+        elif keys[K_n]:
+            tower_y_rot -= 1.0
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -192,6 +203,7 @@ if __name__ == "__main__":
         glColor3f(0.35, 0.65, 0.35)
         draw_model(model_pos_vbo,model_nrm_vbo,model_count)
         glPushMatrix()
+        glRotatef(tower_y_rot, 0.0, 1.0, 0.0)
         draw_model(model_pos_vbo2,model_nrm_vbo2,model_count2)
         glPopMatrix()
         glPopMatrix()
