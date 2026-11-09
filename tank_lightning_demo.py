@@ -4,6 +4,7 @@ from pygame.locals import * #DOUBLEBUF, OPENGL
 from OpenGL.GL import *
 from OpenGL.GLU import gluPerspective
 import os
+import time
 
 # DIMENSIONES DEL GRID
 grid_size = 20
@@ -124,11 +125,16 @@ if __name__ == "__main__":
 
     angle = 0.0
     clock = pygame.time.Clock()
+    last_time = time.perf_counter()
     rotating = True
     tower_y_rot = 0.0
 
     running = True
     while running:
+        now = time.perf_counter()
+        dt = min(now - last_time, 0.05)
+        last_time = now
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -159,7 +165,7 @@ if __name__ == "__main__":
         glRotatef(angle, 0, 1, 0)
  
         if rotating:
-            angle += 0.3
+            angle += 15.0 * dt
         else:
             angle += 0.0
 
