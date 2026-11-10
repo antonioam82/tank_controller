@@ -221,5 +221,5 @@ if __name__ == "__main__":
         pygame.display.flip()
         clock.tick(60)
 
-    glDeleteBuffers(3, [line_vbo, model_pos_vbo, model_nrm_vbo])
+    glDeleteBuffers(5, [line_vbo, model_pos_vbo, model_nrm_vbo, model_pos_vbo2, model_nrm_vbo2])
     pygame.quit()
