@@ -158,9 +158,9 @@ if __name__ == "__main__":
         keys = pygame.key.get_pressed()
             
         if keys[K_m]:
-            tower_y_rot += 1.0
+            tower_y_rot += 40.0 * dt
         elif keys[K_n]:
-            tower_y_rot -= 1.0
+            tower_y_rot -= 40.0 * dt
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
