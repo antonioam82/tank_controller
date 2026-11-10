@@ -79,7 +79,7 @@ if __name__ == "__main__":
     pygame.init()
     display = (800, 600)
     pygame.display.gl_set_attribute(pygame.GL_DEPTH_SIZE, 24)
-    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1) #antialiasing
+    #pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)  #antialiasing
     #pygame.display.gl_set_attribute(GL_MULTISAMPLESAMPLES, 6)         #antialiasing
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
