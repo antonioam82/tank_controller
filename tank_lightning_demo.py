@@ -156,6 +156,12 @@ if __name__ == "__main__":
 
                 elif event.key == pygame.K_b:
                     tower_y_rot = 0.0
+                
+                elif event.key == pygame.K_r:
+                    glLoadIdentity()
+                    scale = 1.0
+                    scene_x_rot = 35.0
+                    tower_y_rot = 0.0
 
         keys = pygame.key.get_pressed()
             
