@@ -218,7 +218,7 @@ if __name__ == "__main__":
         glDrawArrays(GL_TRIANGLES, 0, model_count)
         # TORRE2
         glPushMatrix()
-        #glTranslatef(0.0, ground, 0.0)     # apoya el modelo sobre el grid
+        #glTranslatef(0.0, ground, 0.0) 
         #glColor3f(0.35, 0.65, 0.35)
         glBindBuffer(GL_ARRAY_BUFFER, model_pos_vbo2)
         glVertexPointer(3, GL_FLOAT, 0, None)
