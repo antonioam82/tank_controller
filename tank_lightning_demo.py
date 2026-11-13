@@ -135,6 +135,7 @@ if __name__ == "__main__":
     last_time = time.perf_counter()
     rotating = True
     tower_y_rot = 0.0
+    scene_x_rot = 35.0
     scale = 1.0
 
     running = True
@@ -168,12 +169,17 @@ if __name__ == "__main__":
         elif keys[K_x]:
             scale -= 0.1
 
+        if keys[K_f]:
+            scene_x_rot += 40.0 * dt
+        elif keys[K_g]:
+            scene_x_rot -= 40.0 * dt
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         # CÁMARA: alejar, inclinar y luego girar la escena
         glLoadIdentity()
         glTranslatef(0.0, 0.0, -10.0)
-        glRotatef(35.0, 1.0, 0.0, 0.0)
+        glRotatef(scene_x_rot, 1.0, 0.0, 0.0)
         glLightfv(GL_LIGHT0, GL_POSITION, (0.3, 1.0, 0.5, 0.0))   # luz fija en el mundo
         glRotatef(angle, 0, 1, 0)
         glScalef(scale,scale,scale)
@@ -217,7 +223,7 @@ if __name__ == "__main__":
 
         glPopMatrix()'''
         
-        # ----------- SUSTITUYE A BLOQUE DE ARRIBA -----------
+        # ----------- SUSTITUYE AL BLOQUE DE ARRIBA -----------
         glPushMatrix()
         glTranslatef(0.0, ground, 0.0) 
         glColor3f(0.35, 0.65, 0.35)
