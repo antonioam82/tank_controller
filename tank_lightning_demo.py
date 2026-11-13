@@ -135,6 +135,7 @@ if __name__ == "__main__":
     last_time = time.perf_counter()
     rotating = True
     tower_y_rot = 0.0
+    scale = 1.0
 
     running = True
     while running:
@@ -162,6 +163,11 @@ if __name__ == "__main__":
         elif keys[K_n]:
             tower_y_rot -= 40.0 * dt
 
+        if keys[K_z]:
+            scale += 0.1
+        elif keys[K_x]:
+            scale -= 0.1
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         # CÁMARA: alejar, inclinar y luego girar la escena
@@ -170,6 +176,7 @@ if __name__ == "__main__":
         glRotatef(35.0, 1.0, 0.0, 0.0)
         glLightfv(GL_LIGHT0, GL_POSITION, (0.3, 1.0, 0.5, 0.0))   # luz fija en el mundo
         glRotatef(angle, 0, 1, 0)
+        glScalef(scale,scale,scale)
  
         if rotating:
             angle += 15.0 * dt
