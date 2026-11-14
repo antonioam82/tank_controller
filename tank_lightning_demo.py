@@ -74,6 +74,29 @@ def draw_model(pos_vbo,nrm_vbo,m_count):
     glNormalPointer(GL_FLOAT, 0, None)
     glDrawArrays(GL_TRIANGLES, 0, m_count)
 
+def show_controls():
+    print("\n------------------------------Controls----------------------------")
+
+    print("\nScene / Camera Controls:")
+    print("  - F Key: Tilt camera upward")
+    print("  - G Key: Tilt camera downward")
+
+    print("\nTurret Controls:")
+    print("  - M Key: Rotate turret clockwise")
+    print("  - N Key: Rotate turret counterclockwise")
+    print("  - B Key: Reset turret rotation")
+
+    print("\nScale Controls:")
+    print("  - Z Key: Increase scale")
+    print("  - X Key: Decrease scale")
+
+    print("\nOther Controls")
+    print("  - S Key: Stop/Restart scene rotation")
+    print("  - R Key: Reset escene and turret rotation")
+    print("  - ESC Key: Exit the program")
+
+    print("\n------------------------------------------------------------------")
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -137,6 +160,8 @@ if __name__ == "__main__":
     tower_y_rot = 0.0
     scene_x_rot = 35.0
     scale = 1.0
+    
+    show_controls()
 
     running = True
     while running:
