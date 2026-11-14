@@ -207,6 +207,10 @@ if __name__ == "__main__":
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+        # VISTA WIREFRAME
+        #glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)#############################################
+        #glLineWidth(2.0)######################################################################
+
         # CÁMARA: alejar, inclinar y luego girar la escena
         glLoadIdentity()
         glTranslatef(0.0, 0.0, -10.0)
@@ -255,9 +259,9 @@ if __name__ == "__main__":
         glPopMatrix()'''
         
         # ----------- SUSTITUYE AL BLOQUE DE ARRIBA -----------
-        glPushMatrix()
-        glTranslatef(0.0, ground, 0.0) 
+        glPushMatrix() 
         glColor3f(0.35, 0.65, 0.35)
+        glTranslatef(0.0, ground, 0.0)
         draw_model(model_pos_vbo,model_nrm_vbo,model_count)
         glPushMatrix()
         glRotatef(tower_y_rot, 0.0, 1.0, 0.0)
